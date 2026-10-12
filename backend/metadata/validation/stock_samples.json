@@ -1,0 +1,35 @@
+[
+  {"subcategory":"基础数据","api_name":"stock_basic","params":{"ts_code":"000001.SZ"},"sync":true},
+  {"subcategory":"基础数据","api_name":"trade_cal","params":{"exchange":"SSE","start_date":"20250929","end_date":"20250929"},"sync":true},
+  {"subcategory":"基础数据","api_name":"stock_company","params":{"ts_code":"000001.SZ"},"sync":false},
+
+  {"subcategory":"行情数据","api_name":"daily","params":{"ts_code":"000001.SZ","trade_date":"20250929"},"sync":true},
+  {"subcategory":"行情数据","api_name":"weekly","params":{"ts_code":"000001.SZ","start_date":"20250901","end_date":"20250929"},"sync":true},
+  {"subcategory":"行情数据","api_name":"adj_factor","params":{"ts_code":"000001.SZ","trade_date":"20250929"},"sync":false},
+  {"subcategory":"行情数据","api_name":"pro_bar","params":{"ts_code":"000001.SZ","start_date":"20250901","end_date":"20250929","adj":"qfq","freq":"D","asset":"E"},"sync":true},
+
+  {"subcategory":"财务数据","api_name":"income","params":{"ts_code":"000001.SZ","period":"20250630"},"sync":true},
+  {"subcategory":"财务数据","api_name":"income_vip","params":{"period":"20250630"},"sync":true},
+  {"subcategory":"财务数据","api_name":"balancesheet","params":{"ts_code":"000001.SZ","period":"20250630"},"sync":true},
+  {"subcategory":"财务数据","api_name":"cashflow","params":{"ts_code":"000001.SZ","period":"20250630"},"sync":false},
+
+  {"subcategory":"参考数据","api_name":"block_trade","params":{"ts_code":"000001.SZ","start_date":"20250101","end_date":"20250929"},"sync":true},
+  {"subcategory":"参考数据","api_name":"pledge_stat","params":{"ts_code":"000001.SZ"},"sync":true},
+  {"subcategory":"参考数据","api_name":"repurchase","params":{"start_date":"20250901","end_date":"20250929"},"sync":false},
+
+  {"subcategory":"特色数据","api_name":"broker_recommend","params":{"month":"202509"},"sync":true},
+  {"subcategory":"特色数据","api_name":"cyq_perf","params":{"ts_code":"000001.SZ","trade_date":"20250929"},"sync":true},
+  {"subcategory":"特色数据","api_name":"cyq_chips","params":{"ts_code":"000001.SZ","trade_date":"20250929"},"sync":false},
+
+  {"subcategory":"两融及转融通","api_name":"margin","params":{"trade_date":"20250929"},"sync":true},
+  {"subcategory":"两融及转融通","api_name":"margin_detail","params":{"ts_code":"000001.SZ","trade_date":"20250929"},"sync":true},
+  {"subcategory":"两融及转融通","api_name":"margin_secs","params":{"ts_code":"000001.SZ","trade_date":"20250929"},"sync":false},
+
+  {"subcategory":"资金流向数据","api_name":"moneyflow","params":{"ts_code":"000001.SZ","trade_date":"20250929"},"sync":true},
+  {"subcategory":"资金流向数据","api_name":"moneyflow_ths","params":{"ts_code":"000001.SZ","trade_date":"20250929"},"sync":true},
+  {"subcategory":"资金流向数据","api_name":"moneyflow_dc","params":{"ts_code":"000001.SZ","trade_date":"20250929"},"sync":false},
+
+  {"subcategory":"打板专题数据","api_name":"top_list","params":{"ts_code":"000001.SZ","trade_date":"20250929"},"sync":true},
+  {"subcategory":"打板专题数据","api_name":"top_inst","params":{"ts_code":"000001.SZ","trade_date":"20250929"},"sync":true},
+  {"subcategory":"打板专题数据","api_name":"ths_index","params":{},"sync":false}
+]

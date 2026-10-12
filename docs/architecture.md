@@ -1,0 +1,115 @@
+# 系统架构
+
+## Process topology
+
+```text
+React / Vite
+     |
+     v
+FastAPI Web ---------------------------> PostgreSQL
+     |                                    platform.*
+     | creates Execution(PENDING)         tushare.*
+     v                                         ^
+Execution Queue <--- Scheduler                |
+     |                  |                      |
+     |                  +-- ScheduleFire       |
+     v                                         |
+Worker -- FOR UPDATE SKIP LOCKED --> SyncService
+                                              |
+Maintenance --> recovery / trade_cal / health archive
+```
+
+Web、Worker、Scheduler、Maintenance 是独立进程。Scheduler 不调用 Tushare；它只创建 Execution。Maintenance 不实现第二套同步逻辑；trade_cal 补齐同样创建 SYSTEM Execution。
+
+## Data pipeline
+
+```text
+Effective Metadata
+       |
+       v
+QueryStrategy
+       |
+       v
+TushareRequestExecutor
+  | RateLimiter
+  | RetryPolicy
+  v
+Tushare HTTP API
+       |
+       v
+DataTransformer -> TableSchemaManager -> PostgresDataWriter
+                                            |
+                                            v
+                                      tushare.{api_name}
+```
+
+Official Metadata 与 Platform Override 合并为 Effective Metadata。普通 API 不拥有专属采集模块；差异由 unique keys、fetch strategy、validation scenarios、replace range、reset completeness policy 和排序 Metadata 表达。
+
+## 边界与分层
+
+- **API 层**：只处理 HTTP 输入输出、依赖注入和状态码。
+- **Service 层**：承载用例和业务规则，不依赖 FastAPI。
+- **Repository 层**：封装 SQLAlchemy 查询与持久化细节。
+- **Model 层**：定义 PostgreSQL `platform` schema 的关系模型。
+- **Schema 层**：定义稳定的 Pydantic API 契约。
+- **Frontend**：只依赖元数据响应，通过同一套组件呈现任意 Tushare API。
+
+## 目标架构
+
+```text
+Browser
+  │
+  ├── GET /api/apis ───────────────┐
+  └── GET /api/apis/{api_name}     │
+                                   ▼
+FastAPI Route → MetadataService → MetadataRepository → platform schema
+
+Preview Route → PreviewService
+                  └→ TushareQueryService
+                        ├→ MetadataRepository
+                        ├→ MetadataParameterValidator
+                        ├→ TushareClient → Tushare HTTPS API
+                        └→ DataTransformer
+
+Sync Route → Execution(PENDING) ← ScheduleFire ← Scheduler Process
+                       │
+                       ▼
+Worker Process（FOR UPDATE SKIP LOCKED）→ SyncService
+               ├→ TushareQueryService.prepare（Metadata 与参数规范化）
+               ├→ TaskLockService（PostgreSQL advisory lock）
+               ├→ PaginationService（逐页 fetch/transform/write）
+               ├→ TableSchemaManager / TypeMapper / UNIQUE
+               ├→ PostgresDataWriter（APPEND 或 UPSERT）
+               └→ ExecutionRepository（独立短事务与逐页进度）
+```
+
+手动执行、重跑与 Scheduler 只负责创建 Execution；独立 Worker 领取后统一调用 `SyncService.run()`，避免形成三套采集路径。Scheduler 使用 PostgreSQL advisory leader lock，多实例下只有 leader 生成 ScheduleFire。
+
+## 关键设计决定
+
+1. **元数据规范化存储**：接口、参数、字段分表，便于排序、差异比较和增量导入。暂不使用单个 JSONB 大字段作为唯一事实源。
+2. **迁移负责初始数据**：初始元数据随 Alembic 版本化；服务启动不隐式改数据库。
+3. **业务 schema 隔离**：平台信息进入 `platform`，Tushare 原始数据进入 `tushare`。业务表不添加平台内部字段。
+4. **不虚构主键规则**：Metadata 提供默认唯一键，用户覆盖保存在独立 Runtime Config；只有生效唯一键与数据库平台约束一致时才允许 UPSERT。
+5. **原始类型优先**：官方 `str` 日期在首版保持文本，不进行语义性类型转换。
+6. **凭据只来自环境**：Token 和数据库密码不进入元数据、响应、执行日志或代码。
+7. **失败日志独立提交**：Execution 的 RUNNING/SUCCESS/FAILED 各用短事务持久化；业务数据 DDL 与 INSERT 使用独立事务，业务回滚不会抹掉失败记录。
+8. **安全演进表结构**：表按完整输出 Metadata 创建，只允许 `ADD COLUMN`；数据库额外列保留，类型差异仅告警。
+9. **唯一键由 Default + User Override 决定**：统一计算 Effective Keys；SchemaManager 校验稳定命名的 UNIQUE 约束，Writer 据此生成 ON CONFLICT，不包含任何 API 名称分支。迁移流程见 [Unique Key Management](unique_key_management.md)。
+10. **任务锁跨进程有效**：规范化请求生成 SHA-256 task key，再映射为 PostgreSQL advisory lock；连接断开会自动释放。
+11. **分页按页提交**：每页获取后立即转换和写入，不累计全量结果；中途失败保留已完成页数和累计行数。
+12. **调度与执行解耦**：`platform.schedule_fire` 记录“是否触发”，`platform.execution` 记录“是否执行成功”；两者不混用状态。
+13. **时区显式化**：Cron 与动态变量按 Schedule 自身的 IANA timezone 计算，默认 `Asia/Shanghai`，不依赖服务器时区。
+14. **调度幂等**：`schedule_id + scheduled_at` 在 Fire 与 Execution 层均有数据库唯一约束，进程重启和多实例不能重复生成同一触发点。
+15. **Reset 完整性独立于 Execution 成功**：Reset Operation 只有在异步同步成功且 Metadata 驱动的完整性校验通过后才能进入 SUCCESS。缺少策略时禁止整表 Reset。
+16. **稳定行身份**：跨 HTTP 请求不使用 PostgreSQL `ctid`。重复清理使用行 fingerprint 重新定位并要求唯一匹配；普通 Delete 使用不可变 Preview Token，并在执行前检查 matched count 与 Effective Unique Keys 快照是否仍一致。
+
+## 已识别的架构风险
+
+- Tushare 文档中的“必选”常包含“二选一”等条件，单个 `required: bool` 不足以表达。模型额外提供 `validation_rules` JSON，由通用表单和后端校验器解释。
+- 文档会更新，迁移中的种子是版本快照。Phase 2 之后应增加幂等的 metadata import/upsert 流程和来源版本字段，而不是频繁改历史迁移。
+- Scheduler 已作为独立进程并通过 PostgreSQL advisory lock 选主；当前尚未实现自动恢复 stale RUNNING Execution。
+- 动态建表属于 DDL，表名和字段名必须先来自已注册 Metadata，再经过严格标识符校验和 dialect quoting。值始终参数化。
+- DDL 和数据页写入继续使用独立事务，这是避免长事务锁住 schema 的设计决策。分页中途失败可能已经提交前序页面，Execution 会明确记录部分完成状态。
+- APPEND 仍允许显式选择，并且不提供幂等保证；只有 Effective Keys 非空且约束状态为 `SYNCED` 的 UPSERT 才保证重复执行不新增重复行。
+- 当前 rows_inserted / rows_updated 保留为空，尚未为统计目的引入额外 SQL。

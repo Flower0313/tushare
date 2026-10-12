@@ -1,0 +1,13 @@
+{
+  "api_name": "pro_bar",
+  "unique_keys": [
+    "ts_code",
+    "trade_date"
+  ],
+  "rows": 21,
+  "distinct_unique_keys": 21,
+  "duplicate_count": 0,
+  "duplicate_groups": 0,
+  "duplicate_examples": [],
+  "status": "PASS"
+}

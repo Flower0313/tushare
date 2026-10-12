@@ -1,0 +1,11 @@
+{
+  "api_name": "income_vip",
+  "unique_keys": [
+    "ts_code",
+    "end_date"
+  ],
+  "duplicate_groups": 0,
+  "duplicate_rows": 0,
+  "examples": [],
+  "status": "PASS"
+}

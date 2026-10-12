@@ -1,0 +1,13 @@
+{
+  "api_name": "daily",
+  "unique_keys": [
+    "ts_code",
+    "trade_date"
+  ],
+  "rows": 100,
+  "distinct_unique_keys": 100,
+  "duplicate_count": 0,
+  "duplicate_groups": 0,
+  "duplicate_examples": [],
+  "status": "PASS"
+}

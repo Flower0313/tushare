@@ -1,0 +1,19 @@
+{
+  "api_name": "income_vip",
+  "unique_keys": [
+    "ts_code",
+    "end_date",
+    "report_type",
+    "comp_type",
+    "end_type",
+    "update_flag",
+    "ann_date",
+    "f_ann_date"
+  ],
+  "rows": 100,
+  "distinct_unique_keys": 100,
+  "duplicate_count": 0,
+  "duplicate_groups": 0,
+  "duplicate_examples": [],
+  "status": "PASS"
+}

@@ -1,0 +1,222 @@
+{
+  "stock_basic": {
+    "status": "ACTIVE", "metadata_review": "VERIFIED", "needs_review": false,
+    "unique_keys": ["ts_code"], "fetch_strategy": {"type": "single"},
+    "default_order_by": [{"field": "ts_code", "direction": "asc"}]
+  },
+  "trade_cal": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["exchange", "cal_date"],
+    "fetch_strategy": {"type": "date_range", "start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"},
+    "default_order_by": [{"field": "cal_date", "direction": "desc"}, {"field": "exchange", "direction": "asc"}]
+  },
+  "stock_company": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["ts_code"], "fetch_strategy": {"type": "single"},
+    "default_order_by": [{"field": "ts_code", "direction": "asc"}]
+  },
+  "stock_hsgt": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["ts_code", "trade_date", "type"],
+    "fetch_strategy": {"type": "date_range", "start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "daily": {
+    "status": "ACTIVE", "metadata_review": "VERIFIED", "needs_review": false,
+    "maturity": "PRODUCTION", "row_limit": 6000,
+    "unique_keys": ["ts_code", "trade_date"],
+    "fetch_strategy": {"type": "date_range", "start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}],
+    "review_metadata": {"natural_key_status": "SAMPLE_PASS", "fetch_boundary_status": "PASS_5420_OF_6000", "real_sync": "PASS", "rerun": "PASS"}
+  },
+  "daily_basic": {
+    "status": "ACTIVE", "metadata_review": "VERIFIED", "needs_review": false,
+    "unique_keys": ["ts_code", "trade_date"],
+    "fetch_strategy": {"type": "date_range", "start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}],
+    "validation_rules": {"any_of": [["ts_code", "trade_date"]]}
+  },
+  "weekly": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["ts_code", "trade_date"],
+    "fetch_strategy": {"type": "date_range", "start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "monthly": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["ts_code", "trade_date"],
+    "fetch_strategy": {"type": "date_range", "start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "adj_factor": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["ts_code", "trade_date"], "fetch_strategy": {"type": "single"},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "income": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["ts_code", "end_date", "report_type", "comp_type", "end_type", "update_flag", "ann_date", "f_ann_date"],
+    "fetch_strategy": {"type": "date_and_code", "order": "code_first", "date": {"start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"}, "code": {"param": "ts_code", "code_source": "stock_basic", "batch_size": 1}},
+    "review_metadata": {"version_fields": ["ann_date", "f_ann_date", "update_flag"], "special_dimensions": ["report_type", "comp_type", "end_type"]},
+    "default_order_by": [{"field": "end_date", "direction": "desc"}, {"field": "ann_date", "direction": "desc"}]
+  },
+  "balancesheet": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["ts_code", "end_date", "report_type", "comp_type", "end_type", "update_flag", "ann_date", "f_ann_date"],
+    "fetch_strategy": {"type": "date_and_code", "order": "code_first", "date": {"start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"}, "code": {"param": "ts_code", "code_source": "stock_basic", "batch_size": 1}},
+    "review_metadata": {"version_fields": ["ann_date", "f_ann_date", "update_flag"], "special_dimensions": ["report_type", "comp_type", "end_type"]},
+    "default_order_by": [{"field": "end_date", "direction": "desc"}, {"field": "ann_date", "direction": "desc"}]
+  },
+  "cashflow": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["ts_code", "end_date", "report_type", "comp_type", "end_type", "update_flag", "ann_date", "f_ann_date"],
+    "fetch_strategy": {"type": "date_and_code", "order": "code_first", "date": {"start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"}, "code": {"param": "ts_code", "code_source": "stock_basic", "batch_size": 1}},
+    "review_metadata": {"version_fields": ["ann_date", "f_ann_date", "update_flag"], "special_dimensions": ["report_type", "comp_type", "end_type"]},
+    "default_order_by": [{"field": "end_date", "direction": "desc"}, {"field": "ann_date", "direction": "desc"}]
+  },
+  "forecast": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["ts_code", "ann_date", "end_date", "type"],
+    "fetch_strategy": {"type": "date_range", "start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"},
+    "default_order_by": [{"field": "ann_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "block_trade": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["ts_code", "trade_date", "price", "vol", "buyer", "seller"],
+    "fetch_strategy": {"type": "date_range", "start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}]
+  },
+  "pledge_stat": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["ts_code", "end_date"], "fetch_strategy": {"type": "single"},
+    "default_order_by": [{"field": "end_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "share_float": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["ts_code", "ann_date", "float_date", "holder_name", "share_type"],
+    "fetch_strategy": {"type": "date_range", "start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"},
+    "default_order_by": [{"field": "float_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "repurchase": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["ts_code", "ann_date", "end_date", "proc"],
+    "fetch_strategy": {"type": "date_range", "start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"},
+    "default_order_by": [{"field": "ann_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "broker_recommend": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["month", "broker", "ts_code"], "fetch_strategy": {"type": "single"},
+    "default_order_by": [{"field": "month", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "cyq_perf": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["ts_code", "trade_date"],
+    "fetch_strategy": {"type": "date_range", "start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "cyq_chips": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["ts_code", "trade_date", "price"],
+    "fetch_strategy": {"type": "date_range", "start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}, {"field": "price", "direction": "asc"}]
+  },
+  "stk_nineturn": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["ts_code", "trade_date", "freq"],
+    "fetch_strategy": {"type": "date_range", "start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "margin": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["trade_date", "exchange_id"],
+    "fetch_strategy": {"type": "date_range", "start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}, {"field": "exchange_id", "direction": "asc"}]
+  },
+  "margin_detail": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["trade_date", "ts_code"],
+    "fetch_strategy": {"type": "date_range", "start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "margin_secs": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["trade_date", "ts_code", "exchange"],
+    "fetch_strategy": {"type": "date_range", "start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "slb_len": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["trade_date"],
+    "fetch_strategy": {"type": "date_range", "start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}]
+  },
+  "moneyflow": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["ts_code", "trade_date"],
+    "fetch_strategy": {"type": "date_range", "start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "moneyflow_ths": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["trade_date", "ts_code"],
+    "fetch_strategy": {"type": "date_range", "start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "moneyflow_dc": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["trade_date", "ts_code"],
+    "fetch_strategy": {"type": "date_range", "start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "moneyflow_mkt_dc": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["trade_date"],
+    "fetch_strategy": {"type": "date_range", "start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}]
+  },
+  "top_list": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["trade_date", "ts_code"],
+    "fetch_strategy": {"type": "trade_date", "date_param": "trade_date"},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "top_inst": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["trade_date", "ts_code", "exalter", "side"],
+    "fetch_strategy": {"type": "trade_date", "date_param": "trade_date"},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "limit_list_d": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["trade_date", "ts_code", "limit"],
+    "fetch_strategy": {"type": "date_range", "start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "ths_index": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["ts_code"], "fetch_strategy": {"type": "single"},
+    "default_order_by": [{"field": "ts_code", "direction": "asc"}]
+  },
+  "ths_daily": {
+    "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
+    "unique_keys": ["ts_code", "trade_date"],
+    "fetch_strategy": {"type": "date_range", "start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "unknown_doc_146": {
+    "status": "UNSUPPORTED",
+    "metadata_review": "REVIEWED",
+    "needs_review": false,
+    "enabled": false,
+    "visible_by_default": false,
+    "maturity": "EXPERIMENTAL"
+  },
+  "unknown_doc_109": {
+    "status": "UNSUPPORTED",
+    "metadata_review": "REVIEWED",
+    "needs_review": false,
+    "enabled": false,
+    "visible_by_default": false,
+    "maturity": "EXPERIMENTAL"
+  }
+}

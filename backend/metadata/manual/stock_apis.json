@@ -1,0 +1,93 @@
+[
+  {
+    "clone_from": "income",
+    "api_name": "income_vip",
+    "api_title": "利润表（VIP批量）",
+    "description": "按报告期批量获取全部上市公司利润表，字段与 income 一致。",
+    "permission_description": "需要至少5000积分，适合按季度批量提取全部股票。",
+    "points_required": 5000,
+    "documentation_url": "https://tushare.pro/document/2?doc_id=33",
+    "source_url": "https://tushare.pro/document/2?doc_id=33",
+    "request_limit": "VIP批量接口按报告期提取；必须使用 period 等边界参数避免无界查询。",
+    "param_overrides": {
+      "ts_code": {"required": false},
+      "period": {"required": true}
+    },
+    "status": "ACTIVE",
+    "metadata_review": "VERIFIED",
+    "needs_review": false,
+    "maturity": "VERIFIED",
+    "unique_keys": ["ts_code", "end_date"],
+    "fetch_strategy": {"type": "single"},
+    "default_order_by": [
+      {"field": "end_date", "direction": "desc"},
+      {"field": "ts_code", "direction": "asc"}
+    ],
+    "review_metadata": {
+      "bulk_interface": true,
+      "version_fields": ["ann_date", "f_ann_date", "update_flag"],
+      "special_dimensions": ["report_type", "comp_type", "end_type"],
+      "natural_key_status": "USER_CONFIRMED",
+      "fetch_boundary_status": "PERIOD_REQUIRED",
+      "review_risk": "项目确认自然键为 ts_code + end_date；接口按必填 period 单季度批量获取。"
+    }
+  },
+  {
+    "api_name": "pro_bar",
+    "replaces": "unknown_doc_146",
+    "api_title": "通用行情接口",
+    "description": "平台组合 daily 与 adj_factor 实现 A股日线不复权、前复权和后复权行情。",
+    "category": "股票数据",
+    "subcategory": "行情数据",
+    "points_required": 2000,
+    "permission_description": "权限取决于 daily 与 adj_factor；官方 SDK pro_bar 不能直接通过统一 HTTP 调用。",
+    "request_limit": "当前平台组合实现仅支持 A股 asset=E、日线 freq=D。",
+    "update_frequency": "交易日盘后",
+    "data_description": "用户可从已同步的 stock_basic 选择 ts_code；底层请求 daily 和 adj_factor 后按交易日合并。",
+    "row_limit": 6000,
+    "supports_offset": false,
+    "params": [
+      {"name": "ts_code", "type": "str", "required": true, "description": "A股证券代码", "input_kind": "stock_code_select", "position": 1},
+      {"name": "start_date", "type": "str", "required": false, "description": "开始日期", "format": "YYYYMMDD", "input_kind": "date", "position": 2},
+      {"name": "end_date", "type": "str", "required": false, "description": "结束日期", "format": "YYYYMMDD", "input_kind": "date", "position": 3},
+      {"name": "trade_date", "type": "str", "required": false, "description": "交易日期", "format": "YYYYMMDD", "input_kind": "date", "position": 4},
+      {"name": "adj", "type": "str", "required": false, "description": "复权类型：空、qfq、hfq", "input_kind": "text", "enum_values": ["qfq", "hfq"], "position": 5},
+      {"name": "freq", "type": "str", "required": false, "description": "当前支持日线 D", "input_kind": "text", "default_value": "D", "enum_values": ["D"], "position": 6},
+      {"name": "asset", "type": "str", "required": false, "description": "当前支持股票 E", "input_kind": "text", "default_value": "E", "enum_values": ["E"], "position": 7}
+    ],
+    "fields": [
+      {"name": "ts_code", "type": "str", "default": true, "description": "证券代码", "position": 1},
+      {"name": "trade_date", "type": "str", "default": true, "description": "交易日期", "position": 2},
+      {"name": "open", "type": "float", "default": true, "description": "开盘价", "position": 3},
+      {"name": "high", "type": "float", "default": true, "description": "最高价", "position": 4},
+      {"name": "low", "type": "float", "default": true, "description": "最低价", "position": 5},
+      {"name": "close", "type": "float", "default": true, "description": "收盘价", "position": 6},
+      {"name": "pre_close", "type": "float", "default": true, "description": "昨收价", "position": 7},
+      {"name": "change", "type": "float", "default": true, "description": "涨跌额", "position": 8},
+      {"name": "pct_chg", "type": "float", "default": true, "description": "涨跌幅", "position": 9},
+      {"name": "vol", "type": "float", "default": true, "description": "成交量", "position": 10},
+      {"name": "amount", "type": "float", "default": true, "description": "成交额", "position": 11},
+      {"name": "adj_factor", "type": "float", "default": false, "description": "复权因子", "position": 12}
+    ],
+    "unique_keys": ["ts_code", "trade_date"],
+    "pagination": {"supported": false},
+    "fetch_strategy": {"type": "custom", "handler": "a_share_pro_bar"},
+    "default_order_by": [
+      {"field": "trade_date", "direction": "desc"},
+      {"field": "ts_code", "direction": "asc"}
+    ],
+    "rate_limit": {},
+    "validation_rules": {"any_of": [["trade_date", "start_date", "end_date"]]},
+    "source_url": "https://tushare.pro/document/2?doc_id=146",
+    "documentation_url": "https://tushare.pro/document/2?doc_id=146",
+    "metadata_review": "VERIFIED",
+    "status": "ACTIVE",
+    "needs_review": false,
+    "removed_from_source": false,
+    "visible_by_default": true,
+    "maturity": "PRODUCTION",
+    "review_metadata": {"composite_sources": ["daily", "adj_factor"], "http_direct": false, "natural_key_status": "SAMPLE_PASS", "fetch_boundary_status": "PASS", "real_sync": "PASS", "rerun": "PASS"},
+    "raw_metadata": {"doc_id": "146", "manual_supplement": true},
+    "enabled": true
+  }
+]

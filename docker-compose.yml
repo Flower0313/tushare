@@ -1,0 +1,91 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-tushare_platform}
+      POSTGRES_USER: ${POSTGRES_USER:-tushare}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+    environment:
+      APP_ENV: development
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-tushare}:${POSTGRES_PASSWORD:-change-me}@postgres:5432/${POSTGRES_DB:-tushare_platform}
+      TUSHARE_TOKEN: ${TUSHARE_TOKEN:-}
+      TUSHARE_API_BASE_URL: https://api.tushare.pro
+      CORS_ORIGINS: http://localhost:5173
+      RUN_EMBEDDED_WORKER: "false"
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  worker:
+    build:
+      context: ./backend
+    command: ["python", "-m", "app.worker"]
+    environment:
+      APP_ENV: production
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-tushare}:${POSTGRES_PASSWORD:-change-me}@postgres:5432/${POSTGRES_DB:-tushare_platform}
+      TUSHARE_TOKEN: ${TUSHARE_TOKEN:-}
+      TUSHARE_API_BASE_URL: https://api.tushare.pro
+      RUN_EMBEDDED_WORKER: "false"
+    depends_on:
+      backend:
+        condition: service_healthy
+
+  scheduler:
+    build:
+      context: ./backend
+    command: ["python", "-m", "app.scheduler"]
+    environment:
+      APP_ENV: production
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-tushare}:${POSTGRES_PASSWORD:-change-me}@postgres:5432/${POSTGRES_DB:-tushare_platform}
+      TUSHARE_TOKEN: ${TUSHARE_TOKEN:-}
+      RUN_EMBEDDED_WORKER: "false"
+    depends_on:
+      backend:
+        condition: service_healthy
+
+  maintenance:
+    build:
+      context: ./backend
+    command: ["python", "-m", "app.maintenance"]
+    environment:
+      APP_ENV: production
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-tushare}:${POSTGRES_PASSWORD:-change-me}@postgres:5432/${POSTGRES_DB:-tushare_platform}
+      TUSHARE_TOKEN: ${TUSHARE_TOKEN:-}
+      TUSHARE_API_BASE_URL: https://api.tushare.pro
+      RUN_EMBEDDED_WORKER: "false"
+    depends_on:
+      backend:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+    environment:
+      VITE_API_BASE_URL: http://localhost:8000/api
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
