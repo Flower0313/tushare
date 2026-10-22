@@ -1,4 +1,4 @@
-import { ConfigProvider } from 'antd'
+import { ConfigProvider, theme as antdTheme } from 'antd'
 import zhCN from 'antd/locale/zh_CN'
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { ThemeContext, THEME_STORAGE_KEY, type EffectiveTheme, type ThemeContextValue, type ThemeMode } from './themeContext'
@@ -34,9 +34,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     <ConfigProvider
       locale={zhCN}
       theme={{
+        algorithm: effectiveTheme === 'dark' ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm,
         token: {
           borderRadius: 6,
-          controlHeight: 36,
+          controlHeight: 38,
           colorPrimary: 'var(--color-accent)',
           colorLink: 'var(--color-accent)',
           colorText: 'var(--color-ink)',
@@ -50,10 +51,13 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
           colorBgSpotlight: 'var(--color-graphite)',
           colorFillAlter: 'var(--color-bg-secondary)',
           fontFamily: 'var(--font-body)',
+          fontFamilyCode: 'var(--font-mono)',
+          boxShadow: 'var(--shadow-float)',
+          boxShadowSecondary: 'var(--shadow-float)',
         },
         components: {
-          Button: { primaryShadow: 'none', defaultShadow: 'none' },
-          Menu: { itemHeight: 36, itemBorderRadius: 6 },
+          Button: { primaryShadow: 'none', defaultShadow: 'none', fontWeight: 600 },
+          Menu: { itemHeight: 36, itemBorderRadius: 6, groupTitleFontSize: 12 },
           Table: {
             headerBg: 'var(--color-bg-secondary)',
             rowHoverBg: 'var(--color-bg-hover)',
@@ -61,6 +65,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
             rowSelectedHoverBg: 'var(--color-accent-soft)',
           },
           Modal: { borderRadiusLG: 10 },
+          Drawer: { colorBgElevated: 'var(--color-paper-raised)' },
+          Tabs: { itemSelectedColor: 'var(--color-ink)', inkBarColor: 'var(--color-accent)' },
+          Tooltip: { colorBgSpotlight: 'var(--color-graphite)' },
         },
       }}
     >{children}</ConfigProvider>

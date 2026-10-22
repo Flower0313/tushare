@@ -56,7 +56,19 @@ class CompatibilityScanner:
             return "MANUAL_REVIEW", "Metadata has not been verified"
         if not record.get("unique_keys"):
             return "MANUAL_REVIEW", "unique_keys are not configured"
-        if record.get("row_limit") and not record.get("supports_offset") and strategy == "single":
+        boundary_status = (record.get("review_metadata") or {}).get(
+            "fetch_boundary_status"
+        )
+        boundary_verified = boundary_status in {
+            "FULL_SNAPSHOT_WITHIN_LIMIT",
+            "DOCUMENT_REVIEWED_SAFE",
+        }
+        if (
+            record.get("row_limit")
+            and not record.get("supports_offset")
+            and strategy == "single"
+            and not boundary_verified
+        ):
             date_params = {
                 param["name"]
                 for param in record.get("params", [])

@@ -7,8 +7,9 @@ Revises: 20261008_0018
 from collections.abc import Sequence
 
 import sqlalchemy as sa
-from alembic import op
 from sqlalchemy.dialects import postgresql
+
+from alembic import op
 
 revision: str = "20261009_0019"
 down_revision: str | None = "20261008_0018"
@@ -23,7 +24,7 @@ def upgrade() -> None:
             "reset_completeness_policy",
             postgresql.JSONB(astext_type=sa.Text()),
             nullable=False,
-            server_default=sa.text("'{\"type\": \"NONE\"}'::jsonb"),
+            server_default=sa.text('\'{"type": "NONE"}\'::jsonb'),
         ),
         schema="platform",
     )

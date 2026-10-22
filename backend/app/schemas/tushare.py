@@ -49,7 +49,7 @@ class TushareQueryResult(BaseModel):
 
 
 class WriteMode(StrEnum):
-    APPEND = "APPEND"
+    NONE = "NONE"
     UPSERT = "UPSERT"
 
 

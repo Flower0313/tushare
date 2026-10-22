@@ -111,6 +111,8 @@ class ExecutionRepository(
             started_at=None,
             rows_received=0,
             rows_written=0,
+            rows_inserted=0,
+            rows_updated=0,
             pages_completed=0,
             current_page=0,
             progress_message="Waiting for worker",

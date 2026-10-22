@@ -654,6 +654,59 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/settings/tushare-token": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Tushare Token Status */
+        get: operations["get_tushare_token_status_api_settings_tushare_token_get"];
+        /** Replace Tushare Token */
+        put: operations["replace_tushare_token_api_settings_tushare_token_put"];
+        post?: never;
+        /** Restore Environment Tushare Token */
+        delete: operations["restore_environment_tushare_token_api_settings_tushare_token_delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/sql-tasks/targets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Sql Targets */
+        get: operations["list_sql_targets_api_sql_tasks_targets_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/sql-tasks/validate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Validate Sql Task */
+        post: operations["validate_sql_task_api_sql_tasks_validate_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/data-operations": {
         parameters: {
             query?: never;
@@ -1231,6 +1284,12 @@ export interface components {
              * @enum {string}
              */
             chunk_unit: "day" | "week" | "month";
+            /**
+             * Date Format
+             * @default YYYYMMDD
+             * @enum {string}
+             */
+            date_format: "YYYYMMDD" | "YYYY-MM-DD HH:mm:ss";
         };
         /** DeletePreviewRequest */
         DeletePreviewRequest: {
@@ -1302,7 +1361,7 @@ export interface components {
          * ErrorCode
          * @enum {string}
          */
-        ErrorCode: "PLATFORM_ERROR" | "HTTP_ERROR" | "REQUEST_VALIDATION_ERROR" | "INTERNAL_SERVER_ERROR" | "TUSHARE_API_ERROR" | "TUSHARE_PERMISSION_ERROR" | "TUSHARE_TIMEOUT" | "TUSHARE_CONNECTION_ERROR" | "CONNECT_TIMEOUT" | "READ_TIMEOUT" | "WRITE_TIMEOUT" | "POOL_TIMEOUT" | "DNS_ERROR" | "CONNECTION_RESET" | "TLS_ERROR" | "HTTP_5XX" | "HTTP_500" | "HTTP_502" | "HTTP_503" | "HTTP_504" | "UNKNOWN_NETWORK_ERROR" | "HTTP_429" | "TUSHARE_CIRCUIT_OPEN" | "TUSHARE_RESPONSE_ERROR" | "TUSHARE_NOT_CONFIGURED" | "DATABASE_WRITE_ERROR" | "DB_STATEMENT_TIMEOUT" | "DATA_WRITE_ERROR" | "TABLE_CREATION_ERROR" | "SYNC_EXECUTION_ERROR" | "METADATA_ERROR" | "METADATA_NOT_FOUND" | "METADATA_UNAVAILABLE" | "TASK_ALREADY_RUNNING" | "SCHEMA_MISMATCH" | "UNIQUE_KEY_SCHEMA_MISMATCH" | "UNIQUE_KEY_MIGRATION_CONFLICT" | "UNIQUE_KEY_DUPLICATES" | "UNIQUE_KEY_PREVIEW_EXPIRED" | "DATA_TABLE_NOT_FOUND" | "PAGINATION_LIMIT_EXCEEDED" | "EXECUTION_NOT_FOUND" | "EXECUTION_CONFLICT" | "EXECUTION_CANCELLED" | "DELETE_PREVIEW_ERROR" | "DELETE_CONFIRMATION_ERROR" | "REPLACE_RANGE_ERROR" | "REPLACE_DATASET_NOT_FOUND" | "EMPTY_REPLACEMENT_BLOCKED" | "SCHEDULE_ERROR" | "SCHEDULE_NOT_FOUND" | "SCHEDULE_CONFLICT";
+        ErrorCode: "PLATFORM_ERROR" | "HTTP_ERROR" | "REQUEST_VALIDATION_ERROR" | "INTERNAL_SERVER_ERROR" | "TUSHARE_API_ERROR" | "TUSHARE_PERMISSION_ERROR" | "TUSHARE_TIMEOUT" | "TUSHARE_CONNECTION_ERROR" | "CONNECT_TIMEOUT" | "READ_TIMEOUT" | "WRITE_TIMEOUT" | "POOL_TIMEOUT" | "DNS_ERROR" | "CONNECTION_RESET" | "TLS_ERROR" | "HTTP_5XX" | "HTTP_500" | "HTTP_502" | "HTTP_503" | "HTTP_504" | "UNKNOWN_NETWORK_ERROR" | "HTTP_429" | "TUSHARE_CIRCUIT_OPEN" | "TUSHARE_RESPONSE_ERROR" | "TUSHARE_NOT_CONFIGURED" | "DATABASE_WRITE_ERROR" | "DB_STATEMENT_TIMEOUT" | "DATA_WRITE_ERROR" | "TABLE_CREATION_ERROR" | "SYNC_EXECUTION_ERROR" | "METADATA_ERROR" | "METADATA_NOT_FOUND" | "METADATA_UNAVAILABLE" | "TASK_ALREADY_RUNNING" | "SCHEMA_MISMATCH" | "UNIQUE_KEY_SCHEMA_MISMATCH" | "UNIQUE_KEY_MIGRATION_CONFLICT" | "UNIQUE_KEY_DUPLICATES" | "UNIQUE_KEY_PREVIEW_EXPIRED" | "DATA_TABLE_NOT_FOUND" | "PAGINATION_LIMIT_EXCEEDED" | "EXECUTION_NOT_FOUND" | "EXECUTION_CONFLICT" | "EXECUTION_CANCELLED" | "DELETE_PREVIEW_ERROR" | "DELETE_CONFIRMATION_ERROR" | "REPLACE_RANGE_ERROR" | "REPLACE_DATASET_NOT_FOUND" | "EMPTY_REPLACEMENT_BLOCKED" | "CUSTOM_COMPLETENESS_HANDLER_NOT_FOUND" | "SCHEDULE_ERROR" | "SCHEDULE_NOT_FOUND" | "SCHEDULE_CONFLICT" | "SQL_TASK_ERROR";
         /** ErrorDetail */
         ErrorDetail: {
             code: components["schemas"]["ErrorCode"];
@@ -1366,7 +1425,7 @@ export interface components {
          * ExecutionOperationType
          * @enum {string}
          */
-        ExecutionOperationType: "SYNC" | "DELETE" | "REPLACE_RANGE" | "FAILED_CHUNK_RETRY";
+        ExecutionOperationType: "SYNC" | "SQL_TASK" | "DELETE" | "REPLACE_RANGE" | "FAILED_CHUNK_RETRY";
         /** ExecutionRead */
         ExecutionRead: {
             /** Execution Id */
@@ -1487,14 +1546,6 @@ export interface components {
             validation_result_id?: string | null;
             /** Chunks */
             chunks?: components["schemas"]["ExecutionChunkRead"][];
-        };
-        /** ExecutionRiskConfirmation */
-        ExecutionRiskConfirmation: {
-            /**
-             * Confirm Append Risk
-             * @default false
-             */
-            confirm_append_risk: boolean;
         };
         /**
          * ExecutionSource
@@ -1770,6 +1821,17 @@ export interface components {
             start_param?: string | null;
             /** End Param */
             end_param?: string | null;
+            /**
+             * Coverage Mode
+             * @default BOUNDARY
+             * @enum {string}
+             */
+            coverage_mode: "BOUNDARY" | "EXPECTED_DATES";
+            /**
+             * Calendar Exchange
+             * @default SSE
+             */
+            calendar_exchange: string;
             /** Code Field */
             code_field?: string | null;
             /** Code Source */
@@ -1795,8 +1857,14 @@ export interface components {
             name: string;
             /** Description */
             description?: string | null;
+            /**
+             * Job Type
+             * @default API_SYNC
+             * @enum {string}
+             */
+            job_type: "API_SYNC" | "SQL_TRANSFORM";
             /** Api Name */
-            api_name: string;
+            api_name?: string | null;
             /** Params */
             params?: {
                 [key: string]: unknown;
@@ -1841,6 +1909,20 @@ export interface components {
              * @enum {string}
              */
             recovery_policy: "MANUAL" | "REQUEUE" | "FAIL";
+            /** Target Schema */
+            target_schema?: string | null;
+            /** Target Table */
+            target_table?: string | null;
+            /** Target Columns */
+            target_columns?: string[];
+            /** Sql Text */
+            sql_text?: string | null;
+            /**
+             * Execution Calendar
+             * @default ALL_DAYS
+             * @enum {string}
+             */
+            execution_calendar: "ALL_DAYS" | "TRADE_DAYS";
         };
         /** ScheduleFireRead */
         ScheduleFireRead: {
@@ -1907,8 +1989,14 @@ export interface components {
             name: string;
             /** Description */
             description?: string | null;
+            /**
+             * Job Type
+             * @default API_SYNC
+             * @enum {string}
+             */
+            job_type: "API_SYNC" | "SQL_TRANSFORM";
             /** Api Name */
-            api_name: string;
+            api_name?: string | null;
             /** Params */
             params?: {
                 [key: string]: unknown;
@@ -1953,6 +2041,20 @@ export interface components {
              * @enum {string}
              */
             recovery_policy: "MANUAL" | "REQUEUE" | "FAIL";
+            /** Target Schema */
+            target_schema?: string | null;
+            /** Target Table */
+            target_table?: string | null;
+            /** Target Columns */
+            target_columns?: string[];
+            /** Sql Text */
+            sql_text?: string | null;
+            /**
+             * Execution Calendar
+             * @default ALL_DAYS
+             * @enum {string}
+             */
+            execution_calendar: "ALL_DAYS" | "TRADE_DAYS";
             /**
              * Id
              * Format: uuid
@@ -1983,8 +2085,14 @@ export interface components {
             name: string;
             /** Description */
             description?: string | null;
+            /**
+             * Job Type
+             * @default API_SYNC
+             * @enum {string}
+             */
+            job_type: "API_SYNC" | "SQL_TRANSFORM";
             /** Api Name */
-            api_name: string;
+            api_name?: string | null;
             /** Params */
             params?: {
                 [key: string]: unknown;
@@ -2029,6 +2137,20 @@ export interface components {
              * @enum {string}
              */
             recovery_policy: "MANUAL" | "REQUEUE" | "FAIL";
+            /** Target Schema */
+            target_schema?: string | null;
+            /** Target Table */
+            target_table?: string | null;
+            /** Target Columns */
+            target_columns?: string[];
+            /** Sql Text */
+            sql_text?: string | null;
+            /**
+             * Execution Calendar
+             * @default ALL_DAYS
+             * @enum {string}
+             */
+            execution_calendar: "ALL_DAYS" | "TRADE_DAYS";
         };
         /** ScheduleValidationResponse */
         ScheduleValidationResponse: {
@@ -2049,12 +2171,79 @@ export interface components {
             /** Warnings */
             warnings?: components["schemas"]["WarningDetail"][];
         };
+        /** SqlTargetColumn */
+        SqlTargetColumn: {
+            /** Name */
+            name: string;
+            /** Data Type */
+            data_type: string;
+            /** Nullable */
+            nullable: boolean;
+        };
+        /** SqlTargetListResponse */
+        SqlTargetListResponse: {
+            /** Items */
+            items: components["schemas"]["SqlTargetTable"][];
+        };
+        /** SqlTargetTable */
+        SqlTargetTable: {
+            /** Schema Name */
+            schema_name: string;
+            /** Table Name */
+            table_name: string;
+            /** Columns */
+            columns: components["schemas"]["SqlTargetColumn"][];
+        };
+        /** SqlTaskValidationRequest */
+        SqlTaskValidationRequest: {
+            /** Target Schema */
+            target_schema: string;
+            /** Target Table */
+            target_table: string;
+            /** Target Columns */
+            target_columns?: string[];
+            /** Sql Text */
+            sql_text: string;
+        };
+        /** SqlTaskValidationResponse */
+        SqlTaskValidationResponse: {
+            /**
+             * Valid
+             * @default true
+             */
+            valid: boolean;
+            /** Target */
+            target: string;
+            /** Target Columns */
+            target_columns: string[];
+            /** Message */
+            message: string;
+        };
         /** SyncSubmissionResponse */
         SyncSubmissionResponse: {
             /** Execution Id */
             execution_id: string;
             /** @default PENDING */
             status: components["schemas"]["ExecutionStatus"];
+        };
+        /** TushareTokenStatus */
+        TushareTokenStatus: {
+            /** Configured */
+            configured: boolean;
+            /** Source */
+            source: string;
+            /** Token */
+            token: string;
+            /** Updated At */
+            updated_at?: string | null;
+        };
+        /** TushareTokenUpdate */
+        TushareTokenUpdate: {
+            /**
+             * Token
+             * Format: password
+             */
+            token: string;
         };
         /** UniqueKeyApplyRequest */
         UniqueKeyApplyRequest: {
@@ -2246,7 +2435,7 @@ export interface components {
          * WarningCode
          * @enum {string}
          */
-        WarningCode: "NEAR_FETCH_LIMIT" | "POSSIBLE_TRUNCATION" | "EMPTY_RESULT" | "TRADE_CAL_FALLBACK_USED" | "APPEND_NOT_IDEMPOTENT" | "VALIDATION_INCOMPLETE";
+        WarningCode: "NEAR_FETCH_LIMIT" | "POSSIBLE_TRUNCATION" | "EMPTY_RESULT" | "TRADE_CAL_FALLBACK_USED" | "VALIDATION_INCOMPLETE";
         /** WarningDetail */
         WarningDetail: {
             code: components["schemas"]["WarningCode"];
@@ -2261,7 +2450,7 @@ export interface components {
          * WriteMode
          * @enum {string}
          */
-        WriteMode: "APPEND" | "UPSERT";
+        WriteMode: "NONE" | "UPSERT";
     };
     responses: never;
     parameters: never;
@@ -4329,11 +4518,7 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: {
-            content: {
-                "application/json": components["schemas"]["ExecutionRiskConfirmation"] | null;
-            };
-        };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             202: {
@@ -4671,11 +4856,7 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ExecutionRiskConfirmation"];
-            };
-        };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             202: {
@@ -6945,6 +7126,564 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ScheduleHistoryResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    get_tushare_token_status_api_settings_tushare_token_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TushareTokenStatus"];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    replace_tushare_token_api_settings_tushare_token_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TushareTokenUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TushareTokenStatus"];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    restore_environment_tushare_token_api_settings_tushare_token_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TushareTokenStatus"];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    list_sql_targets_api_sql_tasks_targets_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SqlTargetListResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    validate_sql_task_api_sql_tasks_validate_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SqlTaskValidationRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SqlTaskValidationResponse"];
                 };
             };
             /** @description 统一错误响应 */

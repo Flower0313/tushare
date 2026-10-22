@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from datetime import datetime
 
 from pydantic import JsonValue
 
@@ -106,6 +107,12 @@ class MetadataParameterValidator:
                 return float(value)
             if data_type == "bool":
                 return self._coerce_bool(value)
+            if data_type == "datetime":
+                if not isinstance(value, str):
+                    raise ValueError
+                normalized = value.strip()
+                datetime.strptime(normalized, "%Y-%m-%d %H:%M:%S")
+                return normalized
         except (TypeError, ValueError) as exc:
             raise MetadataError(
                 f"参数 {definition.name} 必须是 {definition.data_type} 类型",

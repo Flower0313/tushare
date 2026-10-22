@@ -33,6 +33,10 @@ from app.schemas.unique_keys import (
 from app.services.sync.duplicate_cleanup import DuplicateCleanupService
 from app.services.sync.query import TushareQueryService
 from app.services.sync.reset_and_resync import ResetAndResyncService
+from app.services.sync.reset_completeness import (
+    CompletenessHandlerRegistry,
+    build_completeness_handler_registry,
+)
 from app.services.sync.schema_manager import TableSchemaManager
 from app.services.sync.task_lock import ApiMutationLockService
 from app.services.sync.unique_key_analysis import UniqueKeyAnalyzer
@@ -53,6 +57,7 @@ class UniqueKeyService:
         api_lock: ApiMutationLockService,
         engine: AsyncEngine,
         query_service: TushareQueryService,
+        completeness_handlers: CompletenessHandlerRegistry | None = None,
     ) -> None:
         self._metadata = metadata
         self._migrations = migrations
@@ -60,6 +65,9 @@ class UniqueKeyService:
         self._schema = schema_manager
         self._api_lock = api_lock
         self._engine = engine
+        completeness_handlers = (
+            completeness_handlers or build_completeness_handler_registry()
+        )
         self._cleanup = DuplicateCleanupService(
             coordinator=self,
             migrations=migrations,
@@ -74,6 +82,7 @@ class UniqueKeyService:
             api_lock=api_lock,
             engine=engine,
             query_service=query_service,
+            completeness_handlers=completeness_handlers,
         )
 
     async def status(self, api_name: str) -> UniqueKeyStatusResponse:

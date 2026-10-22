@@ -4,7 +4,6 @@ from uuid import uuid4
 
 import pytest
 
-from app.core.exceptions import ExecutionConflictError
 from app.services.sync.control import ExecutionControlService
 
 
@@ -18,14 +17,32 @@ async def test_pending_execution_is_cancelled_immediately() -> None:
 
 
 @pytest.mark.asyncio
-async def test_failed_chunk_retry_rejects_append() -> None:
+async def test_failed_chunk_retry_accepts_legacy_append_as_upsert() -> None:
     execution_id = uuid4()
     repo = AsyncMock()
-    repo.get.return_value = SimpleNamespace(id=execution_id, write_mode="APPEND")
-    with pytest.raises(ExecutionConflictError):
-        await ExecutionControlService(repo, AsyncMock(), AsyncMock()).retry_failed_chunks(
-            execution_id
-        )
+    repo.get.return_value = SimpleNamespace(
+        id=execution_id,
+        api_name="daily",
+        task_key="a" * 64,
+        request_params={"trade_date": "20260929"},
+        request_fields=["ts_code", "trade_date", "close"],
+        write_mode="UPSERT",
+        target_schema="tushare",
+        target_table="daily",
+        operation_type="SYNC",
+    )
+    chunks = AsyncMock()
+    chunks.list_for_execution.return_value = [
+        SimpleNamespace(status="FAILED", request_params={"trade_date": "20260929"})
+    ]
+    metadata = AsyncMock()
+    metadata.get_by_name.return_value = SimpleNamespace(
+        effective_unique_keys=["ts_code", "trade_date"], metadata_review="VERIFIED"
+    )
+
+    await ExecutionControlService(repo, chunks, metadata).retry_failed_chunks(execution_id)
+
+    assert repo.enqueue.await_args.kwargs["write_mode"] == "UPSERT"
 
 
 @pytest.mark.asyncio

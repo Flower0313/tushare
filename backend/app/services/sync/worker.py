@@ -64,6 +64,8 @@ class ExecutionWorker:
                     duration_ms=result.duration_ms,
                     rows_received=result.rows_received,
                     rows_written=result.rows_written,
+                    rows_inserted=result.rows_inserted,
+                    rows_updated=result.rows_updated,
                     pages_completed=result.chunks_completed,
                     empty_result_reason=(
                         self._empty_result_reason(execution.request_params)

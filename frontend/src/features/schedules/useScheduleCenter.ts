@@ -1,14 +1,16 @@
 import { Form, message } from 'antd'
 import { useCallback, useEffect, useState } from 'react'
+import { ApiRequestError } from '../../api/client'
 import { listExecutions } from '../../api/executions'
-import { listStockCodes } from '../../api/data'
+import { listCodeOptions } from '../../api/data'
 import { getApiMetadata, listApis } from '../../api/metadata'
 import { createSchedule, deleteSchedule, getScheduleHistory, listSchedules, runScheduleNow, setScheduleEnabled, updateSchedule } from '../../api/schedules'
+import { listSqlTargets, type SqlTargetTable } from '../../api/sqlTasks'
 import { operationError } from '../../locales/zh-CN'
 import type { ApiMetadataDetail, ApiMetadataSummary, ExecutionRecord } from '../../types/metadata'
 import type { ScheduleFire, ScheduleRecord } from '../../types/schedule'
 import { buildMetadataFormSchema } from '../../services/metadataFormSchema'
-import { buildSchedulePayload, initialScheduleValues, scheduleToFormValues, type ScheduleFormValues } from './scheduleForm'
+import { buildSchedulePayload, defaultScheduleParameterValues, initialScheduleValues, scheduleToFormValues, type ScheduleFormValues } from './scheduleForm'
 
 export function useScheduleCenter() {
   const [form] = Form.useForm<ScheduleFormValues>()
@@ -17,6 +19,7 @@ export function useScheduleCenter() {
   const [metadata, setMetadata] = useState<ApiMetadataDetail | null>(null)
   const [executions, setExecutions] = useState<ExecutionRecord[]>([])
   const [stockOptions, setStockOptions] = useState<Array<{ label: string; value: string }>>([])
+  const [sqlTargets, setSqlTargets] = useState<SqlTargetTable[]>([])
   const [loading, setLoading] = useState(true)
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [editing, setEditing] = useState<ScheduleRecord | null>(null)
@@ -28,8 +31,8 @@ export function useScheduleCenter() {
   const load = useCallback(async () => {
     setLoading(true)
     try {
-      const [schedules, apiItems, recent] = await Promise.all([listSchedules(), listApis(), listExecutions({ page: 1, pageSize: 20, sortOrder: 'desc' })])
-      setItems(schedules.items); setApis(apiItems.filter((api) => api.status === 'ACTIVE')); setExecutions(recent.items)
+      const [schedules, apiItems, recent, targets] = await Promise.all([listSchedules(), listApis(), listExecutions({ page: 1, pageSize: 20, sortOrder: 'desc' }), listSqlTargets()])
+      setItems(schedules.items); setApis(apiItems.filter((api) => api.status === 'ACTIVE')); setExecutions(recent.items); setSqlTargets(targets.items)
     } catch { message.error(operationError('任务中心加载失败')) } finally { setLoading(false) }
   }, [])
 
@@ -39,15 +42,19 @@ export function useScheduleCenter() {
     const detail = await getApiMetadata(apiName)
     setMetadata(detail)
     const schema = buildMetadataFormSchema(detail)
-    if (schema.parameters.some((parameter) => parameter.inputKind === 'stock_code_select')) void listStockCodes().then(setStockOptions).catch(() => setStockOptions([]))
+    setStockOptions([])
+    const codeParameter = schema.parameters.find((parameter) => parameter.inputKind === 'stock_code_select')
+    if (codeParameter) void listCodeOptions(codeParameter.codeSource, codeParameter.codeLabelFields).then(setStockOptions).catch(() => setStockOptions([]))
     if (!preserve) {
+      const parameterDefaults = defaultScheduleParameterValues(schema.parameters)
       form.setFieldsValue({
-        paramModes: Object.fromEntries(schema.parameters.filter((item) => item.dynamicSupported).map((item) => [item.name, 'dynamic'])),
-        paramDynamics: Object.fromEntries(schema.parameters.filter((item) => item.dynamicSupported).map((item) => [item.name, item.name === 'trade_date' ? 'latest_trade_date' : 'today_yyyymmdd'])),
-        fields: schema.defaultOutputFields,
-        write_mode: detail.unique_keys.length ? 'UPSERT' : 'APPEND',
+        ...parameterDefaults,
+        paramValues: {},
+        fields: [...new Set([...detail.effective_unique_keys, ...schema.defaultOutputFields])],
+        write_mode: 'UPSERT',
       })
     }
+    return detail
   }
 
   function openCreate() {
@@ -56,19 +63,27 @@ export function useScheduleCenter() {
 
   async function openEdit(record: ScheduleRecord) {
     setEditing(record)
-    await selectApi(record.api_name, true)
-    form.setFieldsValue(scheduleToFormValues(record))
+    const values = scheduleToFormValues(record)
+    if (record.job_type === 'API_SYNC' && record.api_name) {
+      const detail = await selectApi(record.api_name, true)
+      values.fields = [...new Set([...detail.effective_unique_keys, ...values.fields])]
+    } else {
+      setMetadata(null)
+    }
+    form.setFieldsValue(values)
     setDrawerOpen(true)
   }
 
   async function save(values: ScheduleFormValues) {
-    if (!metadata) return
+    if (values.job_type === 'API_SYNC' && !metadata) return
     setSaving(true)
     try {
       const payload = buildSchedulePayload(values, metadata)
       if (editing) await updateSchedule(editing.id, payload); else await createSchedule(payload)
       message.success(editing ? '定时任务已更新' : '定时任务已创建'); setDrawerOpen(false); await load()
-    } catch { message.error(operationError('任务保存失败')) } finally { setSaving(false) }
+    } catch (error) {
+      message.error(error instanceof ApiRequestError ? error.message : operationError('任务保存失败'))
+    } finally { setSaving(false) }
   }
 
   async function toggle(record: ScheduleRecord) {
@@ -89,10 +104,15 @@ export function useScheduleCenter() {
   async function remove(id: string) { await deleteSchedule(id); await load() }
   async function openHistory(id: string) { setHistory((await getScheduleHistory(id)).items) }
 
+  function selectSqlTarget(value: string) {
+    const target = sqlTargets.find((item) => `${item.schema_name}.${item.table_name}` === value)
+    form.setFieldValue('target_columns', target?.columns.map((column) => column.name) ?? [])
+  }
+
   return {
-    form, items, apis, metadata, executions, stockOptions, loading, drawerOpen, editing, saving,
+    form, items, apis, metadata, executions, stockOptions, sqlTargets, loading, drawerOpen, editing, saving,
     togglingId, runningId, history,
-    openCreate, openEdit, selectApi, save, toggle, runNow, remove, openHistory,
+    openCreate, openEdit, selectApi, selectSqlTarget, save, toggle, runNow, remove, openHistory,
     closeEditor: () => setDrawerOpen(false), closeHistory: () => setHistory(null),
   }
 }

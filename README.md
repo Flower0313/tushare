@@ -127,7 +127,7 @@ FastAPI OpenAPI 是 API Contract 的唯一来源。修改响应 Schema 或枚举
 .\scripts\dev.ps1 worker
 ```
 
-Worker 从 PostgreSQL 队列领取 `PENDING` Execution，执行锁、QueryStrategy、限流、重试、转换、建表与批量写入。APPEND 不具备幂等性，不能自动整任务重跑或 stale requeue；具备已验证自然键的 UPSERT 才可按策略恢复。
+Worker 从 PostgreSQL 队列领取 `PENDING` Execution，执行锁、QueryStrategy、限流、重试、转换、建表与批量写入。所有同步写入都基于 `effective_unique_keys` 和平台管理 UNIQUE Constraint 执行幂等 UPSERT；非同步数据操作显式记录为 `write_mode=NONE`。Execution 会记录精确的 `rows_inserted` 与 `rows_updated`。
 
 唯一键分为 Metadata 默认值、用户 Override 和运行时 Effective 值。修改或恢复默认值必须先预览重复数据，再通过事务同步 PostgreSQL 平台 UNIQUE Constraint 与 Runtime Config。详细安全语义见 [Unique Key Management](docs/unique_key_management.md)。
 
@@ -138,6 +138,17 @@ Worker 从 PostgreSQL 队列领取 `PENDING` Execution，执行锁、QueryStrate
 ```
 
 Scheduler 使用 PostgreSQL advisory leader lock 防止多实例重复触发，并通过 ScheduleFire 的唯一约束保证同一 fire time 只创建一次 Execution。动态参数按 Schedule timezone 解析。
+
+任务中心同时支持“宽表 SQL 写入”任务。先在 `SQL_TASK_ALLOWED_SCHEMAS` 白名单中的 schema（默认 `analytics,public`）创建目标宽表，然后在任务编辑器中选择目标表、按 SELECT 输出顺序选择目标列，并填写单条 `SELECT` 或 `WITH ... SELECT` 查询。平台会先使用 PostgreSQL `EXPLAIN` 校验查询与目标列，再由 Scheduler 创建 `SQL_TASK` Execution，最后交给独立 Worker 执行：
+
+```sql
+INSERT INTO analytics.daily_wide (trade_date, ts_code, close)
+SELECT d.trade_date, d.ts_code, d.close
+FROM tushare.daily AS d
+WHERE d.trade_date = :trade_date
+```
+
+SQL 编辑器不接受 `INSERT`、`UPDATE`、`DELETE`、DDL、多语句或对 `platform`/系统 schema 的读取。可使用 `:execution_date` 参数；选择“交易日（来自本地 trade_cal）”时，还可使用 `:trade_date`。非交易日不会创建 Execution，而会留下 `NON_TRADING_DAY` 的 ScheduleFire 记录。目标表必须由用户预先创建，平台不会从自由 SQL 推断或创建宽表结构。
 
 ## Testing
 
@@ -155,6 +166,14 @@ cd backend
 ```
 
 前端检查：`npm --prefix frontend run lint`、`npm --prefix frontend run build`。Ruff 与 ESLint 均启用适度的圈复杂度门槛；它用于发现职责过载，不作为机械拆文件的行数限制。
+
+危险操作浏览器回归使用 Playwright 和确定性的 HTTP mock，不连接开发数据库，也不调用真实 Tushare：
+
+```powershell
+npm --prefix frontend run test:e2e
+```
+
+覆盖唯一键冲突、Delete Preview/Confirm、取消保护、Reset 策略门禁、Replace Range 与 `FAILED_AFTER_DELETE` 恢复入口。CI 还会重新生成 OpenAPI/TypeScript 契约并通过 `git diff --exit-code` 阻止契约漂移。
 
 后端依赖由 `backend/requirements.lock.txt` 固定；Docker 和 CI 先按锁文件安装，再以 `--no-deps` 安装本项目。更新依赖时必须显式更新锁文件并执行完整测试。普通 CI 运行 Ruff、Pytest Unit、真实 PostgreSQL Integration、ESLint、TypeScript、Vitest 和前端 Build；`real_upstream` 仍保持人工执行。
 
@@ -186,7 +205,7 @@ Validation Runner 根据每个 API 的 `validation_scenarios` 提交低流量验
 
 ## Data Lifecycle
 
-删除必须经过 Preview Token；空条件整表删除被禁止。当前产品化 Replace Range 语义是 `DELETE → 异步 SYNC`，不是长事务或伪回滚。若同步失败，操作会标记 `FAILED_AFTER_DELETE`，可只重试同步步骤而不会再次删除。详见 [Replace Range](docs/replace_range.md) 和 [APPEND Mode](docs/append_mode.md)。
+删除必须经过 Preview Token；空条件整表删除被禁止。当前产品化 Replace Range 语义是 `DELETE → 异步 SYNC`，不是长事务或伪回滚。若同步失败，操作会标记 `FAILED_AFTER_DELETE`，可只重试同步步骤而不会再次删除。详见 [Replace Range](docs/replace_range.md) 和 [幂等写入兼容说明](docs/append_mode.md)。
 
 `RESET_AND_RESYNC` 默认关闭。只有 Metadata 配置明确完整性策略时才允许提交，并且最终 SUCCESS 必须同时满足删除成功、同步成功和完整性校验通过。SYNC 成功但覆盖不足会显示 `INCOMPLETE`。
 

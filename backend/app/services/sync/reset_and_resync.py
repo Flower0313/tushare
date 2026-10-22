@@ -23,6 +23,10 @@ from app.schemas.unique_keys import (
     UniqueKeyResetResponse,
 )
 from app.services.sync.query import TushareQueryService
+from app.services.sync.reset_completeness import (
+    CompletenessHandlerRegistry,
+    build_completeness_handler_registry,
+)
 from app.services.sync.submission import SyncSubmissionService
 from app.services.sync.task_lock import ApiMutationLockService, build_task_key
 from app.services.sync.unique_key_analysis import UniqueKeyAnalyzer
@@ -63,6 +67,7 @@ class ResetAndResyncService:
         api_lock: ApiMutationLockService,
         engine: AsyncEngine,
         query_service: TushareQueryService,
+        completeness_handlers: CompletenessHandlerRegistry | None = None,
     ) -> None:
         self._coordinator = coordinator
         self._migrations = migrations
@@ -70,12 +75,16 @@ class ResetAndResyncService:
         self._api_lock = api_lock
         self._engine = engine
         self._query_service = query_service
+        self._completeness_handlers = (
+            completeness_handlers or build_completeness_handler_registry()
+        )
 
     async def preview(
         self, api_name: str, request: UniqueKeyPreviewRequest
     ) -> UniqueKeyResetPreviewResponse:
         metadata = await self._coordinator.require_metadata(api_name)
         policy = self._policy(metadata)
+        self._validate_custom_handler(policy)
         migration = await self._coordinator.preview(api_name, request)
         await self._migrations.update_migration(
             migration.id,
@@ -93,6 +102,7 @@ class ResetAndResyncService:
     ) -> UniqueKeyResetResponse:
         metadata = await self._coordinator.require_metadata(api_name)
         policy = self._policy(metadata)
+        self._validate_custom_handler(policy)
         migration = await self._coordinator.require_migration(api_name, request)
         if not (migration.cleanup_strategy or {}).get("reset_authorized"):
             raise UniqueKeyPreviewExpiredError(
@@ -195,6 +205,12 @@ class ResetAndResyncService:
                 details={"api_name": metadata.api_name, "policy": "NONE"},
             )
         return policy
+
+    def _validate_custom_handler(
+        self, policy: ResetCompletenessPolicyMetadata
+    ) -> None:
+        if policy.type == "CUSTOM":
+            self._completeness_handlers.get(policy.handler or "")
 
     @staticmethod
     def _model_values(record: Any) -> dict[str, Any]:

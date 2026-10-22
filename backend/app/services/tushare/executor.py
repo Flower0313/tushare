@@ -131,7 +131,13 @@ class TushareRequestExecutor:
                 allowed_attempts = (
                     min(attempts, 2) if isinstance(exc, TushareDNSError) else attempts
                 )
-                if not is_retryable(exc) or attempt >= allowed_attempts:
+                # Upstream 429 may mean an hourly or daily quota, not a transient
+                # network failure. Retrying immediately burns scarce requests.
+                if (
+                    isinstance(exc, TushareRateLimitError)
+                    or not is_retryable(exc)
+                    or attempt >= allowed_attempts
+                ):
                     raise
                 last_retry_error_type = getattr(exc, "code", type(exc).__name__)
                 await self._sleep(self._delay_for(attempt))

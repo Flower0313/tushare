@@ -70,3 +70,30 @@ def test_validator_rejects_unknown_params_and_fields() -> None:
     with pytest.raises(MetadataError) as field_error:
         validator.validate(build_metadata(), {"ts_code": "000001.SZ"}, ["missing"])
     assert field_error.value.details == {"unknown_fields": ["missing"]}
+
+
+def test_validator_accepts_datetime_parameter_and_rejects_invalid_format() -> None:
+    metadata = build_metadata()
+    metadata.params.append(
+        ApiParam(
+            name="start_date",
+            data_type="datetime",
+            input_kind="datetime",
+            required=False,
+            description="开始时间",
+            position=3,
+        )
+    )
+    result = MetadataParameterValidator().validate(
+        metadata,
+        {"ts_code": "000001.SZ", "start_date": "2026-09-30 09:30:00"},
+        ["ts_code"],
+    )
+    assert result.params["start_date"] == "2026-09-30 09:30:00"
+
+    with pytest.raises(MetadataError):
+        MetadataParameterValidator().validate(
+            metadata,
+            {"ts_code": "000001.SZ", "start_date": "20260930"},
+            ["ts_code"],
+        )

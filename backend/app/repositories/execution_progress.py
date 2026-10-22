@@ -7,6 +7,13 @@ from app.models.metadata import Execution
 
 
 class ExecutionProgressMixin:
+    async def set_pages_total(self, execution_id: UUID, pages_total: int) -> None:
+        await self._finish(
+            execution_id,
+            pages_total=pages_total,
+            last_heartbeat_at=datetime.now(UTC),
+        )
+
     async def update_progress(
         self,
         execution_id: UUID,
@@ -16,15 +23,24 @@ class ExecutionProgressMixin:
         pages_completed: int,
         current_page: int,
         progress_message: str,
+        rows_inserted: int | None = None,
+        rows_updated: int | None = None,
     ) -> None:
+        values: dict[str, object] = {
+            "rows_received": rows_received,
+            "rows_written": rows_written,
+            "pages_completed": pages_completed,
+            "current_page": current_page,
+            "progress_message": progress_message,
+            "last_heartbeat_at": datetime.now(UTC),
+        }
+        if rows_inserted is not None:
+            values["rows_inserted"] = rows_inserted
+        if rows_updated is not None:
+            values["rows_updated"] = rows_updated
         await self._finish(
             execution_id,
-            rows_received=rows_received,
-            rows_written=rows_written,
-            pages_completed=pages_completed,
-            current_page=current_page,
-            progress_message=progress_message,
-            last_heartbeat_at=datetime.now(UTC),
+            **values,
         )
 
     async def mark_success(
@@ -35,6 +51,8 @@ class ExecutionProgressMixin:
         rows_received: int,
         rows_written: int,
         pages_completed: int,
+        rows_inserted: int = 0,
+        rows_updated: int = 0,
         empty_result_reason: str | None = None,
         warnings: list[dict[str, str]] | None = None,
     ) -> None:
@@ -44,6 +62,8 @@ class ExecutionProgressMixin:
             duration_ms=duration_ms,
             rows_received=rows_received,
             rows_written=rows_written,
+            rows_inserted=rows_inserted,
+            rows_updated=rows_updated,
             pages_completed=pages_completed,
             progress_message="EMPTY RESULT — synchronization completed with no rows"
             if empty_result_reason
@@ -125,7 +145,7 @@ class ExecutionProgressMixin:
             task_key="operation-" + uuid4().hex,
             params=params,
             fields=[],
-            write_mode="APPEND",
+            write_mode="NONE",
             target_schema="tushare",
             target_table=target_table,
             operation_type=operation_type,

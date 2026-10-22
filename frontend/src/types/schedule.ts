@@ -5,9 +5,10 @@ export type DynamicValue = { $dynamic: string; offset?: number }
 export type ScheduleParamValue = PreviewValue | string[] | DynamicValue
 
 export interface SchedulePayload {
+  job_type: 'API_SYNC' | 'SQL_TRANSFORM'
   name: string
   description?: string | null
-  api_name: string
+  api_name?: string | null
   params: Record<string, ScheduleParamValue>
   fields: string[]
   write_mode?: WriteMode
@@ -19,6 +20,11 @@ export interface SchedulePayload {
   max_concurrent_runs: number
   schedule_type?: 'USER' | 'SYSTEM'
   recovery_policy?: ContractRecoveryPolicy
+  target_schema?: string | null
+  target_table?: string | null
+  target_columns?: string[]
+  sql_text?: string | null
+  execution_calendar?: 'ALL_DAYS' | 'TRADE_DAYS'
 }
 
 export interface ScheduleRecord extends SchedulePayload {

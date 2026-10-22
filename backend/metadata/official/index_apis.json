@@ -1,0 +1,4065 @@
+[
+  {
+    "api_name": "rt_idx_min",
+    "api_title": "A股实时分钟",
+    "description": "获取交易所指数实时分钟数据，包括1~60min",
+    "permission_description": "本接口数据需单独开通权限，请参考权限列表，前往权限中心申请（需勾选“指数分钟RT”）",
+    "request_limit": "单次最大1000行数据，可以通过股票代码提取数据，支持逗号分隔的多个代码同时提取",
+    "update_frequency": null,
+    "data_description": "接口：rt_idx_min\n描述：获取交易所指数实时分钟数据，包括1~60min\n限量：单次最大1000行数据，可以通过股票代码提取数据，支持逗号分隔的多个代码同时提取\n权限：本接口数据需单独开通权限，请参考权限列表，前往权限中心申请（需勾选“指数分钟RT”）\n。\n\n注：支持股票当日开盘以来的所有历史分钟数据提取，接口名：rt_idx_min_daily（仅支持一个个指数提取，不同同时提取多个），可以在线开通权限。\n\n输入参数\n\nfreq参数说明",
+    "points_required": null,
+    "row_limit": 1000,
+    "rate_limit": {},
+    "params": [
+      {
+        "name": "freq",
+        "type": "str",
+        "required": true,
+        "description": "1MIN,5MIN,15MIN,30MIN,60MIN （大写）",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 1
+      },
+      {
+        "name": "ts_code",
+        "type": "str",
+        "required": true,
+        "description": "支持单个和多个：000001.SH 或者 000001.SH,399300.SZ",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 2
+      }
+    ],
+    "fields": [
+      {
+        "name": "ts_code",
+        "type": "str",
+        "default": true,
+        "description": "股票代码",
+        "position": 1
+      },
+      {
+        "name": "time",
+        "type": "str",
+        "default": true,
+        "description": "交易时间",
+        "position": 2
+      },
+      {
+        "name": "open",
+        "type": "float",
+        "default": true,
+        "description": "开盘价",
+        "position": 3
+      },
+      {
+        "name": "close",
+        "type": "float",
+        "default": true,
+        "description": "收盘价",
+        "position": 4
+      },
+      {
+        "name": "high",
+        "type": "float",
+        "default": true,
+        "description": "最高价",
+        "position": 5
+      },
+      {
+        "name": "low",
+        "type": "float",
+        "default": true,
+        "description": "最低价",
+        "position": 6
+      },
+      {
+        "name": "vol",
+        "type": "float",
+        "default": true,
+        "description": "成交量(股）",
+        "position": 7
+      },
+      {
+        "name": "amount",
+        "type": "float",
+        "default": true,
+        "description": "成交额（元）",
+        "position": 8
+      }
+    ],
+    "category": "指数专题",
+    "subcategory": "指数专题",
+    "documentation_url": "https://tushare.pro/document/2?doc_id=420",
+    "source_url": "https://tushare.pro/document/2?doc_id=420",
+    "source_hash": "281d2fed80e45bef30fd899489dbcb561a9d9529e32cdb04bbb06e200648f57e",
+    "imported_at": "2026-10-18T03:09:43.414823+00:00",
+    "metadata_review": "AUTO_IMPORTED",
+    "status": "NEEDS_REVIEW",
+    "needs_review": true,
+    "removed_from_source": false,
+    "visible_by_default": true,
+    "maturity": "EXPERIMENTAL",
+    "review_metadata": {},
+    "enabled": true,
+    "unique_keys": [],
+    "pagination": {
+      "supported": false
+    },
+    "fetch_strategy": {
+      "type": "single"
+    },
+    "default_order_by": [],
+    "validation_rules": {},
+    "supports_offset": false,
+    "raw_metadata": {
+      "doc_id": "420",
+      "navigation_title": "指数实时分钟"
+    }
+  },
+  {
+    "api_name": "sw_mins",
+    "api_title": "SW历史分钟",
+    "description": "获取申万指数历史分钟数据",
+    "permission_description": "本接口是单独的权限，具体请参阅积分获取办法",
+    "request_limit": "单次最大5000条，可根据代码或日期循环提取",
+    "update_frequency": null,
+    "data_description": "接口：sw_mins\n描述：获取申万指数历史分钟数据\n限量：单次最大5000条，可根据代码或日期循环提取\n积分：本接口是单独的权限，具体请参阅积分获取办法",
+    "points_required": null,
+    "row_limit": 5000,
+    "rate_limit": {},
+    "params": [
+      {
+        "name": "ts_code",
+        "type": "str",
+        "required": true,
+        "description": "指数代码",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 1
+      },
+      {
+        "name": "freq",
+        "type": "str",
+        "required": true,
+        "description": "分钟频度（1min/5min/15min/30min/60min）",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 2
+      },
+      {
+        "name": "start_date",
+        "type": "str",
+        "required": false,
+        "description": "开始日期 格式：2023-08-25 09:00:00",
+        "format": "YYYY-MM-DD HH:mm:ss",
+        "input_kind": "datetime",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 3
+      },
+      {
+        "name": "end_date",
+        "type": "str",
+        "required": false,
+        "description": "结束时间 格式：2023-08-25 19:00:00",
+        "format": "YYYY-MM-DD HH:mm:ss",
+        "input_kind": "datetime",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 4
+      }
+    ],
+    "fields": [
+      {
+        "name": "ts_code",
+        "type": "str",
+        "default": true,
+        "description": "指数代码",
+        "position": 1
+      },
+      {
+        "name": "trade_time",
+        "type": "str",
+        "default": true,
+        "description": "交易时间",
+        "position": 2
+      },
+      {
+        "name": "open",
+        "type": "float",
+        "default": true,
+        "description": "开盘点数",
+        "position": 3
+      },
+      {
+        "name": "close",
+        "type": "float",
+        "default": true,
+        "description": "收盘点数",
+        "position": 4
+      },
+      {
+        "name": "high",
+        "type": "float",
+        "default": true,
+        "description": "最高点数",
+        "position": 5
+      },
+      {
+        "name": "low",
+        "type": "float",
+        "default": true,
+        "description": "最低点数",
+        "position": 6
+      },
+      {
+        "name": "amount",
+        "type": "float",
+        "default": true,
+        "description": "成交金额（元）",
+        "position": 7
+      },
+      {
+        "name": "vol",
+        "type": "float",
+        "default": true,
+        "description": "成交量（股）",
+        "position": 8
+      }
+    ],
+    "category": "指数专题",
+    "subcategory": "指数专题",
+    "documentation_url": "https://tushare.pro/document/2?doc_id=469",
+    "source_url": "https://tushare.pro/document/2?doc_id=469",
+    "source_hash": "dc159f1dc7e311dbd689e6c4f05c0c2c95f8716b899c06211b7044ce06e96e07",
+    "imported_at": "2026-10-18T03:09:43.414823+00:00",
+    "metadata_review": "AUTO_IMPORTED",
+    "status": "NEEDS_REVIEW",
+    "needs_review": true,
+    "removed_from_source": false,
+    "visible_by_default": true,
+    "maturity": "EXPERIMENTAL",
+    "review_metadata": {},
+    "enabled": true,
+    "unique_keys": [],
+    "pagination": {
+      "supported": false
+    },
+    "fetch_strategy": {
+      "type": "single"
+    },
+    "default_order_by": [],
+    "validation_rules": {},
+    "supports_offset": false,
+    "raw_metadata": {
+      "doc_id": "469",
+      "navigation_title": "SW历史分钟"
+    }
+  },
+  {
+    "api_name": "ci_index_member",
+    "api_title": "中信行业成分",
+    "description": "按三级分类提取中信行业成分，可提供某个分类的所有成分，也可按股票代码提取所属分类，参数灵活",
+    "permission_description": "用户需5000积分可调取，积分获取方法请参阅积分获取办法",
+    "request_limit": "单次最大5000行，总量不限制",
+    "update_frequency": null,
+    "data_description": "接口：ci_index_member\n描述：按三级分类提取中信行业成分，可提供某个分类的所有成分，也可按股票代码提取所属分类，参数灵活\n限量：单次最大5000行，总量不限制\n权限：用户需5000积分可调取，积分获取方法请参阅积分获取办法\n\n输入参数\n\n输出参数\n\n接口示例",
+    "points_required": 5000,
+    "row_limit": 5000,
+    "rate_limit": {},
+    "params": [
+      {
+        "name": "l1_code",
+        "type": "str",
+        "required": false,
+        "description": "一级行业代码",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 1
+      },
+      {
+        "name": "l2_code",
+        "type": "str",
+        "required": false,
+        "description": "二级行业代码",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 2
+      },
+      {
+        "name": "l3_code",
+        "type": "str",
+        "required": false,
+        "description": "三级行业代码",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 3
+      },
+      {
+        "name": "ts_code",
+        "type": "str",
+        "required": false,
+        "description": "股票代码",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 4
+      },
+      {
+        "name": "is_new",
+        "type": "str",
+        "required": false,
+        "description": "是否最新（默认为“Y是”）",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 5
+      }
+    ],
+    "fields": [
+      {
+        "name": "l1_code",
+        "type": "str",
+        "default": true,
+        "description": "一级行业代码",
+        "position": 1
+      },
+      {
+        "name": "l1_name",
+        "type": "str",
+        "default": true,
+        "description": "一级行业名称",
+        "position": 2
+      },
+      {
+        "name": "l2_code",
+        "type": "str",
+        "default": true,
+        "description": "二级行业代码",
+        "position": 3
+      },
+      {
+        "name": "l2_name",
+        "type": "str",
+        "default": true,
+        "description": "二级行业名称",
+        "position": 4
+      },
+      {
+        "name": "l3_code",
+        "type": "str",
+        "default": true,
+        "description": "三级行业代码",
+        "position": 5
+      },
+      {
+        "name": "l3_name",
+        "type": "str",
+        "default": true,
+        "description": "三级行业名称",
+        "position": 6
+      },
+      {
+        "name": "ts_code",
+        "type": "str",
+        "default": true,
+        "description": "成分股票代码",
+        "position": 7
+      },
+      {
+        "name": "name",
+        "type": "str",
+        "default": true,
+        "description": "成分股票名称",
+        "position": 8
+      },
+      {
+        "name": "in_date",
+        "type": "str",
+        "default": true,
+        "description": "纳入日期",
+        "position": 9
+      },
+      {
+        "name": "out_date",
+        "type": "str",
+        "default": true,
+        "description": "剔除日期",
+        "position": 10
+      },
+      {
+        "name": "is_new",
+        "type": "str",
+        "default": true,
+        "description": "是否最新Y是N否",
+        "position": 11
+      }
+    ],
+    "category": "指数专题",
+    "subcategory": "指数专题",
+    "documentation_url": "https://tushare.pro/document/2?doc_id=373",
+    "source_url": "https://tushare.pro/document/2?doc_id=373",
+    "source_hash": "3e18c99ea27d2b4e8b42fe574c9319ebe2d4c9c445c33f96b7a48a07b3aa8612",
+    "imported_at": "2026-10-18T03:09:43.414823+00:00",
+    "metadata_review": "AUTO_IMPORTED",
+    "status": "NEEDS_REVIEW",
+    "needs_review": true,
+    "removed_from_source": false,
+    "visible_by_default": true,
+    "maturity": "EXPERIMENTAL",
+    "review_metadata": {},
+    "enabled": true,
+    "unique_keys": [],
+    "pagination": {
+      "supported": false
+    },
+    "fetch_strategy": {
+      "type": "single"
+    },
+    "default_order_by": [],
+    "validation_rules": {},
+    "supports_offset": false,
+    "raw_metadata": {
+      "doc_id": "373",
+      "navigation_title": "中信行业成分"
+    }
+  },
+  {
+    "api_name": "ci_daily",
+    "api_title": "中信行业指数行情",
+    "description": "获取中信行业指数日线行情；中信不再披露高开低成交量成交额字段",
+    "permission_description": "5000积分可调取，可通过指数代码和日期参数循环获取所有数据",
+    "request_limit": "单次最大4000条，可循环提取",
+    "update_frequency": null,
+    "data_description": "接口：ci_daily\n描述：获取中信行业指数日线行情；中信不再披露高开低成交量成交额字段\n限量：单次最大4000条，可循环提取\n积分：5000积分可调取，可通过指数代码和日期参数循环获取所有数据\n\n输入参数\n\n输出参数\n\n接口示例",
+    "points_required": 5000,
+    "row_limit": 4000,
+    "rate_limit": {},
+    "params": [
+      {
+        "name": "ts_code",
+        "type": "str",
+        "required": false,
+        "description": "行业代码",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 1
+      },
+      {
+        "name": "trade_date",
+        "type": "str",
+        "required": false,
+        "description": "交易日期（YYYYMMDD格式，下同）",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 2
+      },
+      {
+        "name": "start_date",
+        "type": "str",
+        "required": false,
+        "description": "开始日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 3
+      },
+      {
+        "name": "end_date",
+        "type": "str",
+        "required": false,
+        "description": "结束日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 4
+      }
+    ],
+    "fields": [
+      {
+        "name": "ts_code",
+        "type": "str",
+        "default": true,
+        "description": "指数代码",
+        "position": 1
+      },
+      {
+        "name": "trade_date",
+        "type": "str",
+        "default": true,
+        "description": "交易日期",
+        "position": 2
+      },
+      {
+        "name": "open",
+        "type": "float",
+        "default": true,
+        "description": "开盘点位",
+        "position": 3
+      },
+      {
+        "name": "low",
+        "type": "float",
+        "default": true,
+        "description": "最低点位",
+        "position": 4
+      },
+      {
+        "name": "high",
+        "type": "float",
+        "default": true,
+        "description": "最高点位",
+        "position": 5
+      },
+      {
+        "name": "close",
+        "type": "float",
+        "default": true,
+        "description": "收盘点位",
+        "position": 6
+      },
+      {
+        "name": "pre_close",
+        "type": "float",
+        "default": true,
+        "description": "昨日收盘点位",
+        "position": 7
+      },
+      {
+        "name": "change",
+        "type": "float",
+        "default": true,
+        "description": "涨跌点位",
+        "position": 8
+      },
+      {
+        "name": "pct_change",
+        "type": "float",
+        "default": true,
+        "description": "涨跌幅",
+        "position": 9
+      },
+      {
+        "name": "vol",
+        "type": "float",
+        "default": true,
+        "description": "成交量（万股）",
+        "position": 10
+      },
+      {
+        "name": "amount",
+        "type": "float",
+        "default": true,
+        "description": "成交额（万元）",
+        "position": 11
+      }
+    ],
+    "category": "指数专题",
+    "subcategory": "指数专题",
+    "documentation_url": "https://tushare.pro/document/2?doc_id=308",
+    "source_url": "https://tushare.pro/document/2?doc_id=308",
+    "source_hash": "068cf89a5bc80b9d462cc04861aa72ab2fdac5190c2568a9fc09731bee7eef63",
+    "imported_at": "2026-10-18T03:09:43.414823+00:00",
+    "metadata_review": "AUTO_IMPORTED",
+    "status": "NEEDS_REVIEW",
+    "needs_review": true,
+    "removed_from_source": false,
+    "visible_by_default": true,
+    "maturity": "EXPERIMENTAL",
+    "review_metadata": {},
+    "enabled": true,
+    "unique_keys": [],
+    "pagination": {
+      "supported": false
+    },
+    "fetch_strategy": {
+      "type": "single"
+    },
+    "default_order_by": [],
+    "validation_rules": {},
+    "supports_offset": false,
+    "raw_metadata": {
+      "doc_id": "308",
+      "navigation_title": "中信行业指数日行情"
+    }
+  },
+  {
+    "api_name": "index_global",
+    "api_title": "国际指数",
+    "description": "获取国际主要指数日线行情",
+    "permission_description": "用户积6000积分可调取，积分越高频次越高，请自行提高积分，具体请参阅积分获取办法",
+    "request_limit": "单次最大提取4000行情数据，可循环获取，总量不限制",
+    "update_frequency": null,
+    "data_description": "接口：index_global，可以通过数据工具调试和查看数据。\n描述：获取国际主要指数日线行情\n限量：单次最大提取4000行情数据，可循环获取，总量不限制\n积分：用户积6000积分可调取，积分越高频次越高，请自行提高积分，具体请参阅积分获取办法\n\n输入参数\n\n输出参数\n\n接口使用",
+    "points_required": 6000,
+    "row_limit": 4000,
+    "rate_limit": {},
+    "params": [
+      {
+        "name": "ts_code",
+        "type": "str",
+        "required": false,
+        "description": "TS指数代码，见下表",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 1
+      },
+      {
+        "name": "trade_date",
+        "type": "str",
+        "required": false,
+        "description": "交易日期，YYYYMMDD格式，下同",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 2
+      },
+      {
+        "name": "start_date",
+        "type": "str",
+        "required": false,
+        "description": "开始日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 3
+      },
+      {
+        "name": "end_date",
+        "type": "str",
+        "required": false,
+        "description": "结束日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 4
+      }
+    ],
+    "fields": [
+      {
+        "name": "ts_code",
+        "type": "str",
+        "default": true,
+        "description": "TS指数代码",
+        "position": 1
+      },
+      {
+        "name": "trade_date",
+        "type": "str",
+        "default": true,
+        "description": "交易日",
+        "position": 2
+      },
+      {
+        "name": "open",
+        "type": "float",
+        "default": true,
+        "description": "开盘点位",
+        "position": 3
+      },
+      {
+        "name": "close",
+        "type": "float",
+        "default": true,
+        "description": "收盘点位",
+        "position": 4
+      },
+      {
+        "name": "high",
+        "type": "float",
+        "default": true,
+        "description": "最高点位",
+        "position": 5
+      },
+      {
+        "name": "low",
+        "type": "float",
+        "default": true,
+        "description": "最低点位",
+        "position": 6
+      },
+      {
+        "name": "pre_close",
+        "type": "float",
+        "default": true,
+        "description": "昨日收盘点",
+        "position": 7
+      },
+      {
+        "name": "change",
+        "type": "float",
+        "default": true,
+        "description": "涨跌点位",
+        "position": 8
+      },
+      {
+        "name": "pct_chg",
+        "type": "float",
+        "default": true,
+        "description": "涨跌幅",
+        "position": 9
+      },
+      {
+        "name": "swing",
+        "type": "float",
+        "default": true,
+        "description": "振幅",
+        "position": 10
+      },
+      {
+        "name": "vol",
+        "type": "float",
+        "default": true,
+        "description": "成交量 （大部分无此项数据）",
+        "position": 11
+      },
+      {
+        "name": "amount",
+        "type": "float",
+        "default": false,
+        "description": "成交额 （大部分无此项数据）",
+        "position": 12
+      }
+    ],
+    "category": "指数专题",
+    "subcategory": "指数专题",
+    "documentation_url": "https://tushare.pro/document/2?doc_id=211",
+    "source_url": "https://tushare.pro/document/2?doc_id=211",
+    "source_hash": "23948ac58eb87a923d1fb28a707b54829738ce7bc0d5ea81a80865986aae3530",
+    "imported_at": "2026-10-18T03:09:43.414823+00:00",
+    "metadata_review": "AUTO_IMPORTED",
+    "status": "NEEDS_REVIEW",
+    "needs_review": true,
+    "removed_from_source": false,
+    "visible_by_default": true,
+    "maturity": "EXPERIMENTAL",
+    "review_metadata": {},
+    "enabled": true,
+    "unique_keys": [],
+    "pagination": {
+      "supported": false
+    },
+    "fetch_strategy": {
+      "type": "single"
+    },
+    "default_order_by": [],
+    "validation_rules": {},
+    "supports_offset": false,
+    "raw_metadata": {
+      "doc_id": "211",
+      "navigation_title": "国际主要指数"
+    }
+  },
+  {
+    "api_name": "index_dailybasic",
+    "api_title": "大盘指数每日指标",
+    "description": "目前只提供上证综指，深证成指，上证50，中证500，中证1000，中小板指，创业板50 ，创业板指，科创50的每日指标数据。",
+    "permission_description": null,
+    "request_limit": null,
+    "update_frequency": null,
+    "data_description": "接口：index_dailybasic，可以通过数据工具调试和查看数据。\n描述：目前只提供上证综指，深证成指，上证50，中证500，中证1000，中小板指，创业板50 ，创业板指，科创50的每日指标数据。\n数据来源：Tushare社区统计计算\n数据历史：从2004年1月开始提供\n数据权限：用户需要至少2000积分才可以调取，具体请参阅积分获取办法\n\n输入参数\n\n注：trade_date，ts_code 至少要输入一个参数，单次限量3000条（即，单一指数单次可提取超过12年历史），总量不限制。\n\n输出参数",
+    "points_required": 2000,
+    "row_limit": 3000,
+    "rate_limit": {},
+    "params": [
+      {
+        "name": "trade_date",
+        "type": "str",
+        "required": false,
+        "description": "交易日期 （格式：YYYYMMDD，比如20181018，下同）",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 1
+      },
+      {
+        "name": "ts_code",
+        "type": "str",
+        "required": false,
+        "description": "TS代码",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 2
+      },
+      {
+        "name": "start_date",
+        "type": "str",
+        "required": false,
+        "description": "开始日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 3
+      },
+      {
+        "name": "end_date",
+        "type": "str",
+        "required": false,
+        "description": "结束日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 4
+      }
+    ],
+    "fields": [
+      {
+        "name": "ts_code",
+        "type": "str",
+        "default": true,
+        "description": "TS代码",
+        "position": 1
+      },
+      {
+        "name": "trade_date",
+        "type": "str",
+        "default": true,
+        "description": "交易日期",
+        "position": 2
+      },
+      {
+        "name": "total_mv",
+        "type": "float",
+        "default": true,
+        "description": "当日总市值（元）",
+        "position": 3
+      },
+      {
+        "name": "float_mv",
+        "type": "float",
+        "default": true,
+        "description": "当日流通市值（元）",
+        "position": 4
+      },
+      {
+        "name": "total_share",
+        "type": "float",
+        "default": true,
+        "description": "当日总股本（股）",
+        "position": 5
+      },
+      {
+        "name": "float_share",
+        "type": "float",
+        "default": true,
+        "description": "当日流通股本（股）",
+        "position": 6
+      },
+      {
+        "name": "free_share",
+        "type": "float",
+        "default": true,
+        "description": "当日自由流通股本（股）",
+        "position": 7
+      },
+      {
+        "name": "turnover_rate",
+        "type": "float",
+        "default": true,
+        "description": "换手率",
+        "position": 8
+      },
+      {
+        "name": "turnover_rate_f",
+        "type": "float",
+        "default": true,
+        "description": "换手率(基于自由流通股本)",
+        "position": 9
+      },
+      {
+        "name": "pe",
+        "type": "float",
+        "default": true,
+        "description": "市盈率",
+        "position": 10
+      },
+      {
+        "name": "pe_ttm",
+        "type": "float",
+        "default": true,
+        "description": "市盈率TTM（最新价除以最近4个季度的每股收益）",
+        "position": 11
+      },
+      {
+        "name": "pb",
+        "type": "float",
+        "default": true,
+        "description": "市净率",
+        "position": 12
+      }
+    ],
+    "category": "指数专题",
+    "subcategory": "指数专题",
+    "documentation_url": "https://tushare.pro/document/2?doc_id=128",
+    "source_url": "https://tushare.pro/document/2?doc_id=128",
+    "source_hash": "9fbec263c7f26fffbdea75229d544347bf8468bedd8bfef21725cffba4ff9899",
+    "imported_at": "2026-10-18T03:09:43.414823+00:00",
+    "metadata_review": "AUTO_IMPORTED",
+    "status": "NEEDS_REVIEW",
+    "needs_review": true,
+    "removed_from_source": false,
+    "visible_by_default": true,
+    "maturity": "EXPERIMENTAL",
+    "review_metadata": {},
+    "enabled": true,
+    "unique_keys": [],
+    "pagination": {
+      "supported": false
+    },
+    "fetch_strategy": {
+      "type": "single"
+    },
+    "default_order_by": [],
+    "validation_rules": {},
+    "supports_offset": false,
+    "raw_metadata": {
+      "doc_id": "128",
+      "navigation_title": "大盘指数每日指标"
+    }
+  },
+  {
+    "api_name": "daily_info",
+    "api_title": "市场交易统计",
+    "description": "获取交易所股票交易统计，包括各板块明细",
+    "permission_description": "用户积600积分可调取， 频次有限制，积分越高每分钟调取频次越高，5000积分以上频次相对较高，积分获取方法请参阅积分获取办法",
+    "request_limit": "单次最大4000，可循环获取，总量不限制",
+    "update_frequency": null,
+    "data_description": "接口：daily_info\n描述：获取交易所股票交易统计，包括各板块明细\n限量：单次最大4000，可循环获取，总量不限制\n权限：用户积600积分可调取， 频次有限制，积分越高每分钟调取频次越高，5000积分以上频次相对较高，积分获取方法请参阅积分获取办法\n\n输入参数\n\n输出参数\n\n接口示例",
+    "points_required": 600,
+    "row_limit": null,
+    "rate_limit": {},
+    "params": [
+      {
+        "name": "trade_date",
+        "type": "str",
+        "required": false,
+        "description": "交易日期（YYYYMMDD格式，下同）",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 1
+      },
+      {
+        "name": "ts_code",
+        "type": "str",
+        "required": false,
+        "description": "板块代码（请参阅下方列表）",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 2
+      },
+      {
+        "name": "exchange",
+        "type": "str",
+        "required": false,
+        "description": "股票市场（SH上交所 SZ深交所）",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 3
+      },
+      {
+        "name": "start_date",
+        "type": "str",
+        "required": false,
+        "description": "开始日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 4
+      },
+      {
+        "name": "end_date",
+        "type": "str",
+        "required": false,
+        "description": "结束日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 5
+      },
+      {
+        "name": "fields",
+        "type": "str",
+        "required": false,
+        "description": "指定提取字段",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 6
+      }
+    ],
+    "fields": [
+      {
+        "name": "trade_date",
+        "type": "str",
+        "default": true,
+        "description": "交易日期",
+        "position": 1
+      },
+      {
+        "name": "ts_code",
+        "type": "str",
+        "default": true,
+        "description": "市场代码",
+        "position": 2
+      },
+      {
+        "name": "ts_name",
+        "type": "str",
+        "default": true,
+        "description": "市场名称",
+        "position": 3
+      },
+      {
+        "name": "com_count",
+        "type": "int",
+        "default": true,
+        "description": "挂牌数",
+        "position": 4
+      },
+      {
+        "name": "total_share",
+        "type": "float",
+        "default": true,
+        "description": "总股本（亿股）",
+        "position": 5
+      },
+      {
+        "name": "float_share",
+        "type": "float",
+        "default": true,
+        "description": "流通股本（亿股）",
+        "position": 6
+      },
+      {
+        "name": "total_mv",
+        "type": "float",
+        "default": true,
+        "description": "总市值（亿元）",
+        "position": 7
+      },
+      {
+        "name": "float_mv",
+        "type": "float",
+        "default": true,
+        "description": "流通市值（亿元）",
+        "position": 8
+      },
+      {
+        "name": "amount",
+        "type": "float",
+        "default": true,
+        "description": "交易金额（亿元）",
+        "position": 9
+      },
+      {
+        "name": "vol",
+        "type": "float",
+        "default": true,
+        "description": "成交量（亿股）",
+        "position": 10
+      },
+      {
+        "name": "trans_count",
+        "type": "int",
+        "default": true,
+        "description": "成交笔数（万笔）",
+        "position": 11
+      },
+      {
+        "name": "pe",
+        "type": "float",
+        "default": true,
+        "description": "平均市盈率",
+        "position": 12
+      },
+      {
+        "name": "tr",
+        "type": "float",
+        "default": true,
+        "description": "换手率（％），注：深交所暂无此列",
+        "position": 13
+      },
+      {
+        "name": "exchange",
+        "type": "str",
+        "default": true,
+        "description": "交易所（SH上交所 SZ深交所）",
+        "position": 14
+      }
+    ],
+    "category": "指数专题",
+    "subcategory": "指数专题",
+    "documentation_url": "https://tushare.pro/document/2?doc_id=215",
+    "source_url": "https://tushare.pro/document/2?doc_id=215",
+    "source_hash": "a734abdf24bace37efbedf1ac7ac5eb564b198f2935f80ab782ec5581e0fc174",
+    "imported_at": "2026-10-18T03:09:43.414823+00:00",
+    "metadata_review": "AUTO_IMPORTED",
+    "status": "NEEDS_REVIEW",
+    "needs_review": true,
+    "removed_from_source": false,
+    "visible_by_default": true,
+    "maturity": "EXPERIMENTAL",
+    "review_metadata": {},
+    "enabled": true,
+    "unique_keys": [],
+    "pagination": {
+      "supported": false
+    },
+    "fetch_strategy": {
+      "type": "single"
+    },
+    "default_order_by": [],
+    "validation_rules": {},
+    "supports_offset": false,
+    "raw_metadata": {
+      "doc_id": "215",
+      "navigation_title": "沪深市场每日交易统计"
+    }
+  },
+  {
+    "api_name": "idx_anns",
+    "api_title": "指数公司公告",
+    "description": "获取指数公司披露的相关公告信息，包括中证指数、国证指数、恒生指数和华证指数的及时与历史公告信息，跟踪指数最新信息和发展方向。数据开始2018-06-01，每隔1小时更新一次。",
+    "permission_description": "需要6000积分可以调取，具体请参阅积分获取办法",
+    "request_limit": "单次最大返回1000条数据，50频次/分钟，1000频次/天，可根据日期循环提取",
+    "update_frequency": null,
+    "data_description": "接口：idx_anns\n描述：获取指数公司披露的相关公告信息，包括中证指数、国证指数、恒生指数和华证指数的及时与历史公告信息，跟踪指数最新信息和发展方向。数据开始2018-06-01，每隔1小时更新一次。\n限量：单次最大返回1000条数据，50频次/分钟，1000频次/天，可根据日期循环提取\n积分：需要6000积分可以调取，具体请参阅积分获取办法\n\n注：恒生指数 历史数据从2020年开始",
+    "points_required": 6000,
+    "row_limit": 1000,
+    "rate_limit": {},
+    "params": [
+      {
+        "name": "ann_date",
+        "type": "str",
+        "required": false,
+        "description": "公告日期（YYYYMMDD格式，下同）",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 1
+      },
+      {
+        "name": "start_date",
+        "type": "str",
+        "required": false,
+        "description": "公告开始日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 2
+      },
+      {
+        "name": "end_date",
+        "type": "str",
+        "required": false,
+        "description": "公告结束日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 3
+      },
+      {
+        "name": "src",
+        "type": "str",
+        "required": false,
+        "description": "信息来源（中证指数、国证指数、恒生指数、华证指数）",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 4
+      }
+    ],
+    "fields": [
+      {
+        "name": "ann_date",
+        "type": "str",
+        "default": true,
+        "description": "公告日期",
+        "position": 1
+      },
+      {
+        "name": "title",
+        "type": "str",
+        "default": true,
+        "description": "标题",
+        "position": 2
+      },
+      {
+        "name": "url",
+        "type": "str",
+        "default": true,
+        "description": "链接",
+        "position": 3
+      },
+      {
+        "name": "source",
+        "type": "str",
+        "default": true,
+        "description": "来源",
+        "position": 4
+      },
+      {
+        "name": "type",
+        "type": "str",
+        "default": true,
+        "description": "类型(指数发布、指数修订、指数更名、其他）",
+        "position": 5
+      }
+    ],
+    "category": "指数专题",
+    "subcategory": "指数专题",
+    "documentation_url": "https://tushare.pro/document/2?doc_id=460",
+    "source_url": "https://tushare.pro/document/2?doc_id=460",
+    "source_hash": "703e35beff9070867acc35b0bd3163da81daf059385fb2614f6dca39965ac987",
+    "imported_at": "2026-10-18T03:09:43.414823+00:00",
+    "metadata_review": "AUTO_IMPORTED",
+    "status": "NEEDS_REVIEW",
+    "needs_review": true,
+    "removed_from_source": false,
+    "visible_by_default": true,
+    "maturity": "EXPERIMENTAL",
+    "review_metadata": {},
+    "enabled": true,
+    "unique_keys": [],
+    "pagination": {
+      "supported": false
+    },
+    "fetch_strategy": {
+      "type": "single"
+    },
+    "default_order_by": [],
+    "validation_rules": {},
+    "supports_offset": false,
+    "raw_metadata": {
+      "doc_id": "460",
+      "navigation_title": "指数公司公告"
+    }
+  },
+  {
+    "api_name": "idx_mins",
+    "api_title": "指数历史分钟行情",
+    "description": "获取交易所指数分钟数据，支持1min/5min/15min/30min/60min行情，提供Python SDK和 http Restful API两种方式",
+    "permission_description": "本接口数据需单独开通权限，请参考权限列表，前往权限中心申请（需勾选“指数历史分钟”）",
+    "request_limit": "单次最大8000行数据，可以通过指数代码和时间循环获取，本接口可以提供超过10年历史分钟数据",
+    "update_frequency": null,
+    "data_description": "接口：idx_mins\n描述：获取交易所指数分钟数据，支持1min/5min/15min/30min/60min行情，提供Python SDK和 http Restful API两种方式\n限量：单次最大8000行数据，可以通过指数代码和时间循环获取，本接口可以提供超过10年历史分钟数据\n权限：本接口数据需单独开通权限，请参考权限列表，前往权限中心申请（需勾选“指数历史分钟”）\n。\n\n输入参数\n\nfreq参数说明\n\n输出参数",
+    "points_required": null,
+    "row_limit": 8000,
+    "rate_limit": {},
+    "params": [
+      {
+        "name": "ts_code",
+        "type": "str",
+        "required": true,
+        "description": "指数代码，e.g. 000001.SH",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 1
+      },
+      {
+        "name": "freq",
+        "type": "str",
+        "required": true,
+        "description": "分钟频度（1min/5min/15min/30min/60min）",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 2
+      },
+      {
+        "name": "start_date",
+        "type": "str",
+        "required": false,
+        "description": "开始日期 格式：2023-08-25 09:00:00",
+        "format": "YYYY-MM-DD HH:mm:ss",
+        "input_kind": "datetime",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 3
+      },
+      {
+        "name": "end_date",
+        "type": "str",
+        "required": false,
+        "description": "结束时间 格式：2023-08-25 19:00:00",
+        "format": "YYYY-MM-DD HH:mm:ss",
+        "input_kind": "datetime",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 4
+      }
+    ],
+    "fields": [
+      {
+        "name": "ts_code",
+        "type": "str",
+        "default": true,
+        "description": "指数代码",
+        "position": 1
+      },
+      {
+        "name": "trade_time",
+        "type": "str",
+        "default": true,
+        "description": "交易时间",
+        "position": 2
+      },
+      {
+        "name": "open",
+        "type": "float",
+        "default": true,
+        "description": "开盘价",
+        "position": 3
+      },
+      {
+        "name": "close",
+        "type": "float",
+        "default": true,
+        "description": "收盘价",
+        "position": 4
+      },
+      {
+        "name": "high",
+        "type": "float",
+        "default": true,
+        "description": "最高价",
+        "position": 5
+      },
+      {
+        "name": "low",
+        "type": "float",
+        "default": true,
+        "description": "最低价",
+        "position": 6
+      },
+      {
+        "name": "vol",
+        "type": "int",
+        "default": true,
+        "description": "成交量(股)",
+        "position": 7
+      },
+      {
+        "name": "amount",
+        "type": "float",
+        "default": true,
+        "description": "成交金额（元）",
+        "position": 8
+      }
+    ],
+    "category": "指数专题",
+    "subcategory": "指数专题",
+    "documentation_url": "https://tushare.pro/document/2?doc_id=419",
+    "source_url": "https://tushare.pro/document/2?doc_id=419",
+    "source_hash": "49c7bfac2abbda1207a4c03b3dc99c525ccf414fdaf720378b98775027f47bf9",
+    "imported_at": "2026-10-18T03:09:43.414823+00:00",
+    "metadata_review": "AUTO_IMPORTED",
+    "status": "NEEDS_REVIEW",
+    "needs_review": true,
+    "removed_from_source": false,
+    "visible_by_default": true,
+    "maturity": "EXPERIMENTAL",
+    "review_metadata": {},
+    "enabled": true,
+    "unique_keys": [],
+    "pagination": {
+      "supported": false
+    },
+    "fetch_strategy": {
+      "type": "single"
+    },
+    "default_order_by": [],
+    "validation_rules": {},
+    "supports_offset": false,
+    "raw_metadata": {
+      "doc_id": "419",
+      "navigation_title": "指数历史分钟"
+    }
+  },
+  {
+    "api_name": "index_weekly",
+    "api_title": "指数周线行情",
+    "description": "获取指数周线行情",
+    "permission_description": "用户需要至少600积分才可以调取，积分越多频次越高，具体请参阅积分获取办法",
+    "request_limit": "单次最大1000行记录，可分批获取，总量不限制",
+    "update_frequency": null,
+    "data_description": "接口：index_weekly\n描述：获取指数周线行情\n限量：单次最大1000行记录，可分批获取，总量不限制\n积分：用户需要至少600积分才可以调取，积分越多频次越高，具体请参阅积分获取办法\n\n输入参数\n\n输出参数\n\n接口用法",
+    "points_required": 600,
+    "row_limit": 1000,
+    "rate_limit": {},
+    "params": [
+      {
+        "name": "ts_code",
+        "type": "str",
+        "required": false,
+        "description": "TS代码",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 1
+      },
+      {
+        "name": "trade_date",
+        "type": "str",
+        "required": false,
+        "description": "交易日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 2
+      },
+      {
+        "name": "start_date",
+        "type": "str",
+        "required": false,
+        "description": "开始日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 3
+      },
+      {
+        "name": "end_date",
+        "type": "str",
+        "required": false,
+        "description": "结束日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 4
+      }
+    ],
+    "fields": [
+      {
+        "name": "ts_code",
+        "type": "str",
+        "default": true,
+        "description": "TS指数代码",
+        "position": 1
+      },
+      {
+        "name": "trade_date",
+        "type": "str",
+        "default": true,
+        "description": "交易日",
+        "position": 2
+      },
+      {
+        "name": "close",
+        "type": "float",
+        "default": true,
+        "description": "收盘点位",
+        "position": 3
+      },
+      {
+        "name": "open",
+        "type": "float",
+        "default": true,
+        "description": "开盘点位",
+        "position": 4
+      },
+      {
+        "name": "high",
+        "type": "float",
+        "default": true,
+        "description": "最高点位",
+        "position": 5
+      },
+      {
+        "name": "low",
+        "type": "float",
+        "default": true,
+        "description": "最低点位",
+        "position": 6
+      },
+      {
+        "name": "pre_close",
+        "type": "float",
+        "default": true,
+        "description": "昨日收盘点",
+        "position": 7
+      },
+      {
+        "name": "change",
+        "type": "float",
+        "default": true,
+        "description": "涨跌点位",
+        "position": 8
+      },
+      {
+        "name": "pct_chg",
+        "type": "float",
+        "default": true,
+        "description": "涨跌幅",
+        "position": 9
+      },
+      {
+        "name": "vol",
+        "type": "float",
+        "default": true,
+        "description": "成交量（手）",
+        "position": 10
+      },
+      {
+        "name": "amount",
+        "type": "float",
+        "default": true,
+        "description": "成交额（千元）",
+        "position": 11
+      }
+    ],
+    "category": "指数专题",
+    "subcategory": "指数专题",
+    "documentation_url": "https://tushare.pro/document/2?doc_id=171",
+    "source_url": "https://tushare.pro/document/2?doc_id=171",
+    "source_hash": "8e13c9ce3695f186d83bc9ce5651d4effe921416bfc6877a7db576b90ae937e3",
+    "imported_at": "2026-10-18T03:09:43.414823+00:00",
+    "metadata_review": "AUTO_IMPORTED",
+    "status": "NEEDS_REVIEW",
+    "needs_review": true,
+    "removed_from_source": false,
+    "visible_by_default": true,
+    "maturity": "EXPERIMENTAL",
+    "review_metadata": {},
+    "enabled": true,
+    "unique_keys": [],
+    "pagination": {
+      "supported": false
+    },
+    "fetch_strategy": {
+      "type": "single"
+    },
+    "default_order_by": [],
+    "validation_rules": {},
+    "supports_offset": false,
+    "raw_metadata": {
+      "doc_id": "171",
+      "navigation_title": "指数周线行情"
+    }
+  },
+  {
+    "api_name": "index_basic",
+    "api_title": "指数基本信息",
+    "description": "获取指数基础信息，数据起始时间1990-01-01，每天18点更新，2000积分起，单次返回8000行。",
+    "permission_description": null,
+    "request_limit": null,
+    "update_frequency": null,
+    "data_description": "接口：index_basic，可以通过数据工具调试和查看数据。\n描述：获取指数基础信息，数据起始时间1990-01-01，每天18点更新，2000积分起，单次返回8000行。\n\n输入参数\n\n输出参数\n\n市场说明(market)",
+    "points_required": 2000,
+    "row_limit": 8000,
+    "rate_limit": {},
+    "params": [
+      {
+        "name": "ts_code",
+        "type": "str",
+        "required": false,
+        "description": "TS指数代码",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 1
+      },
+      {
+        "name": "symbol",
+        "type": "str",
+        "required": false,
+        "description": "指数代码，支持多值输入，如000300,000001",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 2
+      },
+      {
+        "name": "name",
+        "type": "str",
+        "required": false,
+        "description": "指数简称",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 3
+      },
+      {
+        "name": "market",
+        "type": "str",
+        "required": false,
+        "description": "交易所或服务商(默认SSE，详见下方说明)",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": "SSE",
+        "constraints": {},
+        "position": 4
+      },
+      {
+        "name": "publisher",
+        "type": "str",
+        "required": false,
+        "description": "发布商",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 5
+      },
+      {
+        "name": "category",
+        "type": "str",
+        "required": false,
+        "description": "指数类别",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 6
+      }
+    ],
+    "fields": [
+      {
+        "name": "ts_code",
+        "type": "str",
+        "default": true,
+        "description": "TS代码",
+        "position": 1
+      },
+      {
+        "name": "name",
+        "type": "str",
+        "default": true,
+        "description": "简称",
+        "position": 2
+      },
+      {
+        "name": "fullname",
+        "type": "str",
+        "default": false,
+        "description": "指数全称",
+        "position": 3
+      },
+      {
+        "name": "market",
+        "type": "str",
+        "default": true,
+        "description": "市场",
+        "position": 4
+      },
+      {
+        "name": "publisher",
+        "type": "str",
+        "default": true,
+        "description": "发布方",
+        "position": 5
+      },
+      {
+        "name": "index_type",
+        "type": "str",
+        "default": false,
+        "description": "指数风格",
+        "position": 6
+      },
+      {
+        "name": "category",
+        "type": "str",
+        "default": true,
+        "description": "指数类别",
+        "position": 7
+      },
+      {
+        "name": "base_date",
+        "type": "str",
+        "default": true,
+        "description": "基期",
+        "position": 8
+      },
+      {
+        "name": "base_point",
+        "type": "float",
+        "default": true,
+        "description": "基点",
+        "position": 9
+      },
+      {
+        "name": "list_date",
+        "type": "str",
+        "default": true,
+        "description": "发布日期",
+        "position": 10
+      },
+      {
+        "name": "weight_rule",
+        "type": "str",
+        "default": false,
+        "description": "加权方式",
+        "position": 11
+      },
+      {
+        "name": "desc",
+        "type": "str",
+        "default": false,
+        "description": "描述",
+        "position": 12
+      },
+      {
+        "name": "exp_date",
+        "type": "str",
+        "default": false,
+        "description": "终止日期",
+        "position": 13
+      }
+    ],
+    "category": "指数专题",
+    "subcategory": "指数专题",
+    "documentation_url": "https://tushare.pro/document/2?doc_id=94",
+    "source_url": "https://tushare.pro/document/2?doc_id=94",
+    "source_hash": "e058a9d1c2c6be89f20199c7822d77554785007a4609f9afa1a449680b7d25d1",
+    "imported_at": "2026-10-18T03:09:43.414823+00:00",
+    "metadata_review": "AUTO_IMPORTED",
+    "status": "NEEDS_REVIEW",
+    "needs_review": true,
+    "removed_from_source": false,
+    "visible_by_default": true,
+    "maturity": "EXPERIMENTAL",
+    "review_metadata": {},
+    "enabled": true,
+    "unique_keys": [],
+    "pagination": {
+      "supported": false
+    },
+    "fetch_strategy": {
+      "type": "single"
+    },
+    "default_order_by": [],
+    "validation_rules": {},
+    "supports_offset": false,
+    "raw_metadata": {
+      "doc_id": "94",
+      "navigation_title": "指数基本信息"
+    }
+  },
+  {
+    "api_name": "rt_idx_k",
+    "api_title": "指数实时日线",
+    "description": "获取交易所指数实时日线行情，支持按代码或代码通配符一次性提取全部交易所指数实时日k线行情",
+    "permission_description": "本接口数据需单独开通权限，请参考权限列表，前往权限中心申请（需勾选“指数日线RT”）",
+    "request_limit": null,
+    "update_frequency": null,
+    "data_description": "接口：rt_idx_k\n描述：获取交易所指数实时日线行情，支持按代码或代码通配符一次性提取全部交易所指数实时日k线行情\n权限：本接口数据需单独开通权限，请参考权限列表，前往权限中心申请（需勾选“指数日线RT”）\n。",
+    "points_required": null,
+    "row_limit": null,
+    "rate_limit": {},
+    "params": [
+      {
+        "name": "ts_code",
+        "type": "str",
+        "required": true,
+        "description": "指数代码，支持通配符方式，e.g. 0*.SH、3*.SZ、000001.SH",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 1
+      }
+    ],
+    "fields": [
+      {
+        "name": "ts_code",
+        "type": "str",
+        "default": true,
+        "description": "指数代码",
+        "position": 1
+      },
+      {
+        "name": "name",
+        "type": "str",
+        "default": true,
+        "description": "指数名称",
+        "position": 2
+      },
+      {
+        "name": "trade_time",
+        "type": "str",
+        "default": true,
+        "description": "交易时间",
+        "position": 3
+      },
+      {
+        "name": "close",
+        "type": "float",
+        "default": true,
+        "description": "现价",
+        "position": 4
+      },
+      {
+        "name": "pre_close",
+        "type": "float",
+        "default": true,
+        "description": "昨收",
+        "position": 5
+      },
+      {
+        "name": "high",
+        "type": "float",
+        "default": true,
+        "description": "最高价",
+        "position": 6
+      },
+      {
+        "name": "open",
+        "type": "float",
+        "default": true,
+        "description": "开盘价",
+        "position": 7
+      },
+      {
+        "name": "low",
+        "type": "float",
+        "default": true,
+        "description": "最低价",
+        "position": 8
+      },
+      {
+        "name": "vol",
+        "type": "float",
+        "default": true,
+        "description": "成交量",
+        "position": 9
+      },
+      {
+        "name": "amount",
+        "type": "float",
+        "default": true,
+        "description": "成交金额（元）",
+        "position": 10
+      }
+    ],
+    "category": "指数专题",
+    "subcategory": "指数专题",
+    "documentation_url": "https://tushare.pro/document/2?doc_id=403",
+    "source_url": "https://tushare.pro/document/2?doc_id=403",
+    "source_hash": "bc10f1c834f9b57dd77470eace951531270c2bdf93f149be0bc38d1b4c2dd7f4",
+    "imported_at": "2026-10-18T03:09:43.414823+00:00",
+    "metadata_review": "AUTO_IMPORTED",
+    "status": "NEEDS_REVIEW",
+    "needs_review": true,
+    "removed_from_source": false,
+    "visible_by_default": true,
+    "maturity": "EXPERIMENTAL",
+    "review_metadata": {},
+    "enabled": true,
+    "unique_keys": [],
+    "pagination": {
+      "supported": false
+    },
+    "fetch_strategy": {
+      "type": "single"
+    },
+    "default_order_by": [],
+    "validation_rules": {},
+    "supports_offset": false,
+    "raw_metadata": {
+      "doc_id": "403",
+      "navigation_title": "指数实时日线"
+    }
+  },
+  {
+    "api_name": "index_weight",
+    "api_title": "指数成分和权重",
+    "description": "获取各类指数成分和权重，月度数据 ，建议输入参数里开始日期和结束日分别输入当月第一天和最后一天的日期。",
+    "permission_description": "用户需要至少2000积分才可以调取，具体请参阅积分获取办法",
+    "request_limit": null,
+    "update_frequency": null,
+    "data_description": "接口：index_weight\n描述：获取各类指数成分和权重，月度数据 ，建议输入参数里开始日期和结束日分别输入当月第一天和最后一天的日期。\n来源：指数公司网站公开数据\n积分：用户需要至少2000积分才可以调取，具体请参阅积分获取办法\n\n输入参数\n\n输出参数\n\n接口调用",
+    "points_required": 2000,
+    "row_limit": null,
+    "rate_limit": {},
+    "params": [
+      {
+        "name": "index_code",
+        "type": "str",
+        "required": true,
+        "description": "指数代码，来源指数基础信息接口",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 1
+      },
+      {
+        "name": "trade_date",
+        "type": "str",
+        "required": false,
+        "description": "交易日期（格式YYYYMMDD，下同）",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 2
+      },
+      {
+        "name": "start_date",
+        "type": "str",
+        "required": false,
+        "description": "开始日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 3
+      },
+      {
+        "name": "end_date",
+        "type": "str",
+        "required": false,
+        "description": "结束日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 4
+      }
+    ],
+    "fields": [
+      {
+        "name": "index_code",
+        "type": "str",
+        "default": true,
+        "description": "指数代码",
+        "position": 1
+      },
+      {
+        "name": "con_code",
+        "type": "str",
+        "default": true,
+        "description": "成分代码",
+        "position": 2
+      },
+      {
+        "name": "trade_date",
+        "type": "str",
+        "default": true,
+        "description": "交易日期",
+        "position": 3
+      },
+      {
+        "name": "weight",
+        "type": "float",
+        "default": true,
+        "description": "权重",
+        "position": 4
+      }
+    ],
+    "category": "指数专题",
+    "subcategory": "指数专题",
+    "documentation_url": "https://tushare.pro/document/2?doc_id=96",
+    "source_url": "https://tushare.pro/document/2?doc_id=96",
+    "source_hash": "f31a662fc7fc5f1d290ea390f97b605577f912bc584e37c864f7ba7ae64a95e4",
+    "imported_at": "2026-10-18T03:09:43.414823+00:00",
+    "metadata_review": "AUTO_IMPORTED",
+    "status": "NEEDS_REVIEW",
+    "needs_review": true,
+    "removed_from_source": false,
+    "visible_by_default": true,
+    "maturity": "EXPERIMENTAL",
+    "review_metadata": {},
+    "enabled": true,
+    "unique_keys": [],
+    "pagination": {
+      "supported": false
+    },
+    "fetch_strategy": {
+      "type": "single"
+    },
+    "default_order_by": [],
+    "validation_rules": {},
+    "supports_offset": false,
+    "raw_metadata": {
+      "doc_id": "96",
+      "navigation_title": "指数成分和权重"
+    }
+  },
+  {
+    "api_name": "idx_factor_pro",
+    "api_title": "指数技术因子(专业版)",
+    "description": "获取指数每日技术面因子数据，用于跟踪指数当前走势情况，数据由Tushare社区自产，覆盖全历史；输出参数_bfq表示不复权描述中说明了因子的默认传参，如需要特殊参数或者更多因子可以联系管理员评估，指数包括大盘指数 申万行业指数 中信指数",
+    "permission_description": "5000积分每分钟可以请求30次，8000积分以上每分钟500次",
+    "request_limit": "单次最大8000",
+    "update_frequency": null,
+    "data_description": "接口：idx_factor_pro\n描述：获取指数每日技术面因子数据，用于跟踪指数当前走势情况，数据由Tushare社区自产，覆盖全历史；输出参数_bfq表示不复权描述中说明了因子的默认传参，如需要特殊参数或者更多因子可以联系管理员评估，指数包括大盘指数 申万行业指数 中信指数\n限量：单次最大8000\n积分：5000积分每分钟可以请求30次，8000积分以上每分钟500次\n\n输入参数\n\n输出参数",
+    "points_required": 5000,
+    "row_limit": null,
+    "rate_limit": {
+      "requests": 500,
+      "period_seconds": 60
+    },
+    "params": [
+      {
+        "name": "ts_code",
+        "type": "str",
+        "required": false,
+        "description": "指数代码(大盘指数 申万指数 中信指数)",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 1
+      },
+      {
+        "name": "start_date",
+        "type": "str",
+        "required": false,
+        "description": "开始日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 2
+      },
+      {
+        "name": "end_date",
+        "type": "str",
+        "required": false,
+        "description": "结束日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 3
+      },
+      {
+        "name": "trade_date",
+        "type": "str",
+        "required": false,
+        "description": "交易日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 4
+      }
+    ],
+    "fields": [
+      {
+        "name": "ts_code",
+        "type": "str",
+        "default": true,
+        "description": "指数代码",
+        "position": 1
+      },
+      {
+        "name": "trade_date",
+        "type": "str",
+        "default": true,
+        "description": "交易日期",
+        "position": 2
+      },
+      {
+        "name": "open",
+        "type": "float",
+        "default": true,
+        "description": "开盘价",
+        "position": 3
+      },
+      {
+        "name": "high",
+        "type": "float",
+        "default": true,
+        "description": "最高价",
+        "position": 4
+      },
+      {
+        "name": "low",
+        "type": "float",
+        "default": true,
+        "description": "最低价",
+        "position": 5
+      },
+      {
+        "name": "close",
+        "type": "float",
+        "default": true,
+        "description": "收盘价",
+        "position": 6
+      },
+      {
+        "name": "pre_close",
+        "type": "float",
+        "default": true,
+        "description": "昨收价",
+        "position": 7
+      },
+      {
+        "name": "change",
+        "type": "float",
+        "default": true,
+        "description": "涨跌额",
+        "position": 8
+      },
+      {
+        "name": "pct_change",
+        "type": "float",
+        "default": true,
+        "description": "涨跌幅 （未复权，如果是复权请用 通用行情接口 ）",
+        "position": 9
+      },
+      {
+        "name": "vol",
+        "type": "float",
+        "default": true,
+        "description": "成交量 （手）",
+        "position": 10
+      },
+      {
+        "name": "amount",
+        "type": "float",
+        "default": true,
+        "description": "成交额 （千元）",
+        "position": 11
+      },
+      {
+        "name": "asi_bfq",
+        "type": "float",
+        "default": true,
+        "description": "振动升降指标-OPEN, CLOSE, HIGH, LOW, M1=26, M2=10",
+        "position": 12
+      },
+      {
+        "name": "asit_bfq",
+        "type": "float",
+        "default": true,
+        "description": "振动升降指标-OPEN, CLOSE, HIGH, LOW, M1=26, M2=10",
+        "position": 13
+      },
+      {
+        "name": "atr_bfq",
+        "type": "float",
+        "default": true,
+        "description": "真实波动N日平均值-CLOSE, HIGH, LOW, N=20",
+        "position": 14
+      },
+      {
+        "name": "bbi_bfq",
+        "type": "float",
+        "default": true,
+        "description": "BBI多空指标-CLOSE, M1=3, M2=6, M3=12, M4=20",
+        "position": 15
+      },
+      {
+        "name": "bias1_bfq",
+        "type": "float",
+        "default": true,
+        "description": "BIAS乖离率-CLOSE, L1=6, L2=12, L3=24",
+        "position": 16
+      },
+      {
+        "name": "bias2_bfq",
+        "type": "float",
+        "default": true,
+        "description": "BIAS乖离率-CLOSE, L1=6, L2=12, L3=24",
+        "position": 17
+      },
+      {
+        "name": "bias3_bfq",
+        "type": "float",
+        "default": true,
+        "description": "BIAS乖离率-CLOSE, L1=6, L2=12, L3=24",
+        "position": 18
+      },
+      {
+        "name": "boll_lower_bfq",
+        "type": "float",
+        "default": true,
+        "description": "BOLL指标，布林带-CLOSE, N=20, P=2",
+        "position": 19
+      },
+      {
+        "name": "boll_mid_bfq",
+        "type": "float",
+        "default": true,
+        "description": "BOLL指标，布林带-CLOSE, N=20, P=2",
+        "position": 20
+      },
+      {
+        "name": "boll_upper_bfq",
+        "type": "float",
+        "default": true,
+        "description": "BOLL指标，布林带-CLOSE, N=20, P=2",
+        "position": 21
+      },
+      {
+        "name": "brar_ar_bfq",
+        "type": "float",
+        "default": true,
+        "description": "BRAR情绪指标-OPEN, CLOSE, HIGH, LOW, M1=26",
+        "position": 22
+      },
+      {
+        "name": "brar_br_bfq",
+        "type": "float",
+        "default": true,
+        "description": "BRAR情绪指标-OPEN, CLOSE, HIGH, LOW, M1=26",
+        "position": 23
+      },
+      {
+        "name": "cci_bfq",
+        "type": "float",
+        "default": true,
+        "description": "顺势指标又叫CCI指标-CLOSE, HIGH, LOW, N=14",
+        "position": 24
+      },
+      {
+        "name": "cr_bfq",
+        "type": "float",
+        "default": true,
+        "description": "CR价格动量指标-CLOSE, HIGH, LOW, N=20",
+        "position": 25
+      },
+      {
+        "name": "dfma_dif_bfq",
+        "type": "float",
+        "default": true,
+        "description": "平行线差指标-CLOSE, N1=10, N2=50, M=10",
+        "position": 26
+      },
+      {
+        "name": "dfma_difma_bfq",
+        "type": "float",
+        "default": true,
+        "description": "平行线差指标-CLOSE, N1=10, N2=50, M=10",
+        "position": 27
+      },
+      {
+        "name": "dmi_adx_bfq",
+        "type": "float",
+        "default": true,
+        "description": "动向指标-CLOSE, HIGH, LOW, M1=14, M2=6",
+        "position": 28
+      },
+      {
+        "name": "dmi_adxr_bfq",
+        "type": "float",
+        "default": true,
+        "description": "动向指标-CLOSE, HIGH, LOW, M1=14, M2=6",
+        "position": 29
+      },
+      {
+        "name": "dmi_mdi_bfq",
+        "type": "float",
+        "default": true,
+        "description": "动向指标-CLOSE, HIGH, LOW, M1=14, M2=6",
+        "position": 30
+      },
+      {
+        "name": "dmi_pdi_bfq",
+        "type": "float",
+        "default": true,
+        "description": "动向指标-CLOSE, HIGH, LOW, M1=14, M2=6",
+        "position": 31
+      },
+      {
+        "name": "downdays",
+        "type": "float",
+        "default": true,
+        "description": "连跌天数",
+        "position": 32
+      },
+      {
+        "name": "updays",
+        "type": "float",
+        "default": true,
+        "description": "连涨天数",
+        "position": 33
+      },
+      {
+        "name": "dpo_bfq",
+        "type": "float",
+        "default": true,
+        "description": "区间震荡线-CLOSE, M1=20, M2=10, M3=6",
+        "position": 34
+      },
+      {
+        "name": "madpo_bfq",
+        "type": "float",
+        "default": true,
+        "description": "区间震荡线-CLOSE, M1=20, M2=10, M3=6",
+        "position": 35
+      },
+      {
+        "name": "ema_bfq_10",
+        "type": "float",
+        "default": true,
+        "description": "指数移动平均-N=10",
+        "position": 36
+      },
+      {
+        "name": "ema_bfq_20",
+        "type": "float",
+        "default": true,
+        "description": "指数移动平均-N=20",
+        "position": 37
+      },
+      {
+        "name": "ema_bfq_250",
+        "type": "float",
+        "default": true,
+        "description": "指数移动平均-N=250",
+        "position": 38
+      },
+      {
+        "name": "ema_bfq_30",
+        "type": "float",
+        "default": true,
+        "description": "指数移动平均-N=30",
+        "position": 39
+      },
+      {
+        "name": "ema_bfq_5",
+        "type": "float",
+        "default": true,
+        "description": "指数移动平均-N=5",
+        "position": 40
+      },
+      {
+        "name": "ema_bfq_60",
+        "type": "float",
+        "default": true,
+        "description": "指数移动平均-N=60",
+        "position": 41
+      },
+      {
+        "name": "ema_bfq_90",
+        "type": "float",
+        "default": true,
+        "description": "指数移动平均-N=90",
+        "position": 42
+      },
+      {
+        "name": "emv_bfq",
+        "type": "float",
+        "default": true,
+        "description": "简易波动指标-HIGH, LOW, VOL, N=14, M=9",
+        "position": 43
+      },
+      {
+        "name": "maemv_bfq",
+        "type": "float",
+        "default": true,
+        "description": "简易波动指标-HIGH, LOW, VOL, N=14, M=9",
+        "position": 44
+      },
+      {
+        "name": "expma_12_bfq",
+        "type": "float",
+        "default": true,
+        "description": "EMA指数平均数指标-CLOSE, N1=12, N2=50",
+        "position": 45
+      },
+      {
+        "name": "expma_50_bfq",
+        "type": "float",
+        "default": true,
+        "description": "EMA指数平均数指标-CLOSE, N1=12, N2=50",
+        "position": 46
+      },
+      {
+        "name": "kdj_bfq",
+        "type": "float",
+        "default": true,
+        "description": "KDJ指标-CLOSE, HIGH, LOW, N=9, M1=3, M2=3",
+        "position": 47
+      },
+      {
+        "name": "kdj_d_bfq",
+        "type": "float",
+        "default": true,
+        "description": "KDJ指标-CLOSE, HIGH, LOW, N=9, M1=3, M2=3",
+        "position": 48
+      },
+      {
+        "name": "kdj_k_bfq",
+        "type": "float",
+        "default": true,
+        "description": "KDJ指标-CLOSE, HIGH, LOW, N=9, M1=3, M2=3",
+        "position": 49
+      },
+      {
+        "name": "ktn_down_bfq",
+        "type": "float",
+        "default": true,
+        "description": "肯特纳交易通道, N选20日，ATR选10日-CLOSE, HIGH, LOW, N=20, M=10",
+        "position": 50
+      },
+      {
+        "name": "ktn_mid_bfq",
+        "type": "float",
+        "default": true,
+        "description": "肯特纳交易通道, N选20日，ATR选10日-CLOSE, HIGH, LOW, N=20, M=10",
+        "position": 51
+      },
+      {
+        "name": "ktn_upper_bfq",
+        "type": "float",
+        "default": true,
+        "description": "肯特纳交易通道, N选20日，ATR选10日-CLOSE, HIGH, LOW, N=20, M=10",
+        "position": 52
+      },
+      {
+        "name": "lowdays",
+        "type": "float",
+        "default": true,
+        "description": "LOWRANGE(LOW)表示当前最低价是近多少周期内最低价的最小值",
+        "position": 53
+      },
+      {
+        "name": "topdays",
+        "type": "float",
+        "default": true,
+        "description": "TOPRANGE(HIGH)表示当前最高价是近多少周期内最高价的最大值",
+        "position": 54
+      },
+      {
+        "name": "ma_bfq_10",
+        "type": "float",
+        "default": true,
+        "description": "简单移动平均-N=10",
+        "position": 55
+      },
+      {
+        "name": "ma_bfq_20",
+        "type": "float",
+        "default": true,
+        "description": "简单移动平均-N=20",
+        "position": 56
+      },
+      {
+        "name": "ma_bfq_250",
+        "type": "float",
+        "default": true,
+        "description": "简单移动平均-N=250",
+        "position": 57
+      },
+      {
+        "name": "ma_bfq_30",
+        "type": "float",
+        "default": true,
+        "description": "简单移动平均-N=30",
+        "position": 58
+      },
+      {
+        "name": "ma_bfq_5",
+        "type": "float",
+        "default": true,
+        "description": "简单移动平均-N=5",
+        "position": 59
+      },
+      {
+        "name": "ma_bfq_60",
+        "type": "float",
+        "default": true,
+        "description": "简单移动平均-N=60",
+        "position": 60
+      },
+      {
+        "name": "ma_bfq_90",
+        "type": "float",
+        "default": true,
+        "description": "简单移动平均-N=90",
+        "position": 61
+      },
+      {
+        "name": "macd_bfq",
+        "type": "float",
+        "default": true,
+        "description": "MACD指标-CLOSE, SHORT=12, LONG=26, M=9",
+        "position": 62
+      },
+      {
+        "name": "macd_dea_bfq",
+        "type": "float",
+        "default": true,
+        "description": "MACD指标-CLOSE, SHORT=12, LONG=26, M=9",
+        "position": 63
+      },
+      {
+        "name": "macd_dif_bfq",
+        "type": "float",
+        "default": true,
+        "description": "MACD指标-CLOSE, SHORT=12, LONG=26, M=9",
+        "position": 64
+      },
+      {
+        "name": "mass_bfq",
+        "type": "float",
+        "default": true,
+        "description": "梅斯线-HIGH, LOW, N1=9, N2=25, M=6",
+        "position": 65
+      },
+      {
+        "name": "ma_mass_bfq",
+        "type": "float",
+        "default": true,
+        "description": "梅斯线-HIGH, LOW, N1=9, N2=25, M=6",
+        "position": 66
+      },
+      {
+        "name": "mfi_bfq",
+        "type": "float",
+        "default": true,
+        "description": "MFI指标是成交量的RSI指标-CLOSE, HIGH, LOW, VOL, N=14",
+        "position": 67
+      },
+      {
+        "name": "mtm_bfq",
+        "type": "float",
+        "default": true,
+        "description": "动量指标-CLOSE, N=12, M=6",
+        "position": 68
+      },
+      {
+        "name": "mtmma_bfq",
+        "type": "float",
+        "default": true,
+        "description": "动量指标-CLOSE, N=12, M=6",
+        "position": 69
+      },
+      {
+        "name": "obv_bfq",
+        "type": "float",
+        "default": true,
+        "description": "能量潮指标-CLOSE, VOL",
+        "position": 70
+      },
+      {
+        "name": "psy_bfq",
+        "type": "float",
+        "default": true,
+        "description": "投资者对股市涨跌产生心理波动的情绪指标-CLOSE, N=12, M=6",
+        "position": 71
+      },
+      {
+        "name": "psyma_bfq",
+        "type": "float",
+        "default": true,
+        "description": "投资者对股市涨跌产生心理波动的情绪指标-CLOSE, N=12, M=6",
+        "position": 72
+      },
+      {
+        "name": "roc_bfq",
+        "type": "float",
+        "default": true,
+        "description": "变动率指标-CLOSE, N=12, M=6",
+        "position": 73
+      },
+      {
+        "name": "maroc_bfq",
+        "type": "float",
+        "default": true,
+        "description": "变动率指标-CLOSE, N=12, M=6",
+        "position": 74
+      },
+      {
+        "name": "rsi_bfq_12",
+        "type": "float",
+        "default": true,
+        "description": "RSI指标-CLOSE, N=12",
+        "position": 75
+      },
+      {
+        "name": "rsi_bfq_24",
+        "type": "float",
+        "default": true,
+        "description": "RSI指标-CLOSE, N=24",
+        "position": 76
+      },
+      {
+        "name": "rsi_bfq_6",
+        "type": "float",
+        "default": true,
+        "description": "RSI指标-CLOSE, N=6",
+        "position": 77
+      },
+      {
+        "name": "taq_down_bfq",
+        "type": "float",
+        "default": true,
+        "description": "唐安奇通道(海龟)交易指标-HIGH, LOW, 20",
+        "position": 78
+      },
+      {
+        "name": "taq_mid_bfq",
+        "type": "float",
+        "default": true,
+        "description": "唐安奇通道(海龟)交易指标-HIGH, LOW, 20",
+        "position": 79
+      },
+      {
+        "name": "taq_up_bfq",
+        "type": "float",
+        "default": true,
+        "description": "唐安奇通道(海龟)交易指标-HIGH, LOW, 20",
+        "position": 80
+      },
+      {
+        "name": "trix_bfq",
+        "type": "float",
+        "default": true,
+        "description": "三重指数平滑平均线-CLOSE, M1=12, M2=20",
+        "position": 81
+      },
+      {
+        "name": "trma_bfq",
+        "type": "float",
+        "default": true,
+        "description": "三重指数平滑平均线-CLOSE, M1=12, M2=20",
+        "position": 82
+      },
+      {
+        "name": "vr_bfq",
+        "type": "float",
+        "default": true,
+        "description": "VR容量比率-CLOSE, VOL, M1=26",
+        "position": 83
+      },
+      {
+        "name": "wr_bfq",
+        "type": "float",
+        "default": true,
+        "description": "W&R 威廉指标-CLOSE, HIGH, LOW, N=10, N1=6",
+        "position": 84
+      },
+      {
+        "name": "wr1_bfq",
+        "type": "float",
+        "default": true,
+        "description": "W&R 威廉指标-CLOSE, HIGH, LOW, N=10, N1=6",
+        "position": 85
+      },
+      {
+        "name": "xsii_td1_bfq",
+        "type": "float",
+        "default": true,
+        "description": "薛斯通道II-CLOSE, HIGH, LOW, N=102, M=7",
+        "position": 86
+      },
+      {
+        "name": "xsii_td2_bfq",
+        "type": "float",
+        "default": true,
+        "description": "薛斯通道II-CLOSE, HIGH, LOW, N=102, M=7",
+        "position": 87
+      },
+      {
+        "name": "xsii_td3_bfq",
+        "type": "float",
+        "default": true,
+        "description": "薛斯通道II-CLOSE, HIGH, LOW, N=102, M=7",
+        "position": 88
+      },
+      {
+        "name": "xsii_td4_bfq",
+        "type": "float",
+        "default": true,
+        "description": "薛斯通道II-CLOSE, HIGH, LOW, N=102, M=7",
+        "position": 89
+      }
+    ],
+    "category": "指数专题",
+    "subcategory": "指数专题",
+    "documentation_url": "https://tushare.pro/document/2?doc_id=358",
+    "source_url": "https://tushare.pro/document/2?doc_id=358",
+    "source_hash": "244d8493fbefbdca4c8cb97fac40741bbef55b539e1150a5708e0f949bdd5913",
+    "imported_at": "2026-10-18T03:09:43.414823+00:00",
+    "metadata_review": "AUTO_IMPORTED",
+    "status": "NEEDS_REVIEW",
+    "needs_review": true,
+    "removed_from_source": false,
+    "visible_by_default": true,
+    "maturity": "EXPERIMENTAL",
+    "review_metadata": {},
+    "enabled": true,
+    "unique_keys": [],
+    "pagination": {
+      "supported": false
+    },
+    "fetch_strategy": {
+      "type": "single"
+    },
+    "default_order_by": [],
+    "validation_rules": {},
+    "supports_offset": false,
+    "raw_metadata": {
+      "doc_id": "358",
+      "navigation_title": "指数技术面因子(专业版)"
+    }
+  },
+  {
+    "api_name": "index_daily",
+    "api_title": "指数日线行情",
+    "description": "获取各类指数每日行情，可通过指数代码和日期循环获取。本接口不包含申万行业指数行情数据。",
+    "permission_description": "用户累积2000积分可调取，5000积分以上频次相对较高，具体请参阅积分获取办法",
+    "request_limit": null,
+    "update_frequency": null,
+    "data_description": "接口：index_daily，可以通过数据工具调试和查看数据。\n描述：获取各类指数每日行情，可通过指数代码和日期循环获取。本接口不包含申万行业指数行情数据。\n权限：用户累积2000积分可调取，5000积分以上频次相对较高，具体请参阅积分获取办法\n\n注意：\n\n1、为什么部分指数的价格和成交跟行情软件的数据不一样？比如深证成指（399001.SZ），该指数普遍看作反映深证A股整体表现的大盘，而实际上只包含500只成分股。而各类行情软件上展示的成交量、成交金额是深市所有A股的股票成交情况，如果需要获得与行情软件上一样的成交数据，可以调取深证A指（399107.SZ）。创业板指（399006）也类似，指数包含100只成份股，行情软件展示的是整个创业板股票成交情况，可以用创业板综指（399102.SZ）来提取数据。\n2. 为什么同样是0开头的指数，有一些后缀是CSI有一些SH？这是根据指数的所属公司来定的：中证指数公司的指数为CSI，上交所的指数为SH，具体请参考pro.index_basic的ts_code。\n\n输入参数",
+    "points_required": 2000,
+    "row_limit": null,
+    "rate_limit": {},
+    "params": [
+      {
+        "name": "ts_code",
+        "type": "str",
+        "required": true,
+        "description": "指数代码，来源指数基础信息接口",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 1
+      },
+      {
+        "name": "trade_date",
+        "type": "str",
+        "required": false,
+        "description": "交易日期 （日期格式：YYYYMMDD，下同）",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 2
+      },
+      {
+        "name": "start_date",
+        "type": "str",
+        "required": false,
+        "description": "开始日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 3
+      },
+      {
+        "name": "end_date",
+        "type": "str",
+        "required": false,
+        "description": "结束日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 4
+      }
+    ],
+    "fields": [
+      {
+        "name": "ts_code",
+        "type": "str",
+        "default": true,
+        "description": "TS指数代码",
+        "position": 1
+      },
+      {
+        "name": "trade_date",
+        "type": "str",
+        "default": true,
+        "description": "交易日",
+        "position": 2
+      },
+      {
+        "name": "close",
+        "type": "float",
+        "default": true,
+        "description": "收盘点位",
+        "position": 3
+      },
+      {
+        "name": "open",
+        "type": "float",
+        "default": true,
+        "description": "开盘点位",
+        "position": 4
+      },
+      {
+        "name": "high",
+        "type": "float",
+        "default": true,
+        "description": "最高点位",
+        "position": 5
+      },
+      {
+        "name": "low",
+        "type": "float",
+        "default": true,
+        "description": "最低点位",
+        "position": 6
+      },
+      {
+        "name": "pre_close",
+        "type": "float",
+        "default": true,
+        "description": "昨日收盘点",
+        "position": 7
+      },
+      {
+        "name": "change",
+        "type": "float",
+        "default": true,
+        "description": "涨跌点",
+        "position": 8
+      },
+      {
+        "name": "pct_chg",
+        "type": "float",
+        "default": true,
+        "description": "涨跌幅（%）",
+        "position": 9
+      },
+      {
+        "name": "vol",
+        "type": "float",
+        "default": true,
+        "description": "成交量（手）",
+        "position": 10
+      },
+      {
+        "name": "amount",
+        "type": "float",
+        "default": true,
+        "description": "成交额（千元）",
+        "position": 11
+      }
+    ],
+    "category": "指数专题",
+    "subcategory": "指数专题",
+    "documentation_url": "https://tushare.pro/document/2?doc_id=95",
+    "source_url": "https://tushare.pro/document/2?doc_id=95",
+    "source_hash": "9c47b05ce7d7679e648218caa072ad88e2ba01d828f63496e999fc3639efcfbd",
+    "imported_at": "2026-10-18T03:09:43.414823+00:00",
+    "metadata_review": "AUTO_IMPORTED",
+    "status": "NEEDS_REVIEW",
+    "needs_review": true,
+    "removed_from_source": false,
+    "visible_by_default": true,
+    "maturity": "EXPERIMENTAL",
+    "review_metadata": {},
+    "enabled": true,
+    "unique_keys": [],
+    "pagination": {
+      "supported": false
+    },
+    "fetch_strategy": {
+      "type": "single"
+    },
+    "default_order_by": [],
+    "validation_rules": {},
+    "supports_offset": false,
+    "raw_metadata": {
+      "doc_id": "95",
+      "navigation_title": "指数日线行情"
+    }
+  },
+  {
+    "api_name": "index_monthly",
+    "api_title": "指数月线行情",
+    "description": "获取指数月线行情,每月更新一次",
+    "permission_description": "用户需要至少600积分才可以调取，积分越多频次越高，具体请参阅积分获取办法",
+    "request_limit": "单次最大1000行记录,可多次获取,总量不限制",
+    "update_frequency": null,
+    "data_description": "接口：index_monthly\n描述：获取指数月线行情,每月更新一次\n限量：单次最大1000行记录,可多次获取,总量不限制\n积分：用户需要至少600积分才可以调取，积分越多频次越高，具体请参阅积分获取办法\n\n输入参数\n\n输出参数\n\n接口用法",
+    "points_required": 600,
+    "row_limit": 1000,
+    "rate_limit": {},
+    "params": [
+      {
+        "name": "ts_code",
+        "type": "str",
+        "required": false,
+        "description": "TS代码",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 1
+      },
+      {
+        "name": "trade_date",
+        "type": "str",
+        "required": false,
+        "description": "交易日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 2
+      },
+      {
+        "name": "start_date",
+        "type": "str",
+        "required": false,
+        "description": "开始日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 3
+      },
+      {
+        "name": "end_date",
+        "type": "str",
+        "required": false,
+        "description": "结束日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 4
+      }
+    ],
+    "fields": [
+      {
+        "name": "ts_code",
+        "type": "str",
+        "default": true,
+        "description": "TS指数代码",
+        "position": 1
+      },
+      {
+        "name": "trade_date",
+        "type": "str",
+        "default": true,
+        "description": "交易日",
+        "position": 2
+      },
+      {
+        "name": "close",
+        "type": "float",
+        "default": true,
+        "description": "收盘点位",
+        "position": 3
+      },
+      {
+        "name": "open",
+        "type": "float",
+        "default": true,
+        "description": "开盘点位",
+        "position": 4
+      },
+      {
+        "name": "high",
+        "type": "float",
+        "default": true,
+        "description": "最高点位",
+        "position": 5
+      },
+      {
+        "name": "low",
+        "type": "float",
+        "default": true,
+        "description": "最低点位",
+        "position": 6
+      },
+      {
+        "name": "pre_close",
+        "type": "float",
+        "default": true,
+        "description": "昨日收盘点",
+        "position": 7
+      },
+      {
+        "name": "change",
+        "type": "float",
+        "default": true,
+        "description": "涨跌点位",
+        "position": 8
+      },
+      {
+        "name": "pct_chg",
+        "type": "float",
+        "default": true,
+        "description": "涨跌幅",
+        "position": 9
+      },
+      {
+        "name": "vol",
+        "type": "float",
+        "default": true,
+        "description": "成交量（手）",
+        "position": 10
+      },
+      {
+        "name": "amount",
+        "type": "float",
+        "default": true,
+        "description": "成交额（千元）",
+        "position": 11
+      }
+    ],
+    "category": "指数专题",
+    "subcategory": "指数专题",
+    "documentation_url": "https://tushare.pro/document/2?doc_id=172",
+    "source_url": "https://tushare.pro/document/2?doc_id=172",
+    "source_hash": "9c0f693ef6450c890fdbad2cd70de69bececb40e64fb5e3bff2f055b5010ed35",
+    "imported_at": "2026-10-18T03:09:43.414823+00:00",
+    "metadata_review": "AUTO_IMPORTED",
+    "status": "NEEDS_REVIEW",
+    "needs_review": true,
+    "removed_from_source": false,
+    "visible_by_default": true,
+    "maturity": "EXPERIMENTAL",
+    "review_metadata": {},
+    "enabled": true,
+    "unique_keys": [],
+    "pagination": {
+      "supported": false
+    },
+    "fetch_strategy": {
+      "type": "single"
+    },
+    "default_order_by": [],
+    "validation_rules": {},
+    "supports_offset": false,
+    "raw_metadata": {
+      "doc_id": "172",
+      "navigation_title": "指数月线行情"
+    }
+  },
+  {
+    "api_name": "sz_daily_info",
+    "api_title": "深圳市场每日交易概况",
+    "description": "获取深圳市场每日交易概况",
+    "permission_description": "用户积2000积分可调取， 频次有限制，积分越高每分钟调取频次越高，5000积分以上频次相对较高，积分获取方法请参阅积分获取办法",
+    "request_limit": "单次最大2000，可循环获取，总量不限制",
+    "update_frequency": null,
+    "data_description": "接口：sz_daily_info\n描述：获取深圳市场每日交易概况\n限量：单次最大2000，可循环获取，总量不限制\n权限：用户积2000积分可调取， 频次有限制，积分越高每分钟调取频次越高，5000积分以上频次相对较高，积分获取方法请参阅积分获取办法\n\n输入参数\n\nts_code主要包括：\n\n输出参数",
+    "points_required": 2000,
+    "row_limit": null,
+    "rate_limit": {},
+    "params": [
+      {
+        "name": "trade_date",
+        "type": "str",
+        "required": false,
+        "description": "交易日期（YYYYMMDD格式，下同）",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 1
+      },
+      {
+        "name": "ts_code",
+        "type": "str",
+        "required": false,
+        "description": "板块代码",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 2
+      },
+      {
+        "name": "start_date",
+        "type": "str",
+        "required": false,
+        "description": "开始日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 3
+      },
+      {
+        "name": "end_date",
+        "type": "str",
+        "required": false,
+        "description": "结束日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 4
+      }
+    ],
+    "fields": [
+      {
+        "name": "trade_date",
+        "type": "str",
+        "default": true,
+        "description": "",
+        "position": 1
+      },
+      {
+        "name": "ts_code",
+        "type": "str",
+        "default": true,
+        "description": "市场类型",
+        "position": 2
+      },
+      {
+        "name": "count",
+        "type": "int",
+        "default": true,
+        "description": "股票个数",
+        "position": 3
+      },
+      {
+        "name": "amount",
+        "type": "float",
+        "default": true,
+        "description": "成交金额",
+        "position": 4
+      },
+      {
+        "name": "vol",
+        "type": "int",
+        "default": true,
+        "description": "成交量",
+        "position": 5
+      },
+      {
+        "name": "total_share",
+        "type": "float",
+        "default": true,
+        "description": "总股本",
+        "position": 6
+      },
+      {
+        "name": "total_mv",
+        "type": "float",
+        "default": true,
+        "description": "总市值",
+        "position": 7
+      },
+      {
+        "name": "float_share",
+        "type": "float",
+        "default": true,
+        "description": "流通股票",
+        "position": 8
+      },
+      {
+        "name": "float_mv",
+        "type": "float",
+        "default": true,
+        "description": "流通市值",
+        "position": 9
+      }
+    ],
+    "category": "指数专题",
+    "subcategory": "指数专题",
+    "documentation_url": "https://tushare.pro/document/2?doc_id=268",
+    "source_url": "https://tushare.pro/document/2?doc_id=268",
+    "source_hash": "5e25f93ab82a5e7c39bfd1ee03581710a959d1e5abb180176bbda6dd8a374159",
+    "imported_at": "2026-10-18T03:09:43.414823+00:00",
+    "metadata_review": "AUTO_IMPORTED",
+    "status": "NEEDS_REVIEW",
+    "needs_review": true,
+    "removed_from_source": false,
+    "visible_by_default": true,
+    "maturity": "EXPERIMENTAL",
+    "review_metadata": {},
+    "enabled": true,
+    "unique_keys": [],
+    "pagination": {
+      "supported": false
+    },
+    "fetch_strategy": {
+      "type": "single"
+    },
+    "default_order_by": [],
+    "validation_rules": {},
+    "supports_offset": false,
+    "raw_metadata": {
+      "doc_id": "268",
+      "navigation_title": "深圳市场每日交易情况"
+    }
+  },
+  {
+    "api_name": "rt_sw_k",
+    "api_title": "申万实时行情",
+    "description": "获取申万行业指数的最新截面数据",
+    "permission_description": "本接口数据需单独开通权限，请参考权限列表，前往权限中心申请（需勾选“申万实时行情”）。",
+    "request_limit": null,
+    "update_frequency": null,
+    "data_description": "接口：rt_sw_k\n描述：获取申万行业指数的最新截面数据\n权限：本接口数据需单独开通权限，请参考权限列表，前往权限中心申请（需勾选“申万实时行情”）。\n\n20260908 去掉pct_change返回字段，清用户本地自行计算",
+    "points_required": null,
+    "row_limit": null,
+    "rate_limit": {},
+    "params": [
+      {
+        "name": "ts_code",
+        "type": "str",
+        "required": false,
+        "description": "指数代码，如: 801005.SI；可以是逗号隔开的多个，如: 801005.SI,801001.SI",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 1
+      }
+    ],
+    "fields": [
+      {
+        "name": "ts_code",
+        "type": "str",
+        "default": true,
+        "description": "指数代码",
+        "position": 1
+      },
+      {
+        "name": "name",
+        "type": "str",
+        "default": true,
+        "description": "指数名称",
+        "position": 2
+      },
+      {
+        "name": "trade_time",
+        "type": "str",
+        "default": true,
+        "description": "交易时间",
+        "position": 3
+      },
+      {
+        "name": "close",
+        "type": "float",
+        "default": true,
+        "description": "现价",
+        "position": 4
+      },
+      {
+        "name": "pre_close",
+        "type": "float",
+        "default": true,
+        "description": "昨收",
+        "position": 5
+      },
+      {
+        "name": "high",
+        "type": "float",
+        "default": true,
+        "description": "最高价",
+        "position": 6
+      },
+      {
+        "name": "open",
+        "type": "float",
+        "default": true,
+        "description": "开盘价",
+        "position": 7
+      },
+      {
+        "name": "low",
+        "type": "float",
+        "default": true,
+        "description": "最低价",
+        "position": 8
+      },
+      {
+        "name": "vol",
+        "type": "float",
+        "default": true,
+        "description": "成交量（股）",
+        "position": 9
+      },
+      {
+        "name": "amount",
+        "type": "float",
+        "default": true,
+        "description": "成交金额（元）",
+        "position": 10
+      }
+    ],
+    "category": "指数专题",
+    "subcategory": "指数专题",
+    "documentation_url": "https://tushare.pro/document/2?doc_id=417",
+    "source_url": "https://tushare.pro/document/2?doc_id=417",
+    "source_hash": "2b5e8f63b80b4d72a42ac3b86c4eb02477949d6d491ffaed1968aea92420384e",
+    "imported_at": "2026-10-18T03:09:43.414823+00:00",
+    "metadata_review": "AUTO_IMPORTED",
+    "status": "NEEDS_REVIEW",
+    "needs_review": true,
+    "removed_from_source": false,
+    "visible_by_default": true,
+    "maturity": "EXPERIMENTAL",
+    "review_metadata": {},
+    "enabled": true,
+    "unique_keys": [],
+    "pagination": {
+      "supported": false
+    },
+    "fetch_strategy": {
+      "type": "single"
+    },
+    "default_order_by": [],
+    "validation_rules": {},
+    "supports_offset": false,
+    "raw_metadata": {
+      "doc_id": "417",
+      "navigation_title": "申万实时行情"
+    }
+  },
+  {
+    "api_name": "index_classify",
+    "api_title": "申万行业分类",
+    "description": "获取申万行业分类，可以获取申万2014年版本（28个一级分类，104个二级分类，227个三级分类）和2021年本版（31个一级分类，134个二级分类，346个三级分类）列表信息。默认返回2014年版本，查询2021年本版 需要带上scr参数。",
+    "permission_description": "用户需2000积分可以调取，具体请参阅积分获取办法",
+    "request_limit": null,
+    "update_frequency": null,
+    "data_description": "接口：index_classify\n描述：获取申万行业分类，可以获取申万2014年版本（28个一级分类，104个二级分类，227个三级分类）和2021年本版（31个一级分类，134个二级分类，346个三级分类）列表信息。默认返回2014年版本，查询2021年本版 需要带上scr参数。\n权限：用户需2000积分可以调取，具体请参阅积分获取办法\n\n申万行业指数分类标准2021版\n\n注：指数成分股小于5条该指数行情不发布\n\n输入参数",
+    "points_required": 2000,
+    "row_limit": null,
+    "rate_limit": {},
+    "params": [
+      {
+        "name": "index_code",
+        "type": "str",
+        "required": false,
+        "description": "指数代码",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 1
+      },
+      {
+        "name": "level",
+        "type": "str",
+        "required": false,
+        "description": "行业分级（L1/L2/L3）",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 2
+      },
+      {
+        "name": "parent_code",
+        "type": "str",
+        "required": false,
+        "description": "父级代码（一级为0）",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 3
+      },
+      {
+        "name": "src",
+        "type": "str",
+        "required": false,
+        "description": "指数来源（SW2014：申万2014年版本，SW2021：申万2021年版本）",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 4
+      }
+    ],
+    "fields": [
+      {
+        "name": "index_code",
+        "type": "str",
+        "default": true,
+        "description": "指数代码",
+        "position": 1
+      },
+      {
+        "name": "industry_name",
+        "type": "str",
+        "default": true,
+        "description": "行业名称",
+        "position": 2
+      },
+      {
+        "name": "parent_code",
+        "type": "str",
+        "default": true,
+        "description": "父级代码",
+        "position": 3
+      },
+      {
+        "name": "level",
+        "type": "str",
+        "default": true,
+        "description": "行业层级",
+        "position": 4
+      },
+      {
+        "name": "industry_code",
+        "type": "str",
+        "default": true,
+        "description": "行业代码",
+        "position": 5
+      },
+      {
+        "name": "is_pub",
+        "type": "str",
+        "default": true,
+        "description": "是否发布了指数",
+        "position": 6
+      },
+      {
+        "name": "src",
+        "type": "str",
+        "default": false,
+        "description": "行业分类（SW申万）",
+        "position": 7
+      }
+    ],
+    "category": "指数专题",
+    "subcategory": "指数专题",
+    "documentation_url": "https://tushare.pro/document/2?doc_id=181",
+    "source_url": "https://tushare.pro/document/2?doc_id=181",
+    "source_hash": "0b6ea7676af03e77742676e22326afdf49a5a9dfaeb4c2df552ed7fe40fcd7ea",
+    "imported_at": "2026-10-18T03:09:43.414823+00:00",
+    "metadata_review": "AUTO_IMPORTED",
+    "status": "NEEDS_REVIEW",
+    "needs_review": true,
+    "removed_from_source": false,
+    "visible_by_default": true,
+    "maturity": "EXPERIMENTAL",
+    "review_metadata": {},
+    "enabled": true,
+    "unique_keys": [],
+    "pagination": {
+      "supported": false
+    },
+    "fetch_strategy": {
+      "type": "single"
+    },
+    "default_order_by": [],
+    "validation_rules": {},
+    "supports_offset": false,
+    "raw_metadata": {
+      "doc_id": "181",
+      "navigation_title": "申万行业分类"
+    }
+  },
+  {
+    "api_name": "index_member_all",
+    "api_title": "申万行业成分构成(分级)",
+    "description": "按三级分类提取申万行业成分，可提供某个分类的所有成分，也可按股票代码提取所属分类，参数灵活",
+    "permission_description": "用户需2000积分可调取，积分获取方法请参阅积分获取办法",
+    "request_limit": "单次最大2000行，总量不限制",
+    "update_frequency": null,
+    "data_description": "接口：index_member_all\n描述：按三级分类提取申万行业成分，可提供某个分类的所有成分，也可按股票代码提取所属分类，参数灵活\n限量：单次最大2000行，总量不限制\n权限：用户需2000积分可调取，积分获取方法请参阅积分获取办法\n\n输入参数\n\n输出参数\n\n接口示例",
+    "points_required": 2000,
+    "row_limit": 2000,
+    "rate_limit": {},
+    "params": [
+      {
+        "name": "l1_code",
+        "type": "str",
+        "required": false,
+        "description": "一级行业代码",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 1
+      },
+      {
+        "name": "l2_code",
+        "type": "str",
+        "required": false,
+        "description": "二级行业代码",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 2
+      },
+      {
+        "name": "l3_code",
+        "type": "str",
+        "required": false,
+        "description": "三级行业代码",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 3
+      },
+      {
+        "name": "ts_code",
+        "type": "str",
+        "required": false,
+        "description": "股票代码",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 4
+      },
+      {
+        "name": "is_new",
+        "type": "str",
+        "required": false,
+        "description": "是否最新（默认为“Y是”）",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 5
+      }
+    ],
+    "fields": [
+      {
+        "name": "l1_code",
+        "type": "str",
+        "default": true,
+        "description": "一级行业代码",
+        "position": 1
+      },
+      {
+        "name": "l1_name",
+        "type": "str",
+        "default": true,
+        "description": "一级行业名称",
+        "position": 2
+      },
+      {
+        "name": "l2_code",
+        "type": "str",
+        "default": true,
+        "description": "二级行业代码",
+        "position": 3
+      },
+      {
+        "name": "l2_name",
+        "type": "str",
+        "default": true,
+        "description": "二级行业名称",
+        "position": 4
+      },
+      {
+        "name": "l3_code",
+        "type": "str",
+        "default": true,
+        "description": "三级行业代码",
+        "position": 5
+      },
+      {
+        "name": "l3_name",
+        "type": "str",
+        "default": true,
+        "description": "三级行业名称",
+        "position": 6
+      },
+      {
+        "name": "ts_code",
+        "type": "str",
+        "default": true,
+        "description": "成分股票代码",
+        "position": 7
+      },
+      {
+        "name": "name",
+        "type": "str",
+        "default": true,
+        "description": "成分股票名称",
+        "position": 8
+      },
+      {
+        "name": "in_date",
+        "type": "str",
+        "default": true,
+        "description": "纳入日期",
+        "position": 9
+      },
+      {
+        "name": "out_date",
+        "type": "str",
+        "default": true,
+        "description": "剔除日期",
+        "position": 10
+      },
+      {
+        "name": "is_new",
+        "type": "str",
+        "default": true,
+        "description": "是否最新Y是N否",
+        "position": 11
+      }
+    ],
+    "category": "指数专题",
+    "subcategory": "指数专题",
+    "documentation_url": "https://tushare.pro/document/2?doc_id=335",
+    "source_url": "https://tushare.pro/document/2?doc_id=335",
+    "source_hash": "bcf243fc733cdc479602731a3484f070c24623acde8988f4df2f2d62aad9e0ba",
+    "imported_at": "2026-10-18T03:09:43.414823+00:00",
+    "metadata_review": "AUTO_IMPORTED",
+    "status": "NEEDS_REVIEW",
+    "needs_review": true,
+    "removed_from_source": false,
+    "visible_by_default": true,
+    "maturity": "EXPERIMENTAL",
+    "review_metadata": {},
+    "enabled": true,
+    "unique_keys": [],
+    "pagination": {
+      "supported": false
+    },
+    "fetch_strategy": {
+      "type": "single"
+    },
+    "default_order_by": [],
+    "validation_rules": {},
+    "supports_offset": false,
+    "raw_metadata": {
+      "doc_id": "335",
+      "navigation_title": "申万行业成分（分级）"
+    }
+  },
+  {
+    "api_name": "sw_daily",
+    "api_title": "申万行业日线行情",
+    "description": "获取申万行业日线行情（默认是申万2021版行情）",
+    "permission_description": null,
+    "request_limit": "单次最大4000行数据，可通过指数代码和日期参数循环提取，5000积分可调取，交易日18:30 更新。",
+    "update_frequency": null,
+    "data_description": "接口：sw_daily\n描述：获取申万行业日线行情（默认是申万2021版行情）\n限量：单次最大4000行数据，可通过指数代码和日期参数循环提取，5000积分可调取，交易日18:30 更新。\n\n输入参数\n\n输出参数\n\n接口示例",
+    "points_required": 5000,
+    "row_limit": 4000,
+    "rate_limit": {},
+    "params": [
+      {
+        "name": "ts_code",
+        "type": "str",
+        "required": false,
+        "description": "行业代码",
+        "format": null,
+        "input_kind": "text",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 1
+      },
+      {
+        "name": "trade_date",
+        "type": "str",
+        "required": false,
+        "description": "交易日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 2
+      },
+      {
+        "name": "start_date",
+        "type": "str",
+        "required": false,
+        "description": "开始日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 3
+      },
+      {
+        "name": "end_date",
+        "type": "str",
+        "required": false,
+        "description": "结束日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 4
+      }
+    ],
+    "fields": [
+      {
+        "name": "ts_code",
+        "type": "str",
+        "default": true,
+        "description": "指数代码",
+        "position": 1
+      },
+      {
+        "name": "trade_date",
+        "type": "str",
+        "default": true,
+        "description": "交易日期",
+        "position": 2
+      },
+      {
+        "name": "name",
+        "type": "str",
+        "default": true,
+        "description": "指数名称",
+        "position": 3
+      },
+      {
+        "name": "open",
+        "type": "float",
+        "default": true,
+        "description": "开盘点位",
+        "position": 4
+      },
+      {
+        "name": "low",
+        "type": "float",
+        "default": true,
+        "description": "最低点位",
+        "position": 5
+      },
+      {
+        "name": "high",
+        "type": "float",
+        "default": true,
+        "description": "最高点位",
+        "position": 6
+      },
+      {
+        "name": "close",
+        "type": "float",
+        "default": true,
+        "description": "收盘点位",
+        "position": 7
+      },
+      {
+        "name": "change",
+        "type": "float",
+        "default": true,
+        "description": "涨跌点位",
+        "position": 8
+      },
+      {
+        "name": "pct_change",
+        "type": "float",
+        "default": true,
+        "description": "涨跌幅",
+        "position": 9
+      },
+      {
+        "name": "vol",
+        "type": "float",
+        "default": true,
+        "description": "成交量（万股）",
+        "position": 10
+      },
+      {
+        "name": "amount",
+        "type": "float",
+        "default": true,
+        "description": "成交额（万元）",
+        "position": 11
+      },
+      {
+        "name": "pe",
+        "type": "float",
+        "default": true,
+        "description": "市盈率",
+        "position": 12
+      },
+      {
+        "name": "pb",
+        "type": "float",
+        "default": true,
+        "description": "市净率",
+        "position": 13
+      },
+      {
+        "name": "float_mv",
+        "type": "float",
+        "default": true,
+        "description": "流通市值（万元）",
+        "position": 14
+      },
+      {
+        "name": "total_mv",
+        "type": "float",
+        "default": true,
+        "description": "总市值（万元）",
+        "position": 15
+      }
+    ],
+    "category": "指数专题",
+    "subcategory": "指数专题",
+    "documentation_url": "https://tushare.pro/document/2?doc_id=327",
+    "source_url": "https://tushare.pro/document/2?doc_id=327",
+    "source_hash": "7531ee3f2d27ecf9b22e48c2e4cb0b968ab80f371c1ca2501fd51a95c472676f",
+    "imported_at": "2026-10-18T03:09:43.414823+00:00",
+    "metadata_review": "AUTO_IMPORTED",
+    "status": "NEEDS_REVIEW",
+    "needs_review": true,
+    "removed_from_source": false,
+    "visible_by_default": true,
+    "maturity": "EXPERIMENTAL",
+    "review_metadata": {},
+    "enabled": true,
+    "unique_keys": [],
+    "pagination": {
+      "supported": false
+    },
+    "fetch_strategy": {
+      "type": "single"
+    },
+    "default_order_by": [],
+    "validation_rules": {},
+    "supports_offset": false,
+    "raw_metadata": {
+      "doc_id": "327",
+      "navigation_title": "申万日线行情"
+    }
+  },
+  {
+    "api_name": "vix_index",
+    "api_title": "美股恐慌指数行情",
+    "description": "VIX恐慌指数由美国CBOE芝加哥期权交易所编制，底层标的为标普500（S&P 500）期权，主要用于反映美股大盘对未来波动的预期，因此常被视为美股市场恐慌情绪的重要指标。它并不是股票，也不是股票指数，而是一个波动率指数。其数值通过标普500的看涨期权和看跌期权价格计算得出，用来衡量市场对未来30天美股大盘波动程度的预期。当美股大幅下跌时，投资者往往会大量买入看跌期权进行保护，推动VIX快速上涨，所以它也被称为“恐慌指数”。简单参考区间：低于20：市场比较平静，恐慌情绪较低。20—30：市场担忧上升，波动预期增强。高于30：市场出现明显恐慌。高于40：通常意味着重大危机级别，市场处于极度恐慌状态。",
+    "permission_description": "需要5000积分可以调取，具体请参阅积分获取办法",
+    "request_limit": "单次最大300条，可根据代码或日期循环提取",
+    "update_frequency": null,
+    "data_description": "接口：vix_index\n描述：VIX恐慌指数由美国CBOE芝加哥期权交易所编制，底层标的为标普500（S&P 500）期权，主要用于反映美股大盘对未来波动的预期，因此常被视为美股市场恐慌情绪的重要指标。它并不是股票，也不是股票指数，而是一个波动率指数。其数值通过标普500的看涨期权和看跌期权价格计算得出，用来衡量市场对未来30天美股大盘波动程度的预期。当美股大幅下跌时，投资者往往会大量买入看跌期权进行保护，推动VIX快速上涨，所以它也被称为“恐慌指数”。简单参考区间：低于20：市场比较平静，恐慌情绪较低。20—30：市场担忧上升，波动预期增强。高于30：市场出现明显恐慌。高于40：通常意味着重大危机级别，市场处于极度恐慌状态。\n\n限量：单次最大300条，可根据代码或日期循环提取\n积分：需要5000积分可以调取，具体请参阅积分获取办法",
+    "points_required": 5000,
+    "row_limit": 300,
+    "rate_limit": {},
+    "params": [
+      {
+        "name": "trade_date",
+        "type": "str",
+        "required": false,
+        "description": "交易日期(格式：YYYYMMDD，下同)",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 1
+      },
+      {
+        "name": "start_date",
+        "type": "str",
+        "required": false,
+        "description": "开始日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 2
+      },
+      {
+        "name": "end_date",
+        "type": "str",
+        "required": false,
+        "description": "结束日期",
+        "format": "YYYYMMDD",
+        "input_kind": "date",
+        "enum_values": [],
+        "default_value": null,
+        "constraints": {},
+        "position": 3
+      }
+    ],
+    "fields": [
+      {
+        "name": "trade_date",
+        "type": "str",
+        "default": true,
+        "description": "交易日期",
+        "position": 1
+      },
+      {
+        "name": "high",
+        "type": "str",
+        "default": true,
+        "description": "最高价",
+        "position": 2
+      },
+      {
+        "name": "low",
+        "type": "str",
+        "default": true,
+        "description": "最低价",
+        "position": 3
+      },
+      {
+        "name": "open",
+        "type": "str",
+        "default": true,
+        "description": "开盘价",
+        "position": 4
+      },
+      {
+        "name": "close",
+        "type": "str",
+        "default": true,
+        "description": "收盘价",
+        "position": 5
+      },
+      {
+        "name": "pct_change",
+        "type": "str",
+        "default": true,
+        "description": "涨跌幅",
+        "position": 6
+      }
+    ],
+    "category": "指数专题",
+    "subcategory": "指数专题",
+    "documentation_url": "https://tushare.pro/document/2?doc_id=498",
+    "source_url": "https://tushare.pro/document/2?doc_id=498",
+    "source_hash": "4d1cad1d0d52ab6f4302dce16c97cd3eaac3293edf2eca91f4a6ef2224cc0825",
+    "imported_at": "2026-10-18T03:09:43.414823+00:00",
+    "metadata_review": "AUTO_IMPORTED",
+    "status": "NEEDS_REVIEW",
+    "needs_review": true,
+    "removed_from_source": false,
+    "visible_by_default": true,
+    "maturity": "EXPERIMENTAL",
+    "review_metadata": {},
+    "enabled": true,
+    "unique_keys": [],
+    "pagination": {
+      "supported": false
+    },
+    "fetch_strategy": {
+      "type": "single"
+    },
+    "default_order_by": [],
+    "validation_rules": {},
+    "supports_offset": false,
+    "raw_metadata": {
+      "doc_id": "498",
+      "navigation_title": "美股恐慌指数行情"
+    }
+  }
+]

@@ -116,7 +116,7 @@ class DataLifecycleService:
                 "unique_keys_snapshot": preview.unique_keys_snapshot,
             },
             fields=[],
-            write_mode="APPEND",
+            write_mode="NONE",
             target_schema="tushare",
             target_table=api_name,
         )
@@ -218,7 +218,7 @@ class ReplaceRangeSubmissionService:
                 "matched_rows": preview.matched_rows,
             },
             fields=[],
-            write_mode="APPEND",
+            write_mode="NONE",
             target_schema=TableSchemaManager.TARGET_SCHEMA,
             target_table=api_name,
             operation_type="DELETE",

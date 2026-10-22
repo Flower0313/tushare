@@ -1,11 +1,11 @@
 export const zhCN = {
   navigation: {
-    overview: '概览', collect: '数据采集', apiCatalog: 'API 目录', sources: '数据源', tasks: '任务中心',
+    overview: '概览', collect: '数据采集', apiCatalog: '接口目录', sources: '数据源', tasks: '任务中心',
     data: '数据', dataManagement: '数据管理', develop: '开发工具', apiExplorer: 'API 调试',
     observe: '运行观测', runs: '执行历史', logs: '日志', settings: '系统设置',
   },
   common: {
-    searchApis: '搜索 API', noData: '暂无数据', notAvailable: '暂不可用', loadingFailed: '加载失败',
+    searchApis: '搜索接口', noData: '暂无数据', notAvailable: '暂不可用', loadingFailed: '加载失败',
     details: '详情', close: '关闭', cancel: '取消', confirm: '确认', technicalDetails: '技术详情',
   },
 } as const
@@ -18,7 +18,7 @@ const statusLabels: Record<string, string> = {
   DEPRECATED: '已废弃', CREATED: '已创建', SKIPPED: '已跳过', MISFIRED: '已错过',
   FAILED_TO_CREATE: '创建失败', HEALTHY: '正常', WARNING: '需关注', UNKNOWN: '未知',
   CRITICAL: '严重', UNHEALTHY: '异常', DEGRADED: '性能下降', SYSTEM: '系统',
-  METADATA_VERIFIED: 'Metadata 已验证', REAL_DATA_PARTIAL: '真实数据部分验收', PRODUCTION_VALIDATED: '生产验收通过',
+  METADATA_VERIFIED: '元数据已验证', REAL_DATA_PARTIAL: '真实数据部分验收', PRODUCTION_VALIDATED: '生产验收通过',
   FAILED_AFTER_DELETE: '删除后同步失败', SYNC_RUNNING: '正在同步', DELETE_RUNNING: '正在删除',
   VALIDATING: '正在校验完整性', INCOMPLETE: '数据不完整', VALIDATION_FAILED: '完整性校验失败',
   SYNC_FAILED: '重新同步失败',

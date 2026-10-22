@@ -18,24 +18,24 @@ export function ApiDetailDocument({ detail, onMetadataChanged }: { detail: ApiMe
   const [uniqueKeyOpen, setUniqueKeyOpen] = useState(false)
   const activeSection = useSectionSpy(DOCUMENT_SECTIONS)
   return <div className="api-document">
-    <button className="back-link" type="button" onClick={() => navigate('/apis')}><ArrowLeftOutlined /> 返回 API 目录</button>
+    <button className="back-link" type="button" onClick={() => navigate('/apis')}><ArrowLeftOutlined /> 返回接口目录</button>
     <header className="api-document__hero">
       <div className="api-document__identity"><div className="api-document__badges"><StatusBadge value={detail.status} /><StatusBadge value={detail.maturity} /><span className="category-chip">{detail.subcategory}</span></div><h1>{detail.api_title}</h1><code className="api-identifier">{detail.api_name}</code><p>{detail.description}</p></div>
-      <div className="api-document__actions"><Button type="primary" size="large" icon={<PlayCircleOutlined />} disabled={detail.status !== 'ACTIVE'} onClick={() => setPreviewOpen(true)}>运行 API</Button></div>
+      <div className="api-document__actions"><Button type="primary" size="large" icon={<PlayCircleOutlined />} disabled={detail.status !== 'ACTIVE'} onClick={() => setPreviewOpen(true)}>运行接口</Button></div>
     </header>
-    <nav className="document-tabs" aria-label="API 文档章节">
+    <nav className="document-tabs" aria-label="接口文档章节">
       <a className={activeSection === 'overview' ? 'is-active' : undefined} href="#overview">概览</a>
       <a className={activeSection === 'parameters' ? 'is-active' : undefined} href="#parameters">输入参数 <span>{detail.params.length}</span></a>
       <a className={activeSection === 'response-fields' ? 'is-active' : undefined} href="#response-fields">输出字段 <span>{detail.fields.length}</span></a>
-      <a className={activeSection === 'advanced-metadata' ? 'is-active' : undefined} href="#advanced-metadata">高级 Metadata</a>
+      <a className={activeSection === 'advanced-metadata' ? 'is-active' : undefined} href="#advanced-metadata">高级元数据</a>
       <button type="button" onClick={() => setPreviewOpen(true)}>调试台</button>
     </nav>
-    {detail.status !== 'ACTIVE' && <Alert type="warning" showIcon message="当前接口暂未开放执行" description={`Metadata 状态为 ${detail.status}，需要完成唯一键或抓取策略审查后才能 Preview / Sync。`} />}
+    {detail.status !== 'ACTIVE' && <Alert type="warning" showIcon message="当前接口暂未开放执行" description={`元数据状态为 ${detail.status}，需要完成唯一键或抓取策略审查后才能预览或同步。`} />}
     <Overview detail={detail} />
     <section className="document-section" id="parameters"><SectionHeading title="输入参数" description="Tushare 接口接受的查询参数。" count={detail.params.length} /><MetadataTable kind="params" rows={detail.params} /></section>
-    <section className="document-section" id="response-fields"><SectionHeading title="输出字段" description="API 返回并按原始字段名保存的列。" count={detail.fields.length} /><MetadataTable kind="fields" rows={detail.fields} /></section>
+    <section className="document-section" id="response-fields"><SectionHeading title="输出字段" description="接口返回并按原始字段名保存的列。" count={detail.fields.length} /><MetadataTable kind="fields" rows={detail.fields} /></section>
     <AdvancedMetadata detail={detail} onManageUniqueKeys={() => setUniqueKeyOpen(true)} />
-    <footer className="document-source"><span>Metadata 来源</span><a href={detail.documentation_url} target="_blank" rel="noreferrer">Tushare 官方文档 <ExportOutlined /></a></footer>
+    <footer className="document-source"><span>元数据来源</span><a href={detail.documentation_url} target="_blank" rel="noreferrer">Tushare 官方文档 <ExportOutlined /></a></footer>
     {previewOpen && <Suspense fallback={null}><ApiPreviewModal open metadata={detail} onClose={() => setPreviewOpen(false)} onManageUniqueKeys={() => { setPreviewOpen(false); setUniqueKeyOpen(true) }} /></Suspense>}
     <UniqueKeyDrawer detail={detail} open={uniqueKeyOpen} onClose={() => setUniqueKeyOpen(false)} onChanged={onMetadataChanged} />
   </div>
@@ -49,8 +49,8 @@ function Overview({ detail }: { detail: ApiMetadataDetail }) {
 }
 
 function AdvancedMetadata({ detail, onManageUniqueKeys }: { detail: ApiMetadataDetail; onManageUniqueKeys: () => void }) {
-  return <section className="document-section" id="advanced-metadata"><SectionHeading title="高级 Metadata" description="供数据工程和问题诊断使用的执行约束。" />
-    <dl className="api-facts api-facts--technical"><div><dt>Metadata 状态</dt><dd><StatusBadge value={detail.metadata_review} /></dd></div><div><dt>成熟度</dt><dd><StatusBadge value={detail.maturity} /></dd></div><div><dt>生产验收</dt><dd><StatusBadge value={detail.validation_status} /></dd></div><div><dt>抓取策略</dt><dd><code>{detail.fetch_strategy.type}</code></dd></div><div><dt>默认唯一键</dt><dd><code>{detail.default_unique_keys.join(', ') || '—'}</code></dd></div><div><dt>生效唯一键</dt><dd><code>{detail.effective_unique_keys.join(', ') || '—'}</code><small>{detail.unique_key_source === 'USER_OVERRIDE' ? '用户自定义' : 'Metadata 默认'} · {detail.unique_constraint_status}</small><Button type="link" size="small" icon={<EditOutlined />} onClick={onManageUniqueKeys}>管理唯一键</Button></dd></div><div><dt>默认排序</dt><dd><code>{detail.default_order_by.map((item) => `${item.field} ${item.direction}`).join(', ') || '—'}</code></dd></div><div><dt>最后迁移</dt><dd><code>{detail.last_unique_key_migration_status ?? '—'}</code></dd></div></dl>
+  return <section className="document-section" id="advanced-metadata"><SectionHeading title="高级元数据" description="供数据工程和问题诊断使用的执行约束。" />
+    <dl className="api-facts api-facts--technical"><div><dt>元数据状态</dt><dd><StatusBadge value={detail.metadata_review} /></dd></div><div><dt>成熟度</dt><dd><StatusBadge value={detail.maturity} /></dd></div><div><dt>生产验收</dt><dd><StatusBadge value={detail.validation_status} /></dd></div><div><dt>抓取策略</dt><dd><code>{detail.fetch_strategy.type}</code></dd></div><div><dt>默认唯一键</dt><dd><code>{detail.default_unique_keys.join(', ') || '—'}</code></dd></div><div><dt>生效唯一键</dt><dd><code>{detail.effective_unique_keys.join(', ') || '—'}</code><small>{detail.unique_key_source === 'USER_OVERRIDE' ? '用户自定义' : '元数据默认'} · {detail.unique_constraint_status}</small><Button type="link" size="small" icon={<EditOutlined />} onClick={onManageUniqueKeys}>管理唯一键</Button></dd></div><div><dt>默认排序</dt><dd><code>{detail.default_order_by.map((item) => `${item.field} ${item.direction}`).join(', ') || '—'}</code></dd></div><div><dt>最后迁移</dt><dd><code>{detail.last_unique_key_migration_status ?? '—'}</code></dd></div></dl>
   </section>
 }
 

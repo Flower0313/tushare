@@ -48,13 +48,32 @@ async def test_stale_upsert_is_requeued_when_metadata_is_verified() -> None:
 
 
 @pytest.mark.asyncio
-async def test_stale_append_is_marked_but_not_requeued() -> None:
-    stale = SimpleNamespace(id=uuid4(), api_name="daily", write_mode="APPEND")
+async def test_non_sync_write_mode_is_not_requeued() -> None:
+    stale = SimpleNamespace(
+        id=uuid4(),
+        api_name="daily",
+        write_mode="NONE",
+        operation_type="SYNC",
+        recovery_count=0,
+        max_recovery_attempts=2,
+        request_params={"trade_date": "20260929"},
+        request_fields=["ts_code", "trade_date", "close"],
+        task_key="a" * 64,
+        target_schema="tushare",
+        target_table="daily",
+    )
     executions = AsyncMock()
     executions.find_stale.return_value = [stale]
+    metadata = AsyncMock()
+    metadata.get_by_name.return_value = SimpleNamespace(
+        effective_unique_keys=["ts_code", "trade_date"],
+        metadata_review="VERIFIED",
+        maturity="VERIFIED",
+        status="ACTIVE",
+    )
     service = ExecutionRecoveryService(
         executions,
-        AsyncMock(),
+        metadata,
         stale_timeout=timedelta(minutes=10),
         policy=RecoveryPolicy.REQUEUE_SAFE,
     )

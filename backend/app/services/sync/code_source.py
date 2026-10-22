@@ -42,6 +42,22 @@ class PostgresCodeSource:
                 if status_field and status_field in table.c and status_values:
                     statement = statement.where(table.c[status_field].in_(list(status_values)))
                 values = (await connection.execute(statement)).scalars().all()
+                if not values and status_field and status_field in table.c and status_values:
+                    populated_status = (
+                        await connection.execute(
+                            select(table.c[status_field]).where(
+                                table.c[status_field].is_not(None)
+                            ).limit(1)
+                        )
+                    ).scalar_one_or_none()
+                    if populated_status is None:
+                        values = (
+                            await connection.execute(
+                                select(table.c[field])
+                                .where(table.c[field].is_not(None))
+                                .distinct()
+                            )
+                        ).scalars().all()
         except NoSuchTableError as exc:
             raise MetadataError(
                 f"Code source tushare.{source} does not exist; sync it before this API"

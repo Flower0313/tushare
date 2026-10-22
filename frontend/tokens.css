@@ -32,9 +32,9 @@
   --color-info: oklch(0.5 0.065 250);
   --color-info-soft: oklch(0.955 0.018 250);
   --color-overlay: oklch(0.18 0.008 150 / 0.48);
-  --font-display: "Segoe UI Variable Display", "Segoe UI", sans-serif;
-  --font-body: "Segoe UI Variable Text", "Segoe UI", sans-serif;
-  --font-mono: "Cascadia Code", "SFMono-Regular", Menlo, Monaco, monospace;
+  --font-display: "Manrope Variable", "Manrope", "PingFang SC", "Microsoft YaHei UI", "Microsoft YaHei", system-ui, sans-serif;
+  --font-body: "Inter Variable", "Inter", "PingFang SC", "Microsoft YaHei UI", "Microsoft YaHei", system-ui, sans-serif;
+  --font-mono: "Source Code Pro Variable", "Source Code Pro", "SFMono-Regular", Consolas, "PingFang SC", "Microsoft YaHei UI", monospace;
   --text-xs: 0.75rem;
   --text-sm: 0.8125rem;
   --text-base: 0.875rem;
@@ -65,6 +65,28 @@
   --duration-enter: 240ms;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Stable semantic contract used by every page and overlay. */
+  --bg-primary: var(--color-bg-primary);
+  --bg-secondary: var(--color-bg-secondary);
+  --bg-muted: var(--color-bg-muted);
+  --bg-hover: var(--color-bg-hover);
+  --surface-primary: var(--color-surface-primary);
+  --surface-secondary: var(--color-surface-secondary);
+  --border-default: var(--color-rule);
+  --border-hover: var(--color-rule-strong);
+  --border-strong: var(--color-rule-strong);
+  --text-primary: var(--color-ink);
+  --text-secondary: var(--color-ink-soft);
+  --text-muted: var(--color-ink-muted);
+  --accent: var(--color-accent);
+  --accent-hover: var(--color-accent-hover);
+  --accent-muted: var(--color-accent-soft);
+  --success: var(--color-success);
+  --warning: var(--color-warning);
+  --danger: var(--color-error);
+  --radius-md: var(--radius-control);
+  --radius-lg: var(--radius-panel);
 }
 
 [data-theme='dark'] {

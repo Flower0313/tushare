@@ -156,23 +156,48 @@ class TushareDocumentParser:
     )
 
     def parse_inventory(self, html: str, base_url: str) -> list[dict[str, str]]:
+        return self.parse_category_inventory(
+            html,
+            base_url,
+            category="股票数据",
+            subcategories=set(self.STOCK_SUBCATEGORIES),
+        )
+
+    def parse_category_inventory(
+        self,
+        html: str,
+        base_url: str,
+        *,
+        category: str,
+        subcategories: set[str] | None = None,
+    ) -> list[dict[str, str]]:
+        """Read one top-level documentation category without hard-coding API names.
+
+        Some official categories (ETF/指数专题) list APIs directly, while 股票数据
+        groups them under second-level sections.  Normalizing both shapes here keeps the
+        importer generic and the runtime independent from the documentation website.
+        """
         parser = _NavigationParser()
         parser.feed(html)
-        stock = self._find_node(parser.roots, "股票数据")
-        if stock is None:
-            raise ValueError("股票数据目录未找到")
+        root = self._find_node(parser.roots, category)
+        if root is None:
+            raise ValueError(f"{category}目录未找到")
         inventory: list[dict[str, str]] = []
-        for subcategory in stock["children"]:
-            if subcategory["title"] not in self.STOCK_SUBCATEGORIES:
+        has_nested_groups = any(item["children"] for item in root["children"])
+        groups = root["children"] if has_nested_groups else [root]
+        for group in groups:
+            subcategory = group["title"] if group is not root else category
+            if subcategories is not None and subcategory not in subcategories:
                 continue
-            for api in subcategory["children"]:
+            apis = group["children"] if group is not root else root["children"]
+            for api in apis:
                 match = re.search(r"doc_id=(\d+)", api["href"])
                 if not match:
                     continue
                 inventory.append(
                     {
-                        "category": "股票数据",
-                        "subcategory": subcategory["title"],
+                        "category": category,
+                        "subcategory": subcategory,
                         "title": api["title"],
                         "doc_id": match.group(1),
                         "documentation_url": f"{base_url}?doc_id={match.group(1)}",
@@ -202,11 +227,15 @@ class TushareDocumentParser:
                 or "输出参数" in marker
                 or "输出字段" in marker
                 or "输出指标" in marker
-            ):
+            ) and not output_rows:
                 output_rows = rows[1:]
-            elif "必选" in rows[0] or "输入参数" in marker or "接口参数" in marker:
+            elif (
+                "必选" in rows[0] or "输入参数" in marker or "接口参数" in marker
+            ) and not input_rows:
                 input_rows = rows[1:]
-            elif "名称" in rows[0] and "类型" in rows[0] and "required" in headers:
+            elif (
+                "名称" in rows[0] and "类型" in rows[0] and "required" in headers
+            ) and not input_rows:
                 input_rows = rows[1:]
 
         params = [self._parse_param(row, index) for index, row in enumerate(input_rows, 1)]
@@ -260,15 +289,30 @@ class TushareDocumentParser:
     def _parse_param(row: list[str], position: int) -> dict[str, Any]:
         padded = (row + ["", "", "", ""])[:4]
         name, data_type, required, description = padded
+        declared_type = data_type.strip().lower()
+        # Tushare's request payload is JSON and date/datetime values are sent as
+        # formatted strings.  Some documentation pages label the UI-oriented
+        # type as ``datetime`` (and one uses the literal ``None``); retaining
+        # those labels as runtime scalar types makes the generic validator reject
+        # otherwise valid requests.  Keep the richer input_kind/format below,
+        # while normalising the wire type to str.
+        normalized_type = (
+            "str"
+            if declared_type in {"", "none", "date", "datetime", "timestamp"}
+            else declared_type
+        )
+        datetime_like = bool(
+            re.search(r"\d{1,2}:\d{2}(?::\d{2})?|HH(?::|：)mm", description, re.I)
+        )
         date_like = bool(re.search(r"(?:date|日期|YYYYMMDD)", f"{name} {description}", re.I))
         default_match = re.search(r"默认(?:是|为)?\s*([A-Za-z0-9_.-]+)", description)
         return {
             "name": name.strip(),
-            "type": (data_type.strip() or "str").lower(),
+            "type": normalized_type,
             "required": required.strip().upper() in {"Y", "YES", "是", "必选"},
             "description": description.strip(),
-            "format": "YYYYMMDD" if date_like else None,
-            "input_kind": "date" if date_like else "text",
+            "format": "YYYY-MM-DD HH:mm:ss" if datetime_like else "YYYYMMDD" if date_like else None,
+            "input_kind": "datetime" if datetime_like else "date" if date_like else "text",
             "enum_values": [],
             "default_value": default_match.group(1) if default_match else None,
             "constraints": {},
@@ -279,9 +323,10 @@ class TushareDocumentParser:
     def _parse_field(row: list[str], position: int) -> dict[str, Any]:
         padded = (row + ["", "", "", ""])[:4]
         name, data_type, default, description = padded
+        declared_type = data_type.strip().lower()
         return {
             "name": name.strip(),
-            "type": (data_type.strip() or "str").lower(),
+            "type": "str" if declared_type in {"", "none"} else declared_type,
             "default": default.strip().upper() not in {"N", "NO", "否"},
             "description": description.strip(),
             "position": position,
@@ -296,6 +341,7 @@ class TushareDocumentParser:
     def _parse_row_limit(text: str) -> int | None:
         patterns = (
             r"(?:最多返回|最大返回|单次[^，。；]*?)(\d{3,})\s*行",
+            r"(?:单次)?(?:请求)?(?:最大|最多)(?:返回|提取|放回)?\s*(\d{3,})\s*(?:条|行情)",
             r"(?:限量|上限)[^\d]*(\d{3,})\s*条",
         )
         for pattern in patterns:

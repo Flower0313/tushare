@@ -1,4 +1,4 @@
-from datetime import UTC, datetime, time, timedelta
+from datetime import UTC, date, datetime, time, timedelta
 from uuid import UUID, uuid4
 from zoneinfo import ZoneInfo
 
@@ -22,10 +22,13 @@ from app.schemas.schedule import (
     ScheduleUpdate,
     ScheduleValidationResponse,
 )
+from app.schemas.sql_tasks import SqlTaskValidationRequest
 from app.schemas.tushare import ApiExecuteRequest, SyncSubmissionResponse, WriteMode
 from app.services.scheduler.cron import CronSchedule
 from app.services.scheduler.dynamic_params import DynamicParameterResolver
 from app.services.scheduler.leader_lock import SchedulerLeaderLock
+from app.services.scheduler.sql_tasks import SqlTaskService
+from app.services.scheduler.trade_calendar import TradeCalendarService
 from app.services.sync.query import TushareQueryService
 from app.services.sync.submission import SyncSubmissionService
 from app.services.sync.task_lock import build_task_key
@@ -43,6 +46,8 @@ class ScheduleService:
         query_service: TushareQueryService,
         resolver: DynamicParameterResolver,
         operations: DataOperationRepository | None = None,
+        sql_tasks: SqlTaskService | None = None,
+        trade_calendar: TradeCalendarService | None = None,
     ) -> None:
         self._schedules = schedules
         self._executions = executions
@@ -50,11 +55,17 @@ class ScheduleService:
         self._query = query_service
         self._resolver = resolver
         self._operations = operations
+        self._sql_tasks = sql_tasks
+        self._trade_calendar = trade_calendar
 
     async def validate(
         self, payload: ScheduleCreate | ScheduleUpdate, *, now: datetime | None = None
     ) -> ScheduleValidationResponse:
         basis = now or datetime.now(UTC)
+        if payload.job_type == "SQL_TRANSFORM":
+            return await self._validate_sql_schedule(payload, basis)
+        if not payload.api_name:
+            raise ScheduleError("API 同步任务必须选择接口")
         metadata = await self._metadata.get_by_name(payload.api_name)
         if metadata is None:
             raise ScheduleError("API Metadata 不存在", details={"api_name": payload.api_name})
@@ -115,12 +126,17 @@ class ScheduleService:
 
     async def create(self, payload: ScheduleCreate) -> ScheduleRead:
         validation = await self.validate(payload)
-        metadata = await self._metadata.get_by_name(payload.api_name)
-        assert metadata is not None
-        mode = SyncSubmissionService.resolve_write_mode(
-            ApiExecuteRequest(params={}, write_mode=payload.write_mode),
-            metadata.effective_unique_keys,
-        )
+        metadata = await self._metadata.get_by_name(payload.api_name) if payload.api_name else None
+        if payload.job_type == "API_SYNC":
+            assert metadata is not None
+            mode = SyncSubmissionService.resolve_write_mode(
+                ApiExecuteRequest(params={}, write_mode=payload.write_mode),
+                metadata.effective_unique_keys,
+            )
+            fields = payload.fields or [field.name for field in metadata.fields if field.default]
+        else:
+            mode = WriteMode.NONE
+            fields = []
         now = datetime.now(UTC)
         record = Schedule(
             id=uuid4(),
@@ -128,7 +144,7 @@ class ScheduleService:
             description=payload.description,
             api_name=payload.api_name,
             params=payload.params,
-            fields=payload.fields or [field.name for field in metadata.fields if field.default],
+            fields=fields,
             write_mode=mode.value,
             cron_expression=payload.cron_expression,
             timezone=payload.timezone,
@@ -138,6 +154,12 @@ class ScheduleService:
             max_concurrent_runs=payload.max_concurrent_runs,
             schedule_type=payload.schedule_type,
             recovery_policy=payload.recovery_policy,
+            job_type=payload.job_type,
+            target_schema=payload.target_schema,
+            target_table=payload.target_table,
+            target_columns=payload.target_columns,
+            sql_text=payload.sql_text,
+            execution_calendar=payload.execution_calendar,
             created_at=now,
             updated_at=now,
             next_run_at=validation.next_run_at if payload.enabled else None,
@@ -146,19 +168,24 @@ class ScheduleService:
 
     async def update(self, schedule_id: UUID, payload: ScheduleUpdate) -> ScheduleRead:
         validation = await self.validate(payload)
-        metadata = await self._metadata.get_by_name(payload.api_name)
-        assert metadata is not None
-        mode = SyncSubmissionService.resolve_write_mode(
-            ApiExecuteRequest(params={}, write_mode=payload.write_mode),
-            metadata.effective_unique_keys,
-        )
+        metadata = await self._metadata.get_by_name(payload.api_name) if payload.api_name else None
+        if payload.job_type == "API_SYNC":
+            assert metadata is not None
+            mode = SyncSubmissionService.resolve_write_mode(
+                ApiExecuteRequest(params={}, write_mode=payload.write_mode),
+                metadata.effective_unique_keys,
+            )
+            fields = payload.fields or [field.name for field in metadata.fields if field.default]
+        else:
+            mode = WriteMode.NONE
+            fields = []
         record = await self._schedules.update(
             schedule_id,
             name=payload.name,
             description=payload.description,
             api_name=payload.api_name,
             params=payload.params,
-            fields=payload.fields or [field.name for field in metadata.fields if field.default],
+            fields=fields,
             write_mode=mode.value,
             cron_expression=payload.cron_expression,
             timezone=payload.timezone,
@@ -168,6 +195,12 @@ class ScheduleService:
             max_concurrent_runs=payload.max_concurrent_runs,
             schedule_type=payload.schedule_type,
             recovery_policy=payload.recovery_policy,
+            job_type=payload.job_type,
+            target_schema=payload.target_schema,
+            target_table=payload.target_table,
+            target_columns=payload.target_columns,
+            sql_text=payload.sql_text,
+            execution_calendar=payload.execution_calendar,
             next_run_at=validation.next_run_at if payload.enabled else None,
         )
         if record is None:
@@ -270,6 +303,54 @@ class ScheduleService:
         advance: bool,
         resolution_time: datetime | None = None,
     ):
+        local_date = (resolution_time or scheduled_at).astimezone(
+            ZoneInfo(schedule.timezone)
+        ).date()
+        if (
+            source != "SCHEDULE"
+            and schedule.execution_calendar == "TRADE_DAYS"
+            and self._trade_calendar is not None
+        ):
+            # A manual run of a trade-day schedule should use the latest open
+            # market date, not a weekend or holiday wall-clock date.
+            local_date = await self._trade_calendar.get_latest_trade_date(local_date)
+        next_run = (
+            CronSchedule.next_run(
+                schedule.cron_expression,
+                schedule.timezone,
+                resolution_time or scheduled_at,
+            )
+            if advance
+            else schedule.next_run_at
+        )
+        if (
+            source == "SCHEDULE"
+            and schedule.execution_calendar == "TRADE_DAYS"
+            and self._trade_calendar is not None
+            and not await self._trade_calendar.is_trade_date(local_date)
+        ):
+            await self._schedules.create_fire_and_execution(
+                schedule=schedule,
+                scheduled_at=scheduled_at,
+                resolved_params={"execution_date": local_date.strftime("%Y%m%d")},
+                task_key="",
+                fields=schedule.fields,
+                write_mode=schedule.write_mode,
+                source=source,
+                status="SKIPPED",
+                message="NON_TRADING_DAY",
+                create_execution=False,
+                next_run_at=next_run,
+            )
+            return None
+        if schedule.job_type == "SQL_TRANSFORM":
+            return await self._fire_sql_schedule(
+                schedule,
+                scheduled_at,
+                source=source,
+                next_run=next_run,
+                local_date=local_date,
+            )
         resolved = await self._resolver.resolve(
             schedule.params,
             timezone=schedule.timezone,
@@ -282,15 +363,6 @@ class ScheduleService:
                 fields=schedule.fields,
                 write_mode=WriteMode(schedule.write_mode),
             ),
-        )
-        next_run = (
-            CronSchedule.next_run(
-                schedule.cron_expression,
-                schedule.timezone,
-                resolution_time or scheduled_at,
-            )
-            if advance
-            else schedule.next_run_at
         )
         active = await self._executions.count_active_for_schedule(schedule.id)
         mode = WriteMode(schedule.write_mode)
@@ -323,6 +395,89 @@ class ScheduleService:
                 task_key=task_key,
                 fields=prepared.requested_fields,
                 write_mode=mode.value,
+                source=source,
+                next_run_at=next_run,
+            )
+        except IntegrityError as exc:
+            raise ScheduleConflictError("同一调度时间已创建任务") from exc
+        return execution
+
+    async def _validate_sql_schedule(
+        self,
+        payload: ScheduleCreate | ScheduleUpdate,
+        basis: datetime,
+    ) -> ScheduleValidationResponse:
+        if self._sql_tasks is None:
+            raise ScheduleError("SQL 任务服务未配置")
+        if not payload.target_schema or not payload.target_table or not payload.sql_text:
+            raise ScheduleError("宽表 SQL 任务必须选择目标表并填写查询 SQL")
+        if payload.api_name is not None:
+            raise ScheduleError("宽表 SQL 任务不能同时配置 Tushare API")
+        if payload.recovery_policy == "REQUEUE":
+            raise ScheduleError("SQL 任务默认不支持自动 REQUEUE，请人工确认后重跑")
+        await self._sql_tasks.validate(
+            SqlTaskValidationRequest(
+                target_schema=payload.target_schema,
+                target_table=payload.target_table,
+                target_columns=payload.target_columns,
+                sql_text=payload.sql_text,
+            )
+        )
+        next_run = CronSchedule.next_run(payload.cron_expression, payload.timezone, basis)
+        return ScheduleValidationResponse(
+            resolved_params={},
+            next_run_at=next_run,
+            warnings=[],
+        )
+
+    async def _fire_sql_schedule(
+        self,
+        schedule: Schedule,
+        scheduled_at: datetime,
+        *,
+        source: str,
+        next_run: datetime | None,
+        local_date: date,
+    ):
+        if not schedule.target_schema or not schedule.target_table or not schedule.sql_text:
+            raise ScheduleError("宽表 SQL 任务配置不完整")
+        params: dict[str, object] = {
+            "select_sql": schedule.sql_text,
+            "target_columns": list(schedule.target_columns),
+            "execution_date": local_date.strftime("%Y%m%d"),
+        }
+        if schedule.execution_calendar == "TRADE_DAYS":
+            params["trade_date"] = local_date.strftime("%Y%m%d")
+        task_key = build_task_key(
+            api_name="__sql_task__",
+            params=params,
+            fields=list(schedule.target_columns),
+            write_mode=WriteMode.NONE,
+        )
+        active = await self._executions.count_active_for_schedule(schedule.id)
+        if active >= schedule.max_concurrent_runs:
+            await self._schedules.create_fire_and_execution(
+                schedule=schedule,
+                scheduled_at=scheduled_at,
+                resolved_params=params,
+                task_key=task_key,
+                fields=list(schedule.target_columns),
+                write_mode=WriteMode.NONE.value,
+                source=source,
+                status="SKIPPED",
+                message="SKIPPED_CONCURRENT",
+                create_execution=False,
+                next_run_at=next_run,
+            )
+            return None
+        try:
+            _, execution = await self._schedules.create_fire_and_execution(
+                schedule=schedule,
+                scheduled_at=scheduled_at,
+                resolved_params=params,
+                task_key=task_key,
+                fields=list(schedule.target_columns),
+                write_mode=WriteMode.NONE.value,
                 source=source,
                 next_run_at=next_run,
             )

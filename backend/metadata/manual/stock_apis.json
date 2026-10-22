@@ -47,7 +47,7 @@
     "row_limit": 6000,
     "supports_offset": false,
     "params": [
-      {"name": "ts_code", "type": "str", "required": true, "description": "A股证券代码", "input_kind": "stock_code_select", "position": 1},
+      {"name": "ts_code", "type": "str", "required": true, "description": "A股证券代码，可选多股或由 Worker 遍历全部上市股票", "input_kind": "stock_code_select", "constraints": {"multiple": true, "allow_all": true}, "position": 1},
       {"name": "start_date", "type": "str", "required": false, "description": "开始日期", "format": "YYYYMMDD", "input_kind": "date", "position": 2},
       {"name": "end_date", "type": "str", "required": false, "description": "结束日期", "format": "YYYYMMDD", "input_kind": "date", "position": 3},
       {"name": "trade_date", "type": "str", "required": false, "description": "交易日期", "format": "YYYYMMDD", "input_kind": "date", "position": 4},

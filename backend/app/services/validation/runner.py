@@ -54,7 +54,7 @@ class ProductionValidationRunner:
                     field.name for field in metadata.fields if field.default
                 ]
                 fields = list(dict.fromkeys([*metadata.effective_unique_keys, *fields]))
-                mode = WriteMode.UPSERT if metadata.effective_unique_keys else WriteMode.APPEND
+                mode = WriteMode.UPSERT
                 execution = self._executions.build_execution(
                     api_name=metadata.api_name,
                     task_key=build_task_key(

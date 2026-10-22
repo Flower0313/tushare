@@ -1,6 +1,7 @@
 import logging
 import socket
 import ssl
+from collections.abc import Awaitable, Callable
 
 import httpx
 from pydantic import JsonValue, ValidationError
@@ -41,11 +42,13 @@ class TushareClient:
     def __init__(
         self,
         *,
-        token: str,
+        token: str = "",
+        token_provider: Callable[[], Awaitable[str]] | None = None,
         base_url: str,
         http_client: httpx.AsyncClient,
     ) -> None:
         self._token = token
+        self._token_provider = token_provider
         self._base_url = base_url
         self._http_client = http_client
 
@@ -55,12 +58,13 @@ class TushareClient:
         params: dict[str, JsonValue],
         fields: list[str] | None = None,
     ) -> TushareQueryResult:
-        if not self._token.strip():
+        token = await self._token_provider() if self._token_provider is not None else self._token
+        if not token.strip():
             raise TushareConfigurationError("尚未配置 Tushare Token")
 
         request = TushareHttpRequest(
             api_name=api_name,
-            token=self._token,
+            token=token,
             params=params,
             fields=",".join(fields or []),
         )

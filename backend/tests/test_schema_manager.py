@@ -144,6 +144,22 @@ async def test_schema_manager_does_not_repeat_existing_unique_constraint() -> No
 
 
 @pytest.mark.asyncio
+async def test_schema_manager_accepts_legacy_managed_constraint_with_matching_keys() -> None:
+    record = metadata()
+    record.unique_keys = ["ts_code"]
+    manager = TrackingSchemaManager(
+        [{"ts_code": Text(), "close": Double()}],
+        existing_constraints={"uq_daily_0123456789ab": ["ts_code"]},
+    )
+
+    await manager.ensure_table(record, ["ts_code", "close"])
+
+    ddl = "\n".join(manager.fake_engine.connection.statements)
+    assert "DROP CONSTRAINT" not in ddl
+    assert "ADD CONSTRAINT" not in ddl
+
+
+@pytest.mark.asyncio
 async def test_schema_manager_refuses_to_replace_obsolete_platform_constraint_during_sync() -> None:
     record = metadata()
     record.unique_keys = ["ts_code"]

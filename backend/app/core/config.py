@@ -23,6 +23,7 @@ class Settings(BaseSettings):
     api_v1_prefix: str = "/api"
     database_url: str
     tushare_token: str = Field(default="", repr=False)
+    runtime_secret_key: str = Field(default="", repr=False)
     tushare_api_base_url: HttpUrl = HttpUrl("https://api.tushare.pro")
     tushare_timeout_seconds: float = Field(default=30.0, gt=0, le=120)
     preview_row_limit: int = Field(default=100, gt=0, le=1000)
@@ -32,19 +33,20 @@ class Settings(BaseSettings):
     tushare_retry_max_delay: float = Field(default=30.0, ge=0, le=300)
     tushare_retry_backoff_multiplier: float = Field(default=2.0, ge=1, le=10)
     tushare_retry_jitter: float = Field(default=0.25, ge=0, le=5)
-    tushare_global_rate_requests: int = Field(default=200, gt=0)
+    tushare_global_rate_requests: int = Field(default=180, gt=0)
     tushare_global_rate_period_seconds: float = Field(default=60.0, gt=0)
     worker_poll_interval_seconds: float = Field(default=1.0, gt=0, le=60)
     execution_stale_timeout_seconds: int = Field(default=600, ge=60, le=86400)
     execution_recovery_policy: Literal["MANUAL", "REQUEUE", "FAIL"] = "MANUAL"
     execution_max_recovery_attempts: int = Field(default=2, ge=0, le=10)
-    run_embedded_worker: bool = True
+    run_embedded_worker: bool = False
     scheduler_poll_interval_seconds: float = Field(default=15.0, gt=0, le=300)
     scheduler_misfire_grace_seconds: int = Field(default=60, ge=0, le=86400)
     delete_preview_ttl_seconds: int = Field(default=600, ge=60, le=3600)
     delete_batch_threshold: int = Field(default=50000, ge=1)
     delete_batch_size: int = Field(default=10000, ge=100, le=100000)
     database_statement_timeout_ms: int = Field(default=120000, ge=1000, le=3600000)
+    sql_task_allowed_schemas: str = "analytics,public"
     maintenance_poll_interval_seconds: float = Field(default=15.0, gt=0, le=300)
     maintenance_staging_cleanup_interval_seconds: int = Field(default=300, ge=10)
     maintenance_calendar_interval_seconds: int = Field(default=3600, ge=60)
@@ -69,6 +71,14 @@ class Settings(BaseSettings):
     @property
     def cors_origin_list(self) -> list[str]:
         return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
+
+    @property
+    def sql_task_allowed_schema_list(self) -> list[str]:
+        return [
+            schema.strip()
+            for schema in self.sql_task_allowed_schemas.split(",")
+            if schema.strip()
+        ]
 
 
 @lru_cache

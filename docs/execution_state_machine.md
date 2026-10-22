@@ -29,7 +29,7 @@ RUNNING -> STALE -> RECOVERING -> PENDING
 
 ## Recovery rules
 
-自动 `REQUEUE` 仅允许 `UPSERT + VERIFIED unique_keys + maturity >= VERIFIED`。APPEND 不允许自动整体重跑。已经进入单条数据库 SQL 后，取消只能在 SQL 返回后生效。
+自动 `REQUEUE` 要求执行模式为 UPSERT、`VERIFIED unique_keys + maturity >= VERIFIED` 且数据库约束同步。`NONE` 操作不得自动重排。已经进入单条数据库 SQL 后，取消只能在 SQL 返回后生效。
 
 ## Sources
 

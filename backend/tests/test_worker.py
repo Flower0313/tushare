@@ -35,7 +35,9 @@ class ClaimOnceRepository:
 async def test_two_workers_claim_one_execution_only_once() -> None:
     execution = SimpleNamespace(id=uuid4(), rows_received=0, rows_written=0, pages_completed=0)
     repository = ClaimOnceRepository(execution)
-    processor = AsyncMock(return_value=SyncRunResult(10, 2, 2, 1))
+    processor = AsyncMock(
+        return_value=SyncRunResult(10, 2, 2, 1, rows_inserted=1, rows_updated=1)
+    )
     workers = [
         ExecutionWorker(
             worker_id=f"worker-{index}",
@@ -52,6 +54,8 @@ async def test_two_workers_claim_one_execution_only_once() -> None:
     assert execution.status == "RUNNING"
     processor.assert_awaited_once_with(execution)
     repository.mark_success.assert_awaited_once()
+    assert repository.mark_success.await_args.kwargs["rows_inserted"] == 1
+    assert repository.mark_success.await_args.kwargs["rows_updated"] == 1
 
 
 @pytest.mark.asyncio

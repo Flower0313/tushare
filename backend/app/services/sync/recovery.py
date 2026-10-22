@@ -7,6 +7,7 @@ from app.repositories.metadata import MetadataRepository
 from app.repositories.runtime_governance import (
     ServiceHeartbeatRepository,
 )
+from app.schemas.tushare import WriteMode
 from app.services.legacy.staging_compatibility import StagingCompatibilityService
 from app.services.sync.schema_manager import TableSchemaManager
 
@@ -96,15 +97,15 @@ class ExecutionRecoveryService:
             requeued += 1
         return RecoveryResult(stale=len(records), requeued=requeued)
 
-    async def requeue(self, execution: object, *, allow_append: bool = False):
-        if not allow_append and not await self.can_auto_retry_execution(execution):
+    async def requeue(self, execution: object):
+        if not await self.can_auto_retry_execution(execution):
             return None
         return await self._executions.enqueue(
             api_name=execution.api_name,
             task_key=execution.task_key,
             params=execution.request_params,
             fields=execution.request_fields,
-            write_mode=execution.write_mode,
+            write_mode=WriteMode.UPSERT.value,
             target_schema=execution.target_schema,
             target_table=execution.target_table,
             parent_execution_id=execution.id,
@@ -120,7 +121,11 @@ class ExecutionRecoveryService:
     async def can_auto_retry_execution(self, execution: object) -> bool:
         if getattr(execution, "operation_type", "SYNC") != "SYNC":
             return False
-        if getattr(execution, "write_mode", None) != "UPSERT":
+        try:
+            mode = WriteMode(str(getattr(execution, "write_mode", "")))
+        except ValueError:
+            return False
+        if mode is not WriteMode.UPSERT:
             return False
         if getattr(execution, "recovery_count", 0) >= getattr(
             execution, "max_recovery_attempts", 0

@@ -2,16 +2,16 @@
 
 | API | Category | Metadata | Natural Key | Strategy | Real Test | Maturity |
 |---|---|---|---|---|---|---|
-| `margin` | 两融及转融通 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | SUCCESS | VERIFIED |
-| `margin_detail` | 两融及转融通 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | SUCCESS | VERIFIED |
+| `margin` | 两融及转融通 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_REQUESTED | VERIFIED |
+| `margin_detail` | 两融及转融通 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_REQUESTED | VERIFIED |
 | `margin_secs` | 两融及转融通 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_REQUESTED | VERIFIED |
 | `slb_len` | 两融及转融通 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_RUN | VERIFIED |
 | `slb_len_mm` | 两融及转融通 | PASS | REVIEW | SINGLE | NOT_RUN | DEPRECATED |
 | `slb_sec` | 两融及转融通 | PASS | REVIEW | SINGLE | NOT_RUN | DEPRECATED |
 | `slb_sec_detail` | 两融及转融通 | PASS | REVIEW | SINGLE | NOT_RUN | DEPRECATED |
-| `block_trade` | 参考数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | SUCCESS | VERIFIED |
+| `block_trade` | 参考数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_REQUESTED | VERIFIED |
 | `pledge_detail` | 参考数据 | PASS | DOCUMENT_REVIEWED | DATE_AND_CODE | NOT_RUN | VERIFIED |
-| `pledge_stat` | 参考数据 | PASS | DOCUMENT_REVIEWED | SINGLE | SUCCESS | VERIFIED |
+| `pledge_stat` | 参考数据 | PASS | DOCUMENT_REVIEWED | SINGLE | NOT_REQUESTED | VERIFIED |
 | `repurchase` | 参考数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_REQUESTED | VERIFIED |
 | `share_float` | 参考数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_RUN | VERIFIED |
 | `stk_account` | 参考数据 | PASS | REVIEW | SINGLE | NOT_RUN | DEPRECATED |
@@ -32,11 +32,11 @@
 | `stk_managers` | 基础数据 | PASS | DOCUMENT_REVIEWED | DATE_AND_CODE | NOT_RUN | VERIFIED |
 | `stk_premarket` | 基础数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_RUN | VERIFIED |
 | `stk_rewards` | 基础数据 | PASS | DOCUMENT_REVIEWED | CODE_BATCH | NOT_RUN | VERIFIED |
-| `stock_basic` | 基础数据 | PASS | DOCUMENT_REVIEWED | SINGLE | SUCCESS | VERIFIED |
+| `stock_basic` | 基础数据 | PASS | DOCUMENT_REVIEWED | SINGLE | NOT_REQUESTED | VERIFIED |
 | `stock_company` | 基础数据 | PASS | DOCUMENT_REVIEWED | SINGLE | NOT_REQUESTED | VERIFIED |
 | `stock_hsgt` | 基础数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_RUN | VERIFIED |
 | `stock_st` | 基础数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_RUN | VERIFIED |
-| `trade_cal` | 基础数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | SUCCESS | VERIFIED |
+| `trade_cal` | 基础数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_REQUESTED | VERIFIED |
 | `dc_daily` | 打板专题数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_RUN | VERIFIED |
 | `dc_hot` | 打板专题数据 | PASS | DOCUMENT_REVIEWED | TRADE_DATE | NOT_RUN | VERIFIED |
 | `dc_index` | 打板专题数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_RUN | VERIFIED |
@@ -57,11 +57,11 @@
 | `ths_hot` | 打板专题数据 | PASS | DOCUMENT_REVIEWED | TRADE_DATE | NOT_RUN | VERIFIED |
 | `ths_index` | 打板专题数据 | PASS | DOCUMENT_REVIEWED | SINGLE | NOT_REQUESTED | VERIFIED |
 | `ths_member` | 打板专题数据 | PASS | DOCUMENT_REVIEWED | SINGLE | NOT_RUN | VERIFIED |
-| `top_inst` | 打板专题数据 | PASS | DOCUMENT_REVIEWED | TRADE_DATE | EMPTY | VERIFIED |
-| `top_list` | 打板专题数据 | PASS | DOCUMENT_REVIEWED | TRADE_DATE | EMPTY | VERIFIED |
-| `broker_recommend` | 特色数据 | PASS | DOCUMENT_REVIEWED | SINGLE | SUCCESS | VERIFIED |
+| `top_inst` | 打板专题数据 | PASS | DOCUMENT_REVIEWED | TRADE_DATE | NOT_REQUESTED | VERIFIED |
+| `top_list` | 打板专题数据 | PASS | DOCUMENT_REVIEWED | TRADE_DATE | NOT_REQUESTED | VERIFIED |
+| `broker_recommend` | 特色数据 | PASS | DOCUMENT_REVIEWED | SINGLE | NOT_REQUESTED | VERIFIED |
 | `cyq_chips` | 特色数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_REQUESTED | VERIFIED |
-| `cyq_perf` | 特色数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | SUCCESS | VERIFIED |
+| `cyq_perf` | 特色数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_REQUESTED | VERIFIED |
 | `report_rc` | 特色数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_RUN | VERIFIED |
 | `stk_ah_comparison` | 特色数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_RUN | VERIFIED |
 | `stk_auction_c` | 特色数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_RUN | VERIFIED |
@@ -72,11 +72,11 @@
 | `stk_surv` | 特色数据 | PASS | DOCUMENT_REVIEWED | DATE_AND_CODE | NOT_RUN | VERIFIED |
 | `adj_factor` | 行情数据 | PASS | DOCUMENT_REVIEWED | SINGLE | NOT_REQUESTED | VERIFIED |
 | `bak_daily` | 行情数据 | PASS | DOCUMENT_REVIEWED | OFFSET | NOT_RUN | VERIFIED |
-| `daily` | 行情数据 | PASS | SAMPLE_PASS | DATE_RANGE | SUCCESS | PRODUCTION |
+| `daily` | 行情数据 | PASS | SAMPLE_PASS | DATE_RANGE | NOT_REQUESTED | PRODUCTION |
 | `daily_basic` | 行情数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_RUN | VERIFIED |
 | `hsgt_top10` | 行情数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_RUN | VERIFIED |
 | `monthly` | 行情数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_RUN | VERIFIED |
-| `pro_bar` | 行情数据 | PASS | SAMPLE_PASS | CUSTOM | SUCCESS | PRODUCTION |
+| `pro_bar` | 行情数据 | PASS | SAMPLE_PASS | CUSTOM | NOT_REQUESTED | PRODUCTION |
 | `rt_k` | 行情数据 | PASS | DOCUMENT_REVIEWED | CODE_BATCH | NOT_RUN | VERIFIED |
 | `rt_min` | 行情数据 | PASS | DOCUMENT_REVIEWED | CODE_BATCH | NOT_RUN | VERIFIED |
 | `rt_min_daily` | 行情数据 | PASS | DOCUMENT_REVIEWED | CODE_BATCH | NOT_RUN | VERIFIED |
@@ -86,8 +86,8 @@
 | `stk_weekly_monthly` | 行情数据 | PASS | DOCUMENT_REVIEWED | DATE_AND_CODE | NOT_RUN | VERIFIED |
 | `suspend_d` | 行情数据 | PASS | REVIEW | SINGLE | NOT_RUN | DEPRECATED |
 | `unknown_doc_109` | 行情数据 | FAIL | REVIEW | SINGLE | NOT_RUN | EXPERIMENTAL |
-| `weekly` | 行情数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | SUCCESS | VERIFIED |
-| `balancesheet` | 财务数据 | PASS | DOCUMENT_REVIEWED | DATE_AND_CODE | SUCCESS | VERIFIED |
+| `weekly` | 行情数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_REQUESTED | VERIFIED |
+| `balancesheet` | 财务数据 | PASS | DOCUMENT_REVIEWED | DATE_AND_CODE | NOT_REQUESTED | VERIFIED |
 | `cashflow` | 财务数据 | PASS | DOCUMENT_REVIEWED | DATE_AND_CODE | NOT_REQUESTED | VERIFIED |
 | `disclosure_date` | 财务数据 | PASS | DOCUMENT_REVIEWED | CODE_BATCH | NOT_RUN | VERIFIED |
 | `dividend` | 财务数据 | PASS | DOCUMENT_REVIEWED | CODE_BATCH | NOT_RUN | VERIFIED |
@@ -96,12 +96,12 @@
 | `fina_indicator` | 财务数据 | PASS | DOCUMENT_REVIEWED | DATE_AND_CODE | NOT_RUN | VERIFIED |
 | `fina_mainbz` | 财务数据 | PASS | DOCUMENT_REVIEWED | DATE_AND_CODE | NOT_RUN | VERIFIED |
 | `forecast` | 财务数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_RUN | VERIFIED |
-| `income` | 财务数据 | PASS | DOCUMENT_REVIEWED | DATE_AND_CODE | SUCCESS | VERIFIED |
-| `income_vip` | 财务数据 | PASS | USER_CONFIRMED | SINGLE | SUCCESS | VERIFIED |
-| `moneyflow` | 资金流向数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | SUCCESS | VERIFIED |
+| `income` | 财务数据 | PASS | DOCUMENT_REVIEWED | DATE_AND_CODE | NOT_REQUESTED | VERIFIED |
+| `income_vip` | 财务数据 | PASS | USER_CONFIRMED | SINGLE | NOT_REQUESTED | VERIFIED |
+| `moneyflow` | 资金流向数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_REQUESTED | VERIFIED |
 | `moneyflow_cnt_ths` | 资金流向数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_RUN | VERIFIED |
 | `moneyflow_dc` | 资金流向数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_REQUESTED | VERIFIED |
 | `moneyflow_ind_dc` | 资金流向数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_RUN | VERIFIED |
 | `moneyflow_ind_ths` | 资金流向数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_RUN | VERIFIED |
 | `moneyflow_mkt_dc` | 资金流向数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_RUN | VERIFIED |
-| `moneyflow_ths` | 资金流向数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | SUCCESS | VERIFIED |
+| `moneyflow_ths` | 资金流向数据 | PASS | DOCUMENT_REVIEWED | DATE_RANGE | NOT_REQUESTED | VERIFIED |

@@ -75,10 +75,12 @@ class ExecutionOutcomeCoordinator:
                         dict(policy_snapshot) if policy_snapshot else None,
                     )
                 except Exception as exc:
+                    code = getattr(exc, "code", None)
+                    message = f"{code}: {exc}" if code else str(exc)
                     await self._operations.update(
                         operation.id,
                         status="VALIDATION_FAILED",
-                        error_message=f"Reset completeness validation failed: {exc}"[:4000],
+                        error_message=f"Reset completeness validation failed: {message}"[:4000],
                     )
                     return
                 await self._operations.update(

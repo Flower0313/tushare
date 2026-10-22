@@ -4,7 +4,7 @@ import { formatDateTime } from '../../utils/formatters'
 import type { ScheduleCenterController } from './useScheduleCenter'
 
 export function ScheduleRunHistory({ center }: { center: ScheduleCenterController }) {
-  return <Modal open={center.history !== null} title="调度触发历史" footer={null} width={900} onCancel={center.closeHistory}>
+  return <Modal className="schedule-history-modal" open={center.history !== null} title="调度触发历史" footer={null} width="min(56.25rem, calc(100vw - 2rem))" onCancel={center.closeHistory}>
     <Table rowKey="id" dataSource={center.history ?? []} columns={[
       { title: '计划时间', dataIndex: 'scheduled_at', render: formatDateTime },
       { title: '触发时间', dataIndex: 'fired_at', render: formatDateTime },

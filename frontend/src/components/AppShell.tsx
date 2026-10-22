@@ -17,7 +17,7 @@ import {
   TableOutlined,
   WarningOutlined,
 } from '@ant-design/icons'
-import { Button, Drawer, Dropdown, Layout, Menu, Tooltip, Typography } from 'antd'
+import { Button, Drawer, Dropdown, Layout, Menu, Typography } from 'antd'
 import type { MenuProps } from 'antd'
 import { useEffect, useState } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
@@ -28,13 +28,13 @@ import { useTheme } from './theme/useTheme'
 const { Header, Content, Sider } = Layout
 
 const topLevelItems: MenuProps['items'] = [
-  { key: '/overview', icon: <AppstoreOutlined />, label: 'Dashboard' },
+  { key: '/overview', icon: <AppstoreOutlined />, label: '概览' },
   {
     type: 'group' as const,
     label: '数据接口',
     children: [
-      { key: '/apis', icon: <ApiOutlined />, label: '股票数据' },
-      { key: '/metadata', icon: <DatabaseOutlined />, label: 'Metadata 状态' },
+      { key: '/apis', icon: <ApiOutlined />, label: '接口目录' },
+      { key: '/metadata', icon: <DatabaseOutlined />, label: '元数据状态' },
       { key: '/validations', icon: <CheckCircleOutlined />, label: '接口验收' },
     ],
   },
@@ -121,7 +121,7 @@ export function AppShell() {
       />
       <div className="rail-footnote">
         <span className="rail-footnote-mark" aria-hidden="true" />
-        <span><strong>本地环境</strong> · Metadata 引擎已就绪</span>
+          <span><strong>本地环境</strong><small>元数据引擎已就绪</small></span>
       </div>
     </>
   )
@@ -172,9 +172,7 @@ export function AppShell() {
                 ],
               }}
             >
-              <Tooltip title="主题">
-                <Button type="text" icon={mode === 'light' ? <SunOutlined /> : mode === 'dark' ? <MoonOutlined /> : <DesktopOutlined />} aria-label="切换主题" />
-              </Tooltip>
+              <Button title="主题" type="text" icon={mode === 'light' ? <SunOutlined /> : mode === 'dark' ? <MoonOutlined /> : <DesktopOutlined />} aria-label="切换主题" />
             </Dropdown>
           </div>
         </Header>
@@ -196,13 +194,13 @@ export function AppShell() {
 }
 
 function routeContextFor(pathname: string): string[] {
-  if (pathname.startsWith('/apis')) return ['数据接口', '股票数据']
-  if (pathname === '/metadata') return ['数据接口', 'Metadata 状态']
+  if (pathname.startsWith('/apis')) return ['数据接口', '接口目录']
+  if (pathname === '/metadata') return ['数据接口', '元数据状态']
   if (pathname === '/validations') return ['数据接口', '接口验收']
   if (pathname === '/tasks') return ['任务中心', '定时任务']
   if (pathname.startsWith('/history')) return ['任务中心', pathname.endsWith('running') ? '运行中' : pathname.endsWith('exceptions') ? '异常任务' : '执行记录']
   if (pathname === '/data' || pathname === '/operations') return ['数据管理', '数据浏览与维护']
   if (pathname === '/system') return ['运维', '系统状态']
   if (pathname === '/settings') return ['设置']
-  return ['Dashboard']
+  return ['概览']
 }

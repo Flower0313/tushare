@@ -1,0 +1,106 @@
+{
+  "__defaults__": {
+    "param_overrides": {
+      "ts_code": {
+        "input_kind": "stock_code_select",
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "etf_basic",
+          "code_label_fields": ["csname", "extname", "cname"]
+        }
+      }
+    }
+  },
+  "etf_basic": {
+    "status": "ACTIVE", "metadata_review": "VERIFIED", "needs_review": false, "maturity": "VERIFIED",
+    "unique_keys": ["ts_code"], "fetch_strategy": {"type": "code_batch", "code_param": "ts_code", "code_source": "etf_basic", "source_field": "ts_code", "status_field": "list_status", "status_values": ["L"], "batch_size": 1, "all_codes_mode": "omit"},
+    "review_metadata": {"fetch_boundary_status": "FULL_SNAPSHOT_WITHIN_LIMIT", "fetch_boundary_note": "官方说明当前 ETF 总数未超过 2000，低于单次 5000 条上限"},
+    "default_order_by": [{"field": "ts_code", "direction": "asc"}]
+  },
+  "etf_index": {
+    "status": "ACTIVE", "metadata_review": "VERIFIED", "needs_review": false, "maturity": "VERIFIED",
+    "unique_keys": ["ts_code"], "fetch_strategy": {"type": "code_batch", "code_param": "ts_code", "code_source": "etf_index", "source_field": "ts_code", "status_field": null, "status_values": [], "batch_size": 1, "all_codes_mode": "omit"},
+    "param_overrides": {"ts_code": {"constraints": {"multiple": true, "allow_all": true, "code_source": "etf_index", "code_label_fields": ["indx_name", "indx_csname"]}}},
+    "review_metadata": {"fetch_boundary_status": "FULL_SNAPSHOT_WITHIN_LIMIT", "fetch_boundary_note": "官方说明当前指数列表未超过 2000，低于单次 5000 条上限"},
+    "default_order_by": [{"field": "ts_code", "direction": "asc"}]
+  },
+  "rt_etf_min": {
+    "status": "ACTIVE", "metadata_review": "VERIFIED", "needs_review": false, "maturity": "VERIFIED",
+    "unique_keys": ["ts_code", "time"],
+    "fetch_strategy": {"type": "code_batch", "code_param": "ts_code", "code_source": "etf_basic", "source_field": "ts_code", "status_field": "list_status", "status_values": ["L"], "batch_size": 1},
+    "default_order_by": [{"field": "time", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "rt_etf_min_daily": {
+    "status": "ACTIVE", "metadata_review": "VERIFIED", "needs_review": false, "maturity": "VERIFIED",
+    "unique_keys": ["ts_code", "time"],
+    "fetch_strategy": {"type": "code_batch", "code_param": "ts_code", "code_source": "etf_basic", "source_field": "ts_code", "status_field": "list_status", "status_values": ["L"], "batch_size": 20},
+    "default_order_by": [{"field": "time", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "etf_mins": {
+    "status": "ACTIVE", "metadata_review": "VERIFIED", "needs_review": false, "maturity": "VERIFIED",
+    "unique_keys": ["ts_code", "trade_time"],
+    "fetch_strategy": {"type": "date_and_code", "order": "code_first", "date": {"start_param": "start_date", "end_param": "end_date", "chunk_unit": "month", "date_format": "YYYY-MM-DD HH:mm:ss"}, "code": {"param": "ts_code", "code_source": "etf_basic", "source_field": "ts_code", "status_field": "list_status", "status_values": ["L"], "batch_size": 1}},
+    "default_order_by": [{"field": "trade_time", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "rt_etf_k": {
+    "status": "ACTIVE", "metadata_review": "VERIFIED", "needs_review": false, "maturity": "VERIFIED",
+    "unique_keys": ["ts_code", "trade_time"],
+    "fetch_strategy": {"type": "code_batch", "code_param": "ts_code", "code_source": "etf_basic", "source_field": "ts_code", "status_field": "list_status", "status_values": ["L"], "batch_size": 20},
+    "default_order_by": [{"field": "trade_time", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "fund_daily": {
+    "status": "ACTIVE", "metadata_review": "VERIFIED", "needs_review": false, "maturity": "VERIFIED",
+    "unique_keys": ["ts_code", "trade_date"],
+    "fetch_strategy": {"type": "date_and_code", "order": "date_first", "date": {"start_param": "start_date", "end_param": "end_date", "chunk_unit": "day"}, "code": {"param": "ts_code", "code_source": "etf_basic", "source_field": "ts_code", "status_field": "list_status", "status_values": ["L"], "batch_size": 1}},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "etf_auction": {
+    "status": "ACTIVE", "metadata_review": "VERIFIED", "needs_review": false, "maturity": "VERIFIED",
+    "unique_keys": ["ts_code", "trade_date"],
+    "fetch_strategy": {"type": "date_and_code", "order": "date_first", "date": {"start_param": "start_date", "end_param": "end_date", "chunk_unit": "day"}, "code": {"param": "ts_code", "code_source": "etf_basic", "source_field": "ts_code", "status_field": "list_status", "status_values": ["L"], "batch_size": 1}},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "fund_adj": {
+    "status": "ACTIVE", "metadata_review": "VERIFIED", "needs_review": false, "maturity": "VERIFIED",
+    "unique_keys": ["ts_code", "trade_date"],
+    "pagination": {"supported": true, "type": "offset_limit", "limit_param": "limit", "offset_param": "offset", "default_limit": 2000, "max_limit": 2000},
+    "fetch_strategy": {"type": "offset", "limit_param": "limit", "offset_param": "offset", "default_limit": 2000, "max_limit": 2000, "code_param": "ts_code", "all_codes_mode": "omit"},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "etf_limit": {
+    "status": "ACTIVE", "metadata_review": "VERIFIED", "needs_review": false, "maturity": "VERIFIED",
+    "unique_keys": ["ts_code", "trade_date"],
+    "fetch_strategy": {"type": "date_and_code", "order": "date_first", "date": {"start_param": "start_date", "end_param": "end_date", "chunk_unit": "day"}, "code": {"param": "ts_code", "code_source": "etf_basic", "source_field": "ts_code", "status_field": "list_status", "status_values": ["L"], "batch_size": 1}},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "fund_factor_pro": {
+    "status": "ACTIVE", "metadata_review": "VERIFIED", "needs_review": false, "maturity": "VERIFIED",
+    "unique_keys": ["ts_code", "trade_date"],
+    "fetch_strategy": {"type": "date_and_code", "order": "code_first", "date": {"start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"}, "code": {"param": "ts_code", "code_source": "etf_basic", "source_field": "ts_code", "status_field": "list_status", "status_values": ["L"], "batch_size": 1}},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "etf_share_size": {
+    "status": "ACTIVE", "metadata_review": "VERIFIED", "needs_review": false, "maturity": "VERIFIED",
+    "unique_keys": ["ts_code", "trade_date"],
+    "fetch_strategy": {"type": "date_and_code", "order": "date_first", "date": {"start_param": "start_date", "end_param": "end_date", "chunk_unit": "day"}, "code": {"param": "ts_code", "code_source": "etf_basic", "source_field": "ts_code", "status_field": "list_status", "status_values": ["L"], "batch_size": 1}},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "etf_sh_cons": {
+    "status": "ACTIVE", "metadata_review": "VERIFIED", "needs_review": false, "maturity": "VERIFIED",
+    "unique_keys": ["trade_date", "ts_code", "con_code"],
+    "fetch_strategy": {"type": "date_and_code", "order": "date_first", "date": {"start_param": "start_date", "end_param": "end_date", "chunk_unit": "day"}, "code": {"param": "ts_code", "code_source": "etf_basic", "source_field": "ts_code", "status_field": "exchange", "status_values": ["SH"], "batch_size": 1}},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}, {"field": "con_code", "direction": "asc"}]
+  },
+  "etf_sz_cons": {
+    "status": "ACTIVE", "metadata_review": "VERIFIED", "needs_review": false, "maturity": "VERIFIED",
+    "unique_keys": ["trade_date", "ts_code", "con_code"],
+    "fetch_strategy": {"type": "date_and_code", "order": "date_first", "date": {"start_param": "start_date", "end_param": "end_date", "chunk_unit": "day"}, "code": {"param": "ts_code", "code_source": "etf_basic", "source_field": "ts_code", "status_field": "exchange", "status_values": ["SZ"], "batch_size": 1}},
+    "default_order_by": [{"field": "trade_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}, {"field": "con_code", "direction": "asc"}]
+  },
+  "rt_etf_sz_iopv": {
+    "status": "ACTIVE", "metadata_review": "VERIFIED", "needs_review": false, "maturity": "VERIFIED",
+    "unique_keys": ["ts_code", "trade_time"], "fetch_strategy": {"type": "code_batch", "code_param": "ts_code", "code_source": "etf_basic", "source_field": "ts_code", "status_field": "list_status", "status_values": ["L"], "batch_size": 20, "all_codes_mode": "omit"},
+    "default_order_by": [{"field": "trade_time", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  }
+}

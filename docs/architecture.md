@@ -79,7 +79,7 @@ Worker Process（FOR UPDATE SKIP LOCKED）→ SyncService
                ├→ TaskLockService（PostgreSQL advisory lock）
                ├→ PaginationService（逐页 fetch/transform/write）
                ├→ TableSchemaManager / TypeMapper / UNIQUE
-               ├→ PostgresDataWriter（APPEND 或 UPSERT）
+               ├→ PostgresDataWriter（基于 Effective Unique Keys 的幂等 UPSERT）
                └→ ExecutionRepository（独立短事务与逐页进度）
 ```
 
@@ -111,5 +111,5 @@ Worker Process（FOR UPDATE SKIP LOCKED）→ SyncService
 - Scheduler 已作为独立进程并通过 PostgreSQL advisory lock 选主；当前尚未实现自动恢复 stale RUNNING Execution。
 - 动态建表属于 DDL，表名和字段名必须先来自已注册 Metadata，再经过严格标识符校验和 dialect quoting。值始终参数化。
 - DDL 和数据页写入继续使用独立事务，这是避免长事务锁住 schema 的设计决策。分页中途失败可能已经提交前序页面，Execution 会明确记录部分完成状态。
-- APPEND 仍允许显式选择，并且不提供幂等保证；只有 Effective Keys 非空且约束状态为 `SYNCED` 的 UPSERT 才保证重复执行不新增重复行。
-- 当前 rows_inserted / rows_updated 保留为空，尚未为统计目的引入额外 SQL。
+- 所有同步写入只接受 UPSERT，并要求 Effective Keys 非空且平台管理约束状态为 `SYNCED`；条件不满足时拒绝执行。DELETE 等非同步操作使用 `write_mode=NONE`。
+- PostgreSQL UPSERT 通过同一条语句的 RETURNING 结果精确累计 rows_inserted / rows_updated，不增加预查询竞态。

@@ -16,7 +16,7 @@ export function DataManagementPage() {
   const usesApiData = model.activeView === 'browse' || model.activeView === 'lifecycle'
 
   return <main className="page data-management-page">
-    <PageHeader title="数据管理" description="通过 Metadata 安全查询数据、预览删除影响并执行范围重刷。" />
+    <PageHeader title="数据管理" description="通过元数据安全查询数据、预览删除影响并执行范围重刷。" />
     <Tabs className="workspace-tabs" activeKey={model.activeView} onChange={model.changeView} items={tabs} />
     {usesApiData && <ApiDataSelector model={model} />}
     {model.activeView === 'browse' && <DataBrowser model={model} />}

@@ -1,14 +1,17 @@
 {
-  "validated_at": "2026-09-30T13:04:21.612912+00:00",
+  "validated_at": "2026-10-21T11:51:46.817206+00:00",
   "live": true,
-  "sync_enabled": true,
+  "sync_enabled": false,
   "summary": {
     "total": 26,
     "preview_success": 26,
-    "sync_attempted": 18,
-    "sync_success": 18,
+    "sync_attempted": 0,
+    "sync_success": 0,
     "sync_failed": 0,
-    "permission_denied": 0
+    "permission_denied": 0,
+    "non_empty": 24,
+    "empty": 2,
+    "network_failed": 0
   },
   "results": [
     {
@@ -18,7 +21,7 @@
         "ts_code": "000001.SZ"
       },
       "preview_status": "SUCCESS",
-      "sync_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
       "rows_received": 1,
       "requested_fields": [
         "ts_code",
@@ -33,10 +36,7 @@
         "area"
       ],
       "field_match": true,
-      "execution_id": "8ee3e9e6-55fc-4f13-9741-5a7c71320edf",
-      "rows_written": 1,
-      "target_table": "tushare.stock_basic",
-      "execution_error": null
+      "empty_result_reason": null
     },
     {
       "subcategory": "基础数据",
@@ -47,7 +47,7 @@
         "end_date": "20250929"
       },
       "preview_status": "SUCCESS",
-      "sync_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
       "rows_received": 1,
       "requested_fields": [
         "exchange",
@@ -62,10 +62,7 @@
         "pretrade_date"
       ],
       "field_match": true,
-      "execution_id": "2b1917c6-7218-42cf-bacf-6cd6be822c3b",
-      "rows_written": 1,
-      "target_table": "tushare.trade_cal",
-      "execution_error": null
+      "empty_result_reason": null
     },
     {
       "subcategory": "基础数据",
@@ -88,7 +85,8 @@
         "com_id",
         "exchange"
       ],
-      "field_match": true
+      "field_match": true,
+      "empty_result_reason": null
     },
     {
       "subcategory": "行情数据",
@@ -98,7 +96,7 @@
         "trade_date": "20250929"
       },
       "preview_status": "SUCCESS",
-      "sync_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
       "rows_received": 1,
       "requested_fields": [
         "ts_code",
@@ -115,10 +113,7 @@
         "low"
       ],
       "field_match": true,
-      "execution_id": "ca875d96-8627-461b-a197-2abfb0d28f45",
-      "rows_written": 1,
-      "target_table": "tushare.daily",
-      "execution_error": null
+      "empty_result_reason": null
     },
     {
       "subcategory": "行情数据",
@@ -129,7 +124,7 @@
         "end_date": "20250929"
       },
       "preview_status": "SUCCESS",
-      "sync_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
       "rows_received": 4,
       "requested_fields": [
         "ts_code",
@@ -146,10 +141,7 @@
         "high"
       ],
       "field_match": true,
-      "execution_id": "2bf606b4-f063-4749-8f7a-c68783e6a486",
-      "rows_written": 4,
-      "target_table": "tushare.weekly",
-      "execution_error": null
+      "empty_result_reason": null
     },
     {
       "subcategory": "行情数据",
@@ -171,7 +163,8 @@
         "trade_date",
         "adj_factor"
       ],
-      "field_match": true
+      "field_match": true,
+      "empty_result_reason": null
     },
     {
       "subcategory": "行情数据",
@@ -185,7 +178,7 @@
         "asset": "E"
       },
       "preview_status": "SUCCESS",
-      "sync_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
       "rows_received": 21,
       "requested_fields": [
         "ts_code",
@@ -202,10 +195,7 @@
         "low"
       ],
       "field_match": true,
-      "execution_id": "2f5d95ed-4a81-439a-9778-2e161737f805",
-      "rows_written": 21,
-      "target_table": "tushare.pro_bar",
-      "execution_error": null
+      "empty_result_reason": null
     },
     {
       "subcategory": "财务数据",
@@ -215,7 +205,7 @@
         "period": "20250630"
       },
       "preview_status": "SUCCESS",
-      "sync_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
       "rows_received": 1,
       "requested_fields": [
         "ts_code",
@@ -244,10 +234,7 @@
         "total_revenue"
       ],
       "field_match": true,
-      "execution_id": "a0dc7377-6954-4204-82b2-eba4eeabe568",
-      "rows_written": 1,
-      "target_table": "tushare.income",
-      "execution_error": null
+      "empty_result_reason": null
     },
     {
       "subcategory": "财务数据",
@@ -256,39 +243,26 @@
         "period": "20250630"
       },
       "preview_status": "SUCCESS",
-      "sync_status": "SUCCESS",
-      "rows_received": 7769,
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 7779,
       "requested_fields": [
         "ts_code",
         "end_date",
-        "report_type",
-        "comp_type",
-        "end_type",
-        "update_flag",
         "ann_date",
         "f_ann_date",
-        "basic_eps",
-        "diluted_eps",
-        "total_revenue"
+        "report_type",
+        "comp_type"
       ],
       "returned_fields": [
         "ts_code",
         "end_date",
-        "report_type",
-        "comp_type",
-        "end_type",
-        "update_flag",
         "ann_date",
         "f_ann_date",
-        "basic_eps",
-        "diluted_eps",
-        "total_revenue"
+        "report_type",
+        "comp_type"
       ],
       "field_match": true,
-      "execution_id": "51b7cde3-ad7d-4ac5-9b0c-d2210d18cfd5",
-      "rows_written": 7769,
-      "target_table": "tushare.income_vip",
-      "execution_error": null
+      "empty_result_reason": null
     },
     {
       "subcategory": "财务数据",
@@ -298,7 +272,7 @@
         "period": "20250630"
       },
       "preview_status": "SUCCESS",
-      "sync_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
       "rows_received": 2,
       "requested_fields": [
         "ts_code",
@@ -327,10 +301,7 @@
         "undistr_porfit"
       ],
       "field_match": true,
-      "execution_id": "5ff41d5a-1a07-4c0e-8051-517df022b2ee",
-      "rows_written": 2,
-      "target_table": "tushare.balancesheet",
-      "execution_error": null
+      "empty_result_reason": null
     },
     {
       "subcategory": "财务数据",
@@ -368,7 +339,8 @@
         "finan_exp",
         "c_fr_sale_sg"
       ],
-      "field_match": true
+      "field_match": true,
+      "empty_result_reason": null
     },
     {
       "subcategory": "参考数据",
@@ -379,7 +351,7 @@
         "end_date": "20250929"
       },
       "preview_status": "SUCCESS",
-      "sync_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
       "rows_received": 3,
       "requested_fields": [
         "ts_code",
@@ -400,10 +372,7 @@
         "amount"
       ],
       "field_match": true,
-      "execution_id": "b14fa4bd-4e59-4e23-bdc5-86f660eb3662",
-      "rows_written": 3,
-      "target_table": "tushare.block_trade",
-      "execution_error": null
+      "empty_result_reason": null
     },
     {
       "subcategory": "参考数据",
@@ -412,8 +381,8 @@
         "ts_code": "000001.SZ"
       },
       "preview_status": "SUCCESS",
-      "sync_status": "SUCCESS",
-      "rows_received": 646,
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 649,
       "requested_fields": [
         "ts_code",
         "end_date",
@@ -429,10 +398,7 @@
         "rest_pledge"
       ],
       "field_match": true,
-      "execution_id": "b7c9803b-53e9-4b38-9a33-4128eb71ae7a",
-      "rows_written": 646,
-      "target_table": "tushare.pledge_stat",
-      "execution_error": null
+      "empty_result_reason": null
     },
     {
       "subcategory": "参考数据",
@@ -462,7 +428,8 @@
         "vol",
         "amount"
       ],
-      "field_match": true
+      "field_match": true,
+      "empty_result_reason": null
     },
     {
       "subcategory": "特色数据",
@@ -471,7 +438,7 @@
         "month": "202509"
       },
       "preview_status": "SUCCESS",
-      "sync_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
       "rows_received": 210,
       "requested_fields": [
         "month",
@@ -486,10 +453,7 @@
         "name"
       ],
       "field_match": true,
-      "execution_id": "24238299-17e1-45ae-b508-5877aab2a78b",
-      "rows_written": 210,
-      "target_table": "tushare.broker_recommend",
-      "execution_error": null
+      "empty_result_reason": null
     },
     {
       "subcategory": "特色数据",
@@ -499,7 +463,7 @@
         "trade_date": "20250929"
       },
       "preview_status": "SUCCESS",
-      "sync_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
       "rows_received": 1,
       "requested_fields": [
         "ts_code",
@@ -516,10 +480,7 @@
         "cost_5pct"
       ],
       "field_match": true,
-      "execution_id": "fb3e692f-e692-47b6-8a19-7b0f4c52680f",
-      "rows_written": 1,
-      "target_table": "tushare.cyq_perf",
-      "execution_error": null
+      "empty_result_reason": null
     },
     {
       "subcategory": "特色数据",
@@ -543,7 +504,8 @@
         "price",
         "percent"
       ],
-      "field_match": true
+      "field_match": true,
+      "empty_result_reason": null
     },
     {
       "subcategory": "两融及转融通",
@@ -552,7 +514,7 @@
         "trade_date": "20250929"
       },
       "preview_status": "SUCCESS",
-      "sync_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
       "rows_received": 3,
       "requested_fields": [
         "trade_date",
@@ -569,10 +531,7 @@
         "rzche"
       ],
       "field_match": true,
-      "execution_id": "25577801-feb3-4be5-976f-d57e760b6ace",
-      "rows_written": 3,
-      "target_table": "tushare.margin",
-      "execution_error": null
+      "empty_result_reason": null
     },
     {
       "subcategory": "两融及转融通",
@@ -582,7 +541,7 @@
         "trade_date": "20250929"
       },
       "preview_status": "SUCCESS",
-      "sync_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
       "rows_received": 1,
       "requested_fields": [
         "trade_date",
@@ -599,10 +558,7 @@
         "rqye"
       ],
       "field_match": true,
-      "execution_id": "9301b05b-9dbb-4237-9164-4a27b522c68b",
-      "rows_written": 1,
-      "target_table": "tushare.margin_detail",
-      "execution_error": null
+      "empty_result_reason": null
     },
     {
       "subcategory": "两融及转融通",
@@ -626,7 +582,8 @@
         "exchange",
         "name"
       ],
-      "field_match": true
+      "field_match": true,
+      "empty_result_reason": null
     },
     {
       "subcategory": "资金流向数据",
@@ -636,7 +593,7 @@
         "trade_date": "20250929"
       },
       "preview_status": "SUCCESS",
-      "sync_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
       "rows_received": 1,
       "requested_fields": [
         "ts_code",
@@ -653,10 +610,7 @@
         "sell_sm_vol"
       ],
       "field_match": true,
-      "execution_id": "251ffb83-a067-4b46-8991-3d0c55133c83",
-      "rows_written": 1,
-      "target_table": "tushare.moneyflow",
-      "execution_error": null
+      "empty_result_reason": null
     },
     {
       "subcategory": "资金流向数据",
@@ -666,7 +620,7 @@
         "trade_date": "20250929"
       },
       "preview_status": "SUCCESS",
-      "sync_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
       "rows_received": 1,
       "requested_fields": [
         "trade_date",
@@ -683,10 +637,7 @@
         "latest"
       ],
       "field_match": true,
-      "execution_id": "8eb743e8-cc66-499b-b119-e672670e5d45",
-      "rows_written": 1,
-      "target_table": "tushare.moneyflow_ths",
-      "execution_error": null
+      "empty_result_reason": null
     },
     {
       "subcategory": "资金流向数据",
@@ -712,7 +663,8 @@
         "pct_change",
         "close"
       ],
-      "field_match": true
+      "field_match": true,
+      "empty_result_reason": null
     },
     {
       "subcategory": "打板专题数据",
@@ -722,7 +674,7 @@
         "trade_date": "20250929"
       },
       "preview_status": "SUCCESS",
-      "sync_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
       "rows_received": 0,
       "requested_fields": [
         "trade_date",
@@ -739,10 +691,7 @@
         "pct_change"
       ],
       "field_match": true,
-      "execution_id": "bb835a61-a47e-473b-a67d-78e6fd2e98fa",
-      "rows_written": 0,
-      "target_table": "tushare.top_list",
-      "execution_error": null
+      "empty_result_reason": "NO_ROWS_RETURNED_CHECK_DATE_PARAMS"
     },
     {
       "subcategory": "打板专题数据",
@@ -752,7 +701,7 @@
         "trade_date": "20250929"
       },
       "preview_status": "SUCCESS",
-      "sync_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
       "rows_received": 0,
       "requested_fields": [
         "trade_date",
@@ -773,10 +722,7 @@
         "sell"
       ],
       "field_match": true,
-      "execution_id": "f785dc9d-7795-4649-99b8-b549391980a4",
-      "rows_written": 0,
-      "target_table": "tushare.top_inst",
-      "execution_error": null
+      "empty_result_reason": "NO_ROWS_RETURNED_CHECK_DATE_PARAMS"
     },
     {
       "subcategory": "打板专题数据",
@@ -797,7 +743,8 @@
         "count",
         "exchange"
       ],
-      "field_match": true
+      "field_match": true,
+      "empty_result_reason": null
     }
   ]
 }

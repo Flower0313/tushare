@@ -10,6 +10,7 @@ from app.repositories.execution import ExecutionChunkRepository, ExecutionReposi
 from app.repositories.lifecycle import DeletePreviewRepository
 from app.repositories.metadata import MetadataRepository
 from app.repositories.operations import ApiValidationResultRepository, DataOperationRepository
+from app.repositories.runtime_secrets import RuntimeSecretRepository
 from app.repositories.schedule import ScheduleRepository
 from app.repositories.unique_keys import UniqueKeyRepository
 from app.services.legacy.staging_compatibility import StagingCompatibilityService
@@ -17,10 +18,12 @@ from app.services.metadata.service import MetadataService
 from app.services.metadata.validator import MetadataParameterValidator
 from app.services.scheduler.dynamic_params import DynamicParameterResolver
 from app.services.scheduler.service import ScheduleService
+from app.services.scheduler.sql_tasks import SqlTaskService
 from app.services.scheduler.trade_calendar import (
     TradeCalendarService,
     tushare_trade_calendar_fallback,
 )
+from app.services.sync.code_source import PostgresCodeSource
 from app.services.sync.control import ExecutionControlService
 from app.services.sync.data import DataReadService
 from app.services.sync.data_operations import DataOperationService
@@ -31,13 +34,16 @@ from app.services.sync.preview import PreviewService
 from app.services.sync.query import TushareQueryService
 from app.services.sync.replace_dataset_control import ReplaceDatasetControlService
 from app.services.sync.rerun import RerunService
+from app.services.sync.reset_completeness import build_completeness_handler_registry
 from app.services.sync.schema_manager import TableSchemaManager
+from app.services.sync.strategies import QueryStrategyFactory
 from app.services.sync.submission import SyncSubmissionService
 from app.services.sync.task_lock import ApiMutationLockService
 from app.services.sync.type_mapper import TypeMapper
 from app.services.sync.unique_key_analysis import UniqueKeyAnalyzer
 from app.services.sync.unique_keys import UniqueKeyService
 from app.services.tushare.client import TushareClient
+from app.services.tushare.credentials import TushareTokenProvider
 from app.services.tushare.executor import TushareRequestExecutor
 from app.services.validation.runner import ProductionValidationRunner
 
@@ -59,7 +65,9 @@ def get_tushare_client(request: Request) -> TushareClient:
     settings = get_settings()
     http_client: httpx.AsyncClient = request.app.state.tushare_http_client
     return TushareClient(
-        token=settings.tushare_token,
+        token_provider=TushareTokenProvider(
+            RuntimeSecretRepository(AsyncSessionFactory), settings
+        ).get_token,
         base_url=str(settings.tushare_api_base_url),
         http_client=http_client,
     )
@@ -89,10 +97,15 @@ def get_preview_service(
     query_service: QueryServiceDep,
     request_executor: RequestExecutorDep,
 ) -> PreviewService:
+    settings = get_settings()
     return PreviewService(
         query_service=query_service,
         request_executor=request_executor,
-        row_limit=get_settings().preview_row_limit,
+        row_limit=settings.preview_row_limit,
+        strategy_factory=QueryStrategyFactory(
+            max_pages=settings.pagination_max_pages,
+            code_source=PostgresCodeSource(engine),
+        ),
     )
 
 
@@ -111,6 +124,7 @@ def get_unique_key_service(session: SessionDep) -> UniqueKeyService:
             metadata_repository=MetadataRepository(session),
             validator=MetadataParameterValidator(),
         ),
+        completeness_handlers=build_completeness_handler_registry(),
     )
 
 
@@ -242,24 +256,44 @@ ExecutionControlServiceDep = Annotated[
 def get_schedule_service(
     session: SessionDep, request_executor: RequestExecutorDep
 ) -> ScheduleService:
+    settings = get_settings()
     metadata = MetadataRepository(session)
     query_service = TushareQueryService(
         metadata_repository=metadata,
         validator=MetadataParameterValidator(),
+    )
+    calendar = TradeCalendarService(
+        engine,
+        tushare_trade_calendar_fallback(query_service, request_executor),
     )
     return ScheduleService(
         schedules=ScheduleRepository(AsyncSessionFactory),
         executions=ExecutionRepository(AsyncSessionFactory),
         metadata=metadata,
         query_service=query_service,
-        resolver=DynamicParameterResolver(
-            TradeCalendarService(
-                engine,
-                tushare_trade_calendar_fallback(query_service, request_executor),
-            )
+        resolver=DynamicParameterResolver(calendar),
+        sql_tasks=SqlTaskService(
+            engine,
+            allowed_schemas=settings.sql_task_allowed_schema_list,
+            statement_timeout_ms=settings.database_statement_timeout_ms,
+            executions=ExecutionRepository(AsyncSessionFactory),
         ),
+        trade_calendar=calendar,
         operations=DataOperationRepository(AsyncSessionFactory),
     )
 
 
 ScheduleServiceDep = Annotated[ScheduleService, Depends(get_schedule_service)]
+
+
+def get_sql_task_service() -> SqlTaskService:
+    settings = get_settings()
+    return SqlTaskService(
+        engine,
+        allowed_schemas=settings.sql_task_allowed_schema_list,
+        statement_timeout_ms=settings.database_statement_timeout_ms,
+        executions=ExecutionRepository(AsyncSessionFactory),
+    )
+
+
+SqlTaskServiceDep = Annotated[SqlTaskService, Depends(get_sql_task_service)]

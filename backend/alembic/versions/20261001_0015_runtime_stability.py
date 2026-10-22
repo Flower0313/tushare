@@ -7,8 +7,9 @@ Revises: 20261001_0014
 from collections.abc import Sequence
 
 import sqlalchemy as sa
-from alembic import op
 from sqlalchemy.dialects import postgresql
+
+from alembic import op
 
 revision: str = "20261001_0015"
 down_revision: str | None = "20261001_0014"
@@ -40,7 +41,9 @@ def upgrade() -> None:
         sa.Column("retry_count", sa.Integer(), server_default="0", nullable=False),
         schema="platform",
     )
-    op.add_column("execution", sa.Column("last_retry_at", sa.DateTime(timezone=True)), schema="platform")
+    op.add_column(
+        "execution", sa.Column("last_retry_at", sa.DateTime(timezone=True)), schema="platform"
+    )
     op.add_column("execution", sa.Column("last_error_type", sa.String(100)), schema="platform")
     op.add_column(
         "service_heartbeat",
@@ -84,8 +87,8 @@ def upgrade() -> None:
     )
     op.execute(
         "UPDATE platform.schedule SET cron_expression = '15 3 * * *', "
-        "params = '{\"exchange\":\"SSE\",\"start_date\":{\"$dynamic\":\"calendar_coverage_start\"},"
-        "\"end_date\":{\"$dynamic\":\"calendar_coverage_end\"}}'::jsonb, "
+        'params = \'{"exchange":"SSE","start_date":{"$dynamic":"calendar_coverage_start"},'
+        '"end_date":{"$dynamic":"calendar_coverage_end"}}\'::jsonb, '
         "schedule_type = 'SYSTEM', enabled = true "
         "WHERE id = '00000000-0000-0000-0000-000000000808'"
     )
@@ -94,6 +97,12 @@ def upgrade() -> None:
 def downgrade() -> None:
     op.drop_table("upstream_request_event", schema="platform")
     op.drop_column("service_heartbeat", "service_metadata", schema="platform")
-    for name in ("last_error_type", "last_retry_at", "retry_count", "attempt_count", "recovery_policy"):
+    for name in (
+        "last_error_type",
+        "last_retry_at",
+        "retry_count",
+        "attempt_count",
+        "recovery_policy",
+    ):
         op.drop_column("execution", name, schema="platform")
     op.drop_column("api_metadata", "system_critical", schema="platform")

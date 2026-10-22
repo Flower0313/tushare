@@ -1,0 +1,21 @@
+{
+  "started_at": "2026-10-21T14:22:15.352004+00:00",
+  "checks": {
+    "dashboard": 200,
+    "list": 200,
+    "validate": true,
+    "create": true,
+    "get": true,
+    "update": true,
+    "enable": true,
+    "disable": true,
+    "run_now": true,
+    "run_now_completed": true,
+    "history": true,
+    "delete": true
+  },
+  "schedule_id": "2c5b5402-e32a-4961-9ea2-9e35d2f48232",
+  "execution_id": "1d1f5594-d9a1-41a7-9114-7262ee27927c",
+  "execution_status": "SUCCESS",
+  "finished_at": "2026-10-21T14:22:17.526513+00:00"
+}

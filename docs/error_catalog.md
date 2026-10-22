@@ -17,6 +17,7 @@
 | `UNIQUE_KEY_MIGRATION_CONFLICT` | CONCURRENCY | yes | 同一 API 正在同步或迁移 | 等待当前操作结束后重试 |
 | `UNIQUE_KEY_DUPLICATES` | DATA QUALITY | no | 新唯一键与现有数据冲突 | 审查重复组并显式选择清理策略 |
 | `UNIQUE_KEY_PREVIEW_EXPIRED` | VALIDATION | no | 预览过期或配置已变化 | 重新执行影响预览 |
+| `CUSTOM_COMPLETENESS_HANDLER_NOT_FOUND` | VALIDATION / CONFIG | no | Metadata 引用了未注册的完整性处理器 | 注册白名单 Handler 或修正 Metadata |
 | `DATA_WRITE_ERROR` | DATABASE | conditional | 数据库写入失败 | 查看 Raw Error 和数据库状态 |
 | `TASK_ALREADY_RUNNING` | CONCURRENCY | no | 完全相同任务已运行 | 等待当前任务完成 |
 
@@ -28,5 +29,4 @@
 | `POSSIBLE_TRUNCATION` | 返回行数达到上限 | 配置分片策略 |
 | `EMPTY_RESULT` | 请求成功但无数据 | 检查日期和证券代码 |
 | `TRADE_CAL_FALLBACK_USED` | 本地交易日历覆盖不足 | 关注系统维护任务 |
-| `APPEND_NOT_IDEMPOTENT` | APPEND 可能重复 | 优先使用 UPSERT |
 | `VALIDATION_INCOMPLETE` | 未完成真实生产验收 | 运行 Validation Runner |

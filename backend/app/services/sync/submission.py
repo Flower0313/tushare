@@ -54,11 +54,11 @@ class SyncSubmissionService:
 
     @staticmethod
     def resolve_write_mode(request: ApiExecuteRequest, unique_keys: list[str]) -> WriteMode:
-        if request.write_mode is not None:
-            if request.write_mode is WriteMode.UPSERT and not unique_keys:
-                raise MetadataError("UPSERT requires effective unique keys")
-            return request.write_mode
-        return WriteMode.UPSERT if unique_keys else WriteMode.APPEND
+        if not unique_keys:
+            raise MetadataError("Idempotent writes require effective unique keys")
+        if request.write_mode not in {None, WriteMode.UPSERT}:
+            raise MetadataError("SYNC executions require UPSERT write mode")
+        return WriteMode.UPSERT
 
     @staticmethod
     def validate_upsert_fields(
@@ -66,8 +66,7 @@ class SyncSubmissionService:
         unique_keys: list[str],
         requested_fields: list[str],
     ) -> None:
-        if write_mode is not WriteMode.UPSERT:
-            return
+        del write_mode
         missing = sorted(set(unique_keys) - set(requested_fields))
         if missing:
             raise MetadataError(

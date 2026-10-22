@@ -99,7 +99,7 @@ class ReplaceRangeService:
         staging, resource = await self._ensure_staging(dataset, execution, target)
         await self._datasets.update(dataset.id, status="BUILDING")
         await self._resources.set_status(resource.id, "ACTIVE")
-        received = written = completed = 0
+        received = written = inserted = updated = completed = 0
 
         async def check_cancelled() -> None:
             if await self._executions.is_cancel_requested(execution.id):
@@ -117,7 +117,7 @@ class ReplaceRangeService:
                     expected += 1
                     await self._datasets.update(dataset.id, expected_chunks=expected)
                 chunk = await self._chunks.create_running(
-                    execution.id,
+                    execution_id=execution.id,
                     chunk_index=spec.index,
                     request_params=spec.params,
                     dataset_id=dataset.id,
@@ -128,25 +128,28 @@ class ReplaceRangeService:
                     )
                     received += len(result.rows)
                     await check_cancelled()
-                    count = await self._writer.write(
+                    write_result = await self._writer.write(
                         staging,
                         prepared.metadata,
                         result.returned_fields,
                         result.rows,
-                        WriteMode.UPSERT,
                     )
-                    written += count
+                    written += write_result.rows_written
+                    inserted += write_result.rows_inserted
+                    updated += write_result.rows_updated
                     completed += 1
                     await self._chunks.mark_success(
                         chunk.id,
                         attempt_count=result.attempt_count,
                         rows_received=len(result.rows),
-                        rows_written=count,
+                        rows_written=write_result.rows_written,
                     )
                     await self._executions.update_progress(
                         execution.id,
                         rows_received=received,
                         rows_written=written,
+                        rows_inserted=inserted,
+                        rows_updated=updated,
                         pages_completed=completed,
                         current_page=spec.index,
                         progress_message=f"Built replacement chunk {spec.index}",
@@ -186,12 +189,16 @@ class ReplaceRangeService:
                     rows_received=received,
                     rows_written=applied.rows_written,
                     chunks_completed=completed,
+                    rows_inserted=applied.rows_inserted,
+                    rows_updated=applied.rows_updated,
                 )
             return SyncRunResult(
                 duration_ms=max(0, round((perf_counter() - started) * 1000)),
                 rows_received=received,
                 rows_written=written,
                 chunks_completed=completed,
+                rows_inserted=inserted,
+                rows_updated=updated,
             )
         except Exception:
             await self._refresh_dataset_progress(dataset.id, failed=True)
@@ -273,6 +280,8 @@ class ReplaceRangeService:
             rows_received=row_count,
             rows_written=row_count,
             chunks_completed=dataset.completed_chunks,
+            rows_inserted=row_count,
+            rows_updated=0,
         )
 
     async def _dataset_for(self, execution: Execution) -> ReplaceDataset:

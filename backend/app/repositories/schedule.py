@@ -104,18 +104,26 @@ class ScheduleRepository:
         )
         execution = None
         if create_execution:
+            is_sql_task = schedule.job_type == "SQL_TRANSFORM"
             execution = ExecutionRepository.build_execution(
-                api_name=schedule.api_name,
+                api_name=schedule.api_name or "__sql_task__",
                 task_key=task_key,
                 params=resolved_params,
                 fields=fields,
                 write_mode=write_mode,
-                target_schema="tushare",
-                target_table=schedule.api_name,
+                target_schema=(
+                    (schedule.target_schema or "tushare") if is_sql_task else "tushare"
+                ),
+                target_table=(
+                    (schedule.target_table or "__invalid__")
+                    if is_sql_task
+                    else (schedule.api_name or "__invalid__")
+                ),
                 source=source,
                 schedule_id=schedule.id,
                 scheduled_fire_time=scheduled_at,
                 recovery_policy=schedule.recovery_policy,
+                operation_type="SQL_TASK" if is_sql_task else "SYNC",
             )
             fire.execution_id = execution.id
         async with self._session_factory() as session, session.begin():

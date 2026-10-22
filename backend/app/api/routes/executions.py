@@ -9,7 +9,7 @@ from app.api.dependencies import (
     RerunServiceDep,
 )
 from app.core.exceptions import ExecutionNotFoundError
-from app.schemas.execution import ExecutionListResponse, ExecutionRead, ExecutionRiskConfirmation
+from app.schemas.execution import ExecutionListResponse, ExecutionRead
 from app.schemas.tushare import SyncSubmissionResponse
 
 router = APIRouter(prefix="/executions", tags=["Execution history"])
@@ -56,11 +56,8 @@ async def get_execution(
 async def rerun_execution(
     execution_id: UUID,
     service: RerunServiceDep,
-    payload: ExecutionRiskConfirmation | None = None,
 ) -> SyncSubmissionResponse:
-    if payload is None:
-        return await service.rerun(execution_id)
-    return await service.rerun(execution_id, confirm_append_risk=payload.confirm_append_risk)
+    return await service.rerun(execution_id)
 
 
 @router.post("/{execution_id}/cancel", status_code=status.HTTP_202_ACCEPTED)
@@ -92,12 +89,9 @@ async def retry_failed_chunks(
 )
 async def requeue_stale_execution(
     execution_id: UUID,
-    payload: ExecutionRiskConfirmation,
     service: ExecutionControlServiceDep,
 ) -> SyncSubmissionResponse:
-    record = await service.requeue_stale(
-        execution_id, confirm_append_risk=payload.confirm_append_risk
-    )
+    record = await service.requeue_stale(execution_id)
     return SyncSubmissionResponse(execution_id=str(record.id), status=record.status)
 
 

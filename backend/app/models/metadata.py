@@ -129,6 +129,19 @@ class ApiRuntimeConfig(Base):
     api: Mapped[ApiMetadata] = relationship(back_populates="runtime_config")
 
 
+class RuntimeSecret(Base):
+    """Encrypted, server-side runtime credential managed by the platform."""
+
+    __tablename__ = "runtime_secret"
+    __table_args__ = {"schema": "platform"}
+
+    name: Mapped[str] = mapped_column(String(100), primary_key=True)
+    encrypted_value: Mapped[str] = mapped_column(Text, nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False
+    )
+
+
 class UniqueKeyMigration(Base):
     __tablename__ = "unique_key_migration"
     __table_args__ = (
@@ -307,7 +320,7 @@ class Schedule(Base):
     id: Mapped[UUID] = mapped_column(Uuid(as_uuid=True), primary_key=True)
     name: Mapped[str] = mapped_column(String(200), nullable=False)
     description: Mapped[str | None] = mapped_column(Text)
-    api_name: Mapped[str] = mapped_column(String(100), nullable=False, index=True)
+    api_name: Mapped[str | None] = mapped_column(String(100), nullable=True, index=True)
     params: Mapped[dict[str, Any]] = mapped_column(JSON, nullable=False, default=dict)
     fields: Mapped[list[str]] = mapped_column(JSON, nullable=False, default=list)
     write_mode: Mapped[str] = mapped_column(String(30), nullable=False)
@@ -330,6 +343,14 @@ class Schedule(Base):
     deleted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), index=True)
     schedule_type: Mapped[str] = mapped_column(String(20), nullable=False, default="USER")
     recovery_policy: Mapped[str] = mapped_column(String(20), nullable=False, default="MANUAL")
+    job_type: Mapped[str] = mapped_column(String(30), nullable=False, default="API_SYNC")
+    target_schema: Mapped[str | None] = mapped_column(String(100))
+    target_table: Mapped[str | None] = mapped_column(String(100))
+    target_columns: Mapped[list[str]] = mapped_column(JSONB, nullable=False, default=list)
+    sql_text: Mapped[str | None] = mapped_column(Text)
+    execution_calendar: Mapped[str] = mapped_column(
+        String(20), nullable=False, default="ALL_DAYS"
+    )
 
 
 class ScheduleFire(Base):

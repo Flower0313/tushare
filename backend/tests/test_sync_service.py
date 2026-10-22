@@ -1,15 +1,17 @@
 from contextlib import asynccontextmanager
 from types import SimpleNamespace
-from unittest.mock import AsyncMock
+from unittest.mock import AsyncMock, create_autospec
 from uuid import uuid4
 
 import pytest
 
 from app.core.exceptions import DataWriteError, ExecutionCancelledError
+from app.repositories.execution_chunk import ExecutionChunkRepository
 from app.services.sync.query import ExecutedQuery, PreparedQuery
 from app.services.sync.schema_manager import TableTarget
 from app.services.sync.strategies import QueryStrategyFactory
 from app.services.sync.sync import SyncService
+from app.services.sync.writer import WriteResult
 from tests.test_schema_manager import metadata
 
 
@@ -28,6 +30,7 @@ def make_service(
     writer_error: Exception | None = None,
     fetch_strategy: dict[str, object] | None = None,
     params: dict[str, str] | None = None,
+    code_source_values: list[str] | None = None,
 ):
     record = metadata()
     record.unique_keys = ["ts_code"]
@@ -53,15 +56,17 @@ def make_service(
     schema_manager.ensure_table.return_value = TableTarget("tushare", "daily")
     writer = AsyncMock()
     writer.write.side_effect = writer_error
-    writer.write.return_value = 1
+    writer.write.return_value = WriteResult(1, 1, 0)
     executions = AsyncMock()
-    chunks = AsyncMock()
+    chunks = create_autospec(ExecutionChunkRepository, instance=True, spec_set=True)
     chunks.create_running.return_value = SimpleNamespace(id=uuid4())
     task_lock = FakeTaskLock()
+    code_source = AsyncMock()
+    code_source.load.return_value = code_source_values or []
     service = SyncService(
         query_service=query_service,
         request_executor=request_executor,
-        strategy_factory=QueryStrategyFactory(max_pages=100, code_source=AsyncMock()),
+        strategy_factory=QueryStrategyFactory(max_pages=100, code_source=code_source),
         schema_manager=schema_manager,
         writer=writer,
         execution_repository=executions,
@@ -88,6 +93,8 @@ async def test_sync_service_writes_chunk_and_updates_heartbeat_progress() -> Non
 
     assert result.rows_received == 1
     assert result.rows_written == 1
+    assert result.rows_inserted == 1
+    assert result.rows_updated == 0
     assert result.chunks_completed == 1
     assert task_lock.keys == ["daily", "a" * 64]
     writer.write.assert_awaited_once()
@@ -135,7 +142,11 @@ async def test_date_chunks_record_two_successes_then_one_failure() -> None:
         },
         params={"start_date": "20260101", "end_date": "20260331"},
     )
-    writer.write.side_effect = [1, 1, DataWriteError("third chunk failed")]
+    writer.write.side_effect = [
+        WriteResult(1, 1, 0),
+        WriteResult(1, 0, 1),
+        DataWriteError("third chunk failed"),
+    ]
 
     with pytest.raises(DataWriteError):
         await service.run(execution)
@@ -144,3 +155,29 @@ async def test_date_chunks_record_two_successes_then_one_failure() -> None:
     assert chunks.mark_success.await_count == 2
     assert chunks.mark_failed.await_count == 1
     assert chunks.mark_failed.await_args.kwargs["rows_received"] == 1
+
+
+@pytest.mark.asyncio
+async def test_all_stock_pro_bar_continues_and_records_failed_chunks() -> None:
+    service, execution, writer, executions, chunks, _ = make_service(
+        fetch_strategy={"type": "custom", "handler": "a_share_pro_bar"},
+        params={"ts_code": "__ALL__", "start_date": "20230101", "end_date": "20260101"},
+        code_source_values=["000001.SZ", "000002.SZ", "600000.SH"],
+    )
+    execution.api_name = "pro_bar"
+    service._request_executor.execute.side_effect = [
+        ExecutedQuery(metadata(), {}, [], ["ts_code"], [{"ts_code": "000001.SZ"}]),
+        DataWriteError("temporary upstream failure"),
+        ExecutedQuery(metadata(), {}, [], ["ts_code"], [{"ts_code": "600000.SH"}]),
+    ]
+
+    from app.core.exceptions import SyncExecutionError
+
+    with pytest.raises(SyncExecutionError):
+        await service.run(execution)
+
+    assert service._request_executor.execute.await_count == 3
+    assert writer.write.await_count == 2
+    assert chunks.mark_success.await_count == 2
+    assert chunks.mark_failed.await_count == 1
+    executions.set_pages_total.assert_awaited_once_with(execution.id, 3)

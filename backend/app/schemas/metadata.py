@@ -71,6 +71,7 @@ class DateChunkMetadata(BaseModel):
     start_param: str = "start_date"
     end_param: str = "end_date"
     chunk_unit: Literal["day", "week", "month"] = "month"
+    date_format: Literal["YYYYMMDD", "YYYY-MM-DD HH:mm:ss"] = "YYYYMMDD"
 
 
 class CodeBatchMetadata(BaseModel):
@@ -81,6 +82,7 @@ class CodeBatchMetadata(BaseModel):
     status_field: str | None = "list_status"
     status_values: list[str] = Field(default_factory=lambda: ["L"])
     batch_size: int = Field(default=1, gt=0)
+    all_codes_mode: Literal["expand", "omit"] = "expand"
 
 
 class FetchStrategyMetadata(BaseModel):
@@ -101,6 +103,7 @@ class FetchStrategyMetadata(BaseModel):
     status_field: str | None = "list_status"
     status_values: list[str] = Field(default_factory=lambda: ["L"])
     batch_size: int = Field(default=1, gt=0)
+    all_codes_mode: Literal["expand", "omit"] = "expand"
     date: DateChunkMetadata | None = None
     code: CodeBatchMetadata | None = None
     order: Literal["date_first", "code_first"] = "date_first"
@@ -154,6 +157,8 @@ class ResetCompletenessPolicyMetadata(BaseModel):
     storage_date_field: str | None = None
     start_param: str | None = None
     end_param: str | None = None
+    coverage_mode: Literal["BOUNDARY", "EXPECTED_DATES"] = "BOUNDARY"
+    calendar_exchange: str = "SSE"
     code_field: str | None = None
     code_source: str | None = None
     code_source_field: str = "ts_code"
@@ -177,6 +182,12 @@ class ResetCompletenessPolicyMetadata(BaseModel):
             raise ValueError("code coverage requires code_field and code_source")
         if self.type == "CUSTOM" and not self.handler:
             raise ValueError("CUSTOM reset completeness requires handler")
+        if (
+            self.type in {"DATE_COVERAGE", "DATE_AND_CODE_COVERAGE"}
+            and self.coverage_mode == "EXPECTED_DATES"
+            and not self.calendar_exchange.strip()
+        ):
+            raise ValueError("EXPECTED_DATES coverage requires calendar_exchange")
         return self
 
 

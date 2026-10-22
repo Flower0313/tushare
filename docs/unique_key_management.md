@@ -52,7 +52,7 @@ UPSERT 仅在以下条件同时满足时执行：
 
 在这些条件下，相同业务数据重复同步具有幂等保证：不会累积重复行，字段变化会更新已有记录，未请求字段不会被写成 `NULL`。
 
-APPEND 仍为非幂等高级模式；它不会自动转成 `DO NOTHING`。
+同步写入只接受 UPSERT，并按当前 `effective_unique_keys` 执行 `ON CONFLICT DO UPDATE`。旧 APPEND Execution 与 Schedule 已通过数据库迁移转换为 UPSERT 或 NONE。
 
 ## Concurrency and reset
 

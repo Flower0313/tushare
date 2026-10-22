@@ -89,10 +89,6 @@ class ExecutionListResponse(BaseModel):
     total: int
 
 
-class ExecutionRiskConfirmation(BaseModel):
-    confirm_append_risk: bool = False
-
-
 class DataPageResponse(BaseModel):
     api_name: str
     target_table: str

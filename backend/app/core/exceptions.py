@@ -222,6 +222,11 @@ class EmptyReplacementBlockedError(ReplaceRangeError):
     status_code = 409
 
 
+class CustomCompletenessHandlerNotFoundError(PlatformError):
+    code = ErrorCode.CUSTOM_COMPLETENESS_HANDLER_NOT_FOUND
+    status_code = 422
+
+
 class ScheduleError(PlatformError):
     code = ErrorCode.SCHEDULE_ERROR
     status_code = 422
@@ -235,3 +240,8 @@ class ScheduleNotFoundError(ScheduleError):
 class ScheduleConflictError(ScheduleError):
     code = ErrorCode.SCHEDULE_CONFLICT
     status_code = 409
+
+
+class SqlTaskError(PlatformError):
+    code = ErrorCode.SQL_TASK_ERROR
+    status_code = 422

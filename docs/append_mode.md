@@ -1,14 +1,9 @@
-# APPEND mode
+# APPEND 退役说明
 
-APPEND 只执行批量插入，不使用自然键冲突更新，因此不是幂等操作。
+`APPEND` 已从 API、OpenAPI、调度与恢复契约中移除。
 
-适合：没有可靠 natural key、且业务允许保留每次快照的接口。
-
-风险：
-
-- 同参数重跑可能产生重复行。
-- 不允许 stale 自动 REQUEUE。
-- 不允许自动 whole-execution retry。
-- 只允许单个 HTTP 请求在 RetryPolicy 内重试。
-
-生产接口默认使用 Metadata unique keys 驱动的 UPSERT。选择 APPEND 时，前端必须展示风险提示。
+- 数据同步只允许 `UPSERT`。
+- DELETE 等非同步操作记录为 `write_mode=NONE`。
+- 历史 Execution 和 Schedule 由 Alembic 迁移转换，不再保留运行时兼容分支。
+- UPSERT 依赖 `effective_unique_keys` 与同步的平台 UNIQUE Constraint；任一条件不满足时拒绝执行。
+- 每批写入通过 PostgreSQL `RETURNING` 精确区分 insert/update，并累计到 Execution。

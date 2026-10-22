@@ -1,4 +1,5 @@
 import asyncio
+import hashlib
 import os
 import socket
 from datetime import UTC, datetime, timedelta
@@ -16,11 +17,13 @@ from app.repositories.runtime_governance import (
     ServiceHeartbeatRepository,
     UpstreamRequestEventRepository,
 )
+from app.repositories.runtime_secrets import RuntimeSecretRepository
 from app.services.governance.heartbeat import ServiceHeartbeatAgent
 from app.services.governance.shutdown import install_shutdown_signals
 from app.services.governance.upstream_health import UpstreamHealthService
 from app.services.legacy.staging_compatibility import StagingCompatibilityService
 from app.services.metadata.validator import MetadataParameterValidator
+from app.services.scheduler.sql_tasks import SqlTaskService
 from app.services.sync.code_source import PostgresCodeSource
 from app.services.sync.execution_outcomes import ExecutionOutcomeCoordinator
 from app.services.sync.operations import (
@@ -28,12 +31,16 @@ from app.services.sync.operations import (
     FailedChunkRetryOperationHandler,
     OperationDispatcher,
     ReplaceRangeOperationHandler,
+    SqlTaskOperationHandler,
     SyncOperationHandler,
 )
 from app.services.sync.query import TushareQueryService
 from app.services.sync.recovery import ExecutionRecoveryService, RecoveryPolicy
 from app.services.sync.replace_range import ReplaceRangeService
-from app.services.sync.reset_completeness import ResetCompletenessValidator
+from app.services.sync.reset_completeness import (
+    ResetCompletenessValidator,
+    build_completeness_handler_registry,
+)
 from app.services.sync.schema_manager import TableSchemaManager
 from app.services.sync.strategies import QueryStrategyFactory
 from app.services.sync.sync import SyncService
@@ -44,26 +51,38 @@ from app.services.sync.worker import ExecutionWorker
 from app.services.sync.writer import PostgresDataWriter
 from app.services.tushare.circuit_breaker import TushareCircuitBreaker
 from app.services.tushare.client import TushareClient
+from app.services.tushare.credentials import TushareTokenProvider
 from app.services.tushare.executor import RetryPolicy, TushareRequestExecutor
-from app.services.tushare.rate_limiter import RateLimit, TushareRateLimiter
+from app.services.tushare.rate_limiter import PostgresRateGate, RateLimit, TushareRateLimiter
 
 
 def build_request_executor(http_client: httpx.AsyncClient) -> TushareRequestExecutor:
     settings = get_settings()
+    token_provider = TushareTokenProvider(RuntimeSecretRepository(AsyncSessionFactory), settings)
+    global_limit = RateLimit(
+        settings.tushare_global_rate_requests,
+        settings.tushare_global_rate_period_seconds,
+    )
+    token_scope = hashlib.sha256(settings.tushare_token.encode("utf-8")).hexdigest()[:16]
+    distributed_gate = PostgresRateGate(engine, global_limit, scope=f"tushare:{token_scope}")
+
+    async def acquire_api_limit(api_name: str, limit: RateLimit) -> None:
+        await PostgresRateGate(
+            engine, limit, scope=f"tushare:{token_scope}:api:{api_name}"
+        ).acquire()
     circuit_store = CircuitStateRepository(AsyncSessionFactory)
     upstream_health = UpstreamHealthService(UpstreamRequestEventRepository(AsyncSessionFactory))
     return TushareRequestExecutor(
         client=TushareClient(
-            token=settings.tushare_token,
+            token_provider=token_provider.get_token,
             base_url=str(settings.tushare_api_base_url),
             http_client=http_client,
         ),
         transformer=DataTransformer(),
         rate_limiter=TushareRateLimiter(
-            RateLimit(
-                settings.tushare_global_rate_requests,
-                settings.tushare_global_rate_period_seconds,
-            )
+            global_limit,
+            distributed_acquire=distributed_gate.acquire,
+            distributed_api_acquire=acquire_api_limit,
         ),
         retry_policy=RetryPolicy(
             max_attempts=settings.tushare_retry_max_attempts,
@@ -95,6 +114,7 @@ def build_execution_worker(executor: TushareRequestExecutor) -> ExecutionWorker:
             engine,
             AsyncSessionFactory,
             ExecutionChunkRepository(AsyncSessionFactory),
+            registry=build_completeness_handler_registry(),
         ),
     )
 
@@ -131,15 +151,23 @@ def build_execution_worker(executor: TushareRequestExecutor) -> ExecutionWorker:
                 writer=writer,
                 executions=executions,
                 chunks=chunks,
-                  staging=StagingCompatibilityService(AsyncSessionFactory),
-                  task_lock=TaskLockService(engine),
-                  api_lock=ApiMutationLockService(engine),
-                  staging_ttl=timedelta(seconds=settings.staging_ttl_seconds),
+                staging=StagingCompatibilityService(AsyncSessionFactory),
+                task_lock=TaskLockService(engine),
+                api_lock=ApiMutationLockService(engine),
+                staging_ttl=timedelta(seconds=settings.staging_ttl_seconds),
                 statement_timeout_ms=settings.database_statement_timeout_ms,
             )
             dispatcher = OperationDispatcher(
                 {
                     "SYNC": SyncOperationHandler(sync_service.run),
+                    "SQL_TASK": SqlTaskOperationHandler(
+                        SqlTaskService(
+                            engine,
+                            allowed_schemas=settings.sql_task_allowed_schema_list,
+                            statement_timeout_ms=settings.database_statement_timeout_ms,
+                            executions=executions,
+                        ).run
+                    ),
                     "DELETE": DeleteOperationHandler(
                         engine=engine,
                         metadata=MetadataRepository(session),

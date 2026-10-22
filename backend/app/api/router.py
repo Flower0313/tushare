@@ -9,6 +9,8 @@ from app.api.routes import (
     preview,
     replace_datasets,
     schedules,
+    settings,
+    sql_tasks,
     sync,
     unique_keys,
     validations,
@@ -24,5 +26,7 @@ api_router.include_router(executions.router)
 api_router.include_router(data.router)
 api_router.include_router(replace_datasets.router)
 api_router.include_router(schedules.router)
+api_router.include_router(settings.router)
+api_router.include_router(sql_tasks.router)
 api_router.include_router(operations.router)
 api_router.include_router(validations.router)

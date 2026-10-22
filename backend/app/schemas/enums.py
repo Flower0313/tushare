@@ -29,6 +29,7 @@ class RecoveryPolicy(StrEnum):
 
 class ExecutionOperationType(StrEnum):
     SYNC = "SYNC"
+    SQL_TASK = "SQL_TASK"
     DELETE = "DELETE"
     REPLACE_RANGE = "REPLACE_RANGE"
     FAILED_CHUNK_RETRY = "FAILED_CHUNK_RETRY"

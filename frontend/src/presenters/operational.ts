@@ -14,6 +14,7 @@ const errors: Partial<Record<ContractErrorCode, PresentedMessage>> = {
   UNIQUE_KEY_MIGRATION_CONFLICT: { title: '该接口正在同步或迁移', action: '等待当前操作完成后重试。' },
   UNIQUE_KEY_DUPLICATES: { title: '现有数据与新唯一键冲突', action: '审查重复组并显式选择清理策略。' },
   UNIQUE_KEY_PREVIEW_EXPIRED: { title: '唯一键影响预览已失效', action: '重新检查影响后再确认迁移。' },
+  CUSTOM_COMPLETENESS_HANDLER_NOT_FOUND: { title: '完整性处理器未注册', action: '请由系统管理员检查 Metadata 与后端白名单配置。' },
 }
 
 const warnings: Partial<Record<ContractWarningCode, PresentedMessage>> = {
@@ -21,7 +22,6 @@ const warnings: Partial<Record<ContractWarningCode, PresentedMessage>> = {
   POSSIBLE_TRUNCATION: { title: '数据可能被截断', action: '返回行数已达接口上限，建议使用分片策略。' },
   EMPTY_RESULT: { title: '本次查询未返回数据', action: '检查交易日、股票代码和数据更新时间。' },
   TRADE_CAL_FALLBACK_USED: { title: '使用了上游交易日历', action: '本地 trade_cal 覆盖不足，请关注系统维护任务。' },
-  APPEND_NOT_IDEMPOTENT: { title: 'APPEND 不保证幂等', action: '重跑可能产生重复数据。' },
   VALIDATION_INCOMPLETE: { title: '生产验收未完成', action: '建议先运行 Metadata 配置的验收场景。' },
 }
 

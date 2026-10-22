@@ -56,6 +56,31 @@ async def test_query_posts_unified_payload_and_parses_result() -> None:
 
 
 @pytest.mark.asyncio
+async def test_query_resolves_latest_token_from_provider() -> None:
+    captured: dict[str, Any] = {}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        captured.update(__import__("json").loads(request.content))
+        return httpx.Response(
+            200, json={"code": 0, "msg": None, "data": {"fields": [], "items": []}}
+        )
+
+    async def token_provider() -> str:
+        return "runtime-token"
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as http_client:
+        client = TushareClient(
+            token="stale-token",
+            token_provider=token_provider,
+            base_url="https://api.tushare.pro",
+            http_client=http_client,
+        )
+        await client.query("trade_cal", {})
+
+    assert captured["token"] == "runtime-token"
+
+
+@pytest.mark.asyncio
 async def test_query_maps_permission_error() -> None:
     def handler(_: httpx.Request) -> httpx.Response:
         return httpx.Response(200, json={"code": 2002, "msg": "没有接口权限", "data": None})

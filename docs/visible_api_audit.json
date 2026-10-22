@@ -1,0 +1,1650 @@
+{
+  "validated_at": "2026-10-21T11:56:30.400321+00:00",
+  "catalog_visible": 129,
+  "total": 67,
+  "success": 47,
+  "permission_denied": 16,
+  "results": [
+    {
+      "subcategory": "财务数据",
+      "api_name": "disclosure_date",
+      "params": {
+        "ann_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 3110,
+      "requested_fields": [
+        "ts_code",
+        "end_date",
+        "ann_date",
+        "pre_date",
+        "modify_date",
+        "actual_date"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "end_date",
+        "ann_date",
+        "pre_date",
+        "modify_date",
+        "actual_date"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=162"
+    },
+    {
+      "subcategory": "财务数据",
+      "api_name": "fina_audit",
+      "params": {
+        "ts_code": "000001.SZ",
+        "period": "20251231"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 1,
+      "requested_fields": [
+        "ts_code",
+        "end_date",
+        "ann_date",
+        "audit_agency",
+        "audit_sign",
+        "audit_result",
+        "audit_fees"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "end_date",
+        "ann_date",
+        "audit_agency",
+        "audit_sign",
+        "audit_result",
+        "audit_fees"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=80"
+    },
+    {
+      "subcategory": "财务数据",
+      "api_name": "fina_indicator",
+      "params": {
+        "ts_code": "000001.SZ",
+        "period": "20251231"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 1,
+      "requested_fields": [
+        "ts_code",
+        "end_date",
+        "ann_date",
+        "update_flag",
+        "eps",
+        "dt_eps",
+        "total_revenue_ps"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "end_date",
+        "ann_date",
+        "update_flag",
+        "eps",
+        "dt_eps",
+        "total_revenue_ps"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=79"
+    },
+    {
+      "subcategory": "财务数据",
+      "api_name": "dividend",
+      "params": {
+        "ts_code": "000001.SZ"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 98,
+      "requested_fields": [
+        "ts_code",
+        "end_date",
+        "ann_date",
+        "div_proc",
+        "record_date",
+        "ex_date",
+        "stk_div",
+        "stk_bo_rate",
+        "stk_co_rate"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "end_date",
+        "ann_date",
+        "div_proc",
+        "record_date",
+        "ex_date",
+        "stk_div",
+        "stk_bo_rate",
+        "stk_co_rate"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=103"
+    },
+    {
+      "subcategory": "财务数据",
+      "api_name": "express",
+      "params": {
+        "ts_code": "000001.SZ",
+        "period": "20251231"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 0,
+      "requested_fields": [
+        "ts_code",
+        "end_date",
+        "ann_date",
+        "revenue",
+        "operate_profit",
+        "total_profit"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "end_date",
+        "ann_date",
+        "revenue",
+        "operate_profit",
+        "total_profit"
+      ],
+      "field_match": true,
+      "empty_result_reason": "NO_ROWS_RETURNED_CHECK_DATE_PARAMS",
+      "source_url": "https://tushare.pro/document/2?doc_id=46"
+    },
+    {
+      "subcategory": "财务数据",
+      "api_name": "forecast",
+      "params": {
+        "start_date": "20260930",
+        "end_date": "20260930"
+      },
+      "preview_status": "FAILED",
+      "sync_status": "NOT_REQUESTED",
+      "http_status": 502,
+      "error_code": "TUSHARE_API_ERROR",
+      "error": "参数校验失败, ann_date和ts_code至少输入一个参数",
+      "source_url": "https://tushare.pro/document/2?doc_id=45"
+    },
+    {
+      "subcategory": "财务数据",
+      "api_name": "fina_mainbz",
+      "params": {
+        "ts_code": "000001.SZ",
+        "period": "20251231"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 37,
+      "requested_fields": [
+        "ts_code",
+        "end_date",
+        "bz_item",
+        "bz_code",
+        "curr_type",
+        "update_flag",
+        "bz_sales",
+        "bz_profit",
+        "bz_cost"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "end_date",
+        "bz_item",
+        "bz_code",
+        "curr_type",
+        "update_flag",
+        "bz_sales",
+        "bz_profit",
+        "bz_cost"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=81"
+    },
+    {
+      "subcategory": "参考数据",
+      "api_name": "stk_high_shock",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "FAILED",
+      "sync_status": "NOT_REQUESTED",
+      "http_status": 403,
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error": "抱歉，您没有接口(stk_high_shock)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。",
+      "source_url": "https://tushare.pro/document/2?doc_id=452"
+    },
+    {
+      "subcategory": "参考数据",
+      "api_name": "stk_shock",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "FAILED",
+      "sync_status": "NOT_REQUESTED",
+      "http_status": 403,
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error": "抱歉，您没有接口(stk_shock)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。",
+      "source_url": "https://tushare.pro/document/2?doc_id=451"
+    },
+    {
+      "subcategory": "参考数据",
+      "api_name": "stk_holdernumber",
+      "params": {
+        "start_date": "20260930",
+        "end_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 60,
+      "requested_fields": [
+        "ts_code",
+        "end_date",
+        "ann_date",
+        "holder_num"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "end_date",
+        "ann_date",
+        "holder_num"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=166"
+    },
+    {
+      "subcategory": "参考数据",
+      "api_name": "stk_holdertrade",
+      "params": {
+        "start_date": "20260930",
+        "end_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 134,
+      "requested_fields": [
+        "ts_code",
+        "ann_date",
+        "holder_name",
+        "begin_date",
+        "close_date",
+        "in_de",
+        "holder_type",
+        "change_vol",
+        "change_ratio"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "ann_date",
+        "holder_name",
+        "begin_date",
+        "close_date",
+        "in_de",
+        "holder_type",
+        "change_vol",
+        "change_ratio"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=175"
+    },
+    {
+      "subcategory": "参考数据",
+      "api_name": "stk_seasoned",
+      "params": {
+        "start_date": "20260930",
+        "end_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 12,
+      "requested_fields": [
+        "ts_code",
+        "ann_date",
+        "fo_type",
+        "update_flag",
+        "first_ann_date",
+        "proj_info_source",
+        "board_approval_dt"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "ann_date",
+        "fo_type",
+        "update_flag",
+        "first_ann_date",
+        "proj_info_source",
+        "board_approval_dt"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=494"
+    },
+    {
+      "subcategory": "参考数据",
+      "api_name": "stk_account_old",
+      "params": {
+        "start_date": "20260930",
+        "end_date": "20260930"
+      },
+      "preview_status": "FAILED",
+      "sync_status": "NOT_REQUESTED",
+      "http_status": 502,
+      "error_code": "TUSHARE_API_ERROR",
+      "error": "请指定正确的接口名",
+      "source_url": "https://tushare.pro/document/2?doc_id=165"
+    },
+    {
+      "subcategory": "参考数据",
+      "api_name": "pledge_detail",
+      "params": {
+        "start_date": "20260930",
+        "end_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 77,
+      "requested_fields": [
+        "ts_code",
+        "ann_date",
+        "holder_name",
+        "start_date",
+        "pledge_amount",
+        "end_date",
+        "is_release",
+        "release_date"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "ann_date",
+        "holder_name",
+        "start_date",
+        "pledge_amount",
+        "end_date",
+        "is_release",
+        "release_date"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=111"
+    },
+    {
+      "subcategory": "参考数据",
+      "api_name": "stk_alert",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "FAILED",
+      "sync_status": "NOT_REQUESTED",
+      "http_status": 403,
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error": "抱歉，您没有接口(stk_alert)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。",
+      "source_url": "https://tushare.pro/document/2?doc_id=453"
+    },
+    {
+      "subcategory": "参考数据",
+      "api_name": "top10_holders",
+      "params": {
+        "ts_code": "000001.SZ",
+        "period": "20251231"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 10,
+      "requested_fields": [
+        "ts_code",
+        "end_date",
+        "ann_date",
+        "holder_name",
+        "hold_amount",
+        "hold_ratio",
+        "hold_float_ratio"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "end_date",
+        "ann_date",
+        "holder_name",
+        "hold_amount",
+        "hold_ratio",
+        "hold_float_ratio"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=61"
+    },
+    {
+      "subcategory": "参考数据",
+      "api_name": "top10_floatholders",
+      "params": {
+        "ts_code": "000001.SZ",
+        "period": "20251231"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 10,
+      "requested_fields": [
+        "ts_code",
+        "end_date",
+        "ann_date",
+        "holder_name",
+        "hold_amount",
+        "hold_ratio",
+        "hold_float_ratio"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "end_date",
+        "ann_date",
+        "holder_name",
+        "hold_amount",
+        "hold_ratio",
+        "hold_float_ratio"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=62"
+    },
+    {
+      "subcategory": "参考数据",
+      "api_name": "share_float",
+      "params": {
+        "start_date": "20260930",
+        "end_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 6000,
+      "requested_fields": [
+        "ts_code",
+        "ann_date",
+        "float_date",
+        "holder_name",
+        "share_type",
+        "float_share",
+        "float_ratio"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "ann_date",
+        "float_date",
+        "holder_name",
+        "share_type",
+        "float_share",
+        "float_ratio"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=160"
+    },
+    {
+      "subcategory": "打板专题数据",
+      "api_name": "dc_hot",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "FAILED",
+      "sync_status": "NOT_REQUESTED",
+      "http_status": 403,
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error": "抱歉，您没有接口(dc_hot)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。",
+      "source_url": "https://tushare.pro/document/2?doc_id=321"
+    },
+    {
+      "subcategory": "打板专题数据",
+      "api_name": "tdx_member",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "FAILED",
+      "sync_status": "NOT_REQUESTED",
+      "http_status": 403,
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error": "抱歉，您没有接口(tdx_member)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。",
+      "source_url": "https://tushare.pro/document/2?doc_id=377"
+    },
+    {
+      "subcategory": "打板专题数据",
+      "api_name": "tdx_index",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "FAILED",
+      "sync_status": "NOT_REQUESTED",
+      "http_status": 403,
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error": "抱歉，您没有接口(tdx_index)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。",
+      "source_url": "https://tushare.pro/document/2?doc_id=376"
+    },
+    {
+      "subcategory": "打板专题数据",
+      "api_name": "tdx_daily",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "FAILED",
+      "sync_status": "NOT_REQUESTED",
+      "http_status": 403,
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error": "抱歉，您没有接口(tdx_daily)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。",
+      "source_url": "https://tushare.pro/document/2?doc_id=378"
+    },
+    {
+      "subcategory": "打板专题数据",
+      "api_name": "ths_hot",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "FAILED",
+      "sync_status": "NOT_REQUESTED",
+      "http_status": 403,
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error": "抱歉，您没有接口(ths_hot)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。",
+      "source_url": "https://tushare.pro/document/2?doc_id=320"
+    },
+    {
+      "subcategory": "打板专题数据",
+      "api_name": "dc_member",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 8000,
+      "requested_fields": [
+        "trade_date",
+        "con_code",
+        "ts_code",
+        "name"
+      ],
+      "returned_fields": [
+        "trade_date",
+        "con_code",
+        "ts_code",
+        "name"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=363"
+    },
+    {
+      "subcategory": "打板专题数据",
+      "api_name": "ths_daily",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 1878,
+      "requested_fields": [
+        "ts_code",
+        "trade_date",
+        "close",
+        "open",
+        "high"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "trade_date",
+        "close",
+        "open",
+        "high"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=260"
+    },
+    {
+      "subcategory": "打板专题数据",
+      "api_name": "stk_auction",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "FAILED",
+      "sync_status": "NOT_REQUESTED",
+      "http_status": 403,
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error": "抱歉，您没有接口(stk_auction)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。",
+      "source_url": "https://tushare.pro/document/2?doc_id=369"
+    },
+    {
+      "subcategory": "打板专题数据",
+      "api_name": "dc_index",
+      "params": {
+        "trade_date": "20260930",
+        "idx_type": "概念板块"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 504,
+      "requested_fields": [
+        "ts_code",
+        "trade_date",
+        "idx_type",
+        "name",
+        "leading",
+        "leading_code"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "trade_date",
+        "idx_type",
+        "name",
+        "leading",
+        "leading_code"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=362"
+    },
+    {
+      "subcategory": "打板专题数据",
+      "api_name": "ths_member",
+      "params": {
+        "ts_code": "885916.TI"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 100,
+      "requested_fields": [
+        "ts_code",
+        "con_code",
+        "in_date",
+        "out_date",
+        "con_name",
+        "weight",
+        "is_new"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "con_code",
+        "in_date",
+        "out_date",
+        "con_name",
+        "weight",
+        "is_new"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=261"
+    },
+    {
+      "subcategory": "打板专题数据",
+      "api_name": "dc_daily",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 1031,
+      "requested_fields": [
+        "ts_code",
+        "trade_date",
+        "category",
+        "close",
+        "open",
+        "high"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "trade_date",
+        "category",
+        "close",
+        "open",
+        "high"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=382"
+    },
+    {
+      "subcategory": "打板专题数据",
+      "api_name": "kpl_list",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 56,
+      "requested_fields": [
+        "ts_code",
+        "trade_date",
+        "tag",
+        "name",
+        "lu_time",
+        "ld_time"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "trade_date",
+        "tag",
+        "name",
+        "lu_time",
+        "ld_time"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=347"
+    },
+    {
+      "subcategory": "打板专题数据",
+      "api_name": "kpl_concept_cons",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 3000,
+      "requested_fields": [
+        "trade_date",
+        "con_code",
+        "ts_code",
+        "name",
+        "con_name",
+        "desc"
+      ],
+      "returned_fields": [
+        "trade_date",
+        "con_code",
+        "ts_code",
+        "name",
+        "con_name",
+        "desc"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=351"
+    },
+    {
+      "subcategory": "打板专题数据",
+      "api_name": "hm_detail",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "FAILED",
+      "sync_status": "NOT_REQUESTED",
+      "http_status": 403,
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error": "抱歉，您没有接口(hm_detail)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。",
+      "source_url": "https://tushare.pro/document/2?doc_id=312"
+    },
+    {
+      "subcategory": "打板专题数据",
+      "api_name": "hm_list",
+      "params": {},
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 121,
+      "requested_fields": [
+        "name",
+        "desc",
+        "orgs"
+      ],
+      "returned_fields": [
+        "name",
+        "desc",
+        "orgs"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=311"
+    },
+    {
+      "subcategory": "打板专题数据",
+      "api_name": "limit_list_d",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 73,
+      "requested_fields": [
+        "trade_date",
+        "ts_code",
+        "limit",
+        "industry",
+        "name",
+        "close"
+      ],
+      "returned_fields": [
+        "trade_date",
+        "ts_code",
+        "limit",
+        "industry",
+        "name",
+        "close"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=298"
+    },
+    {
+      "subcategory": "基础数据",
+      "api_name": "new_share",
+      "params": {
+        "start_date": "20260930",
+        "end_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 0,
+      "requested_fields": [
+        "ts_code",
+        "sub_code",
+        "name",
+        "ipo_date"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "sub_code",
+        "name",
+        "ipo_date"
+      ],
+      "field_match": true,
+      "empty_result_reason": "NO_ROWS_RETURNED_CHECK_DATE_PARAMS",
+      "source_url": "https://tushare.pro/document/2?doc_id=123"
+    },
+    {
+      "subcategory": "基础数据",
+      "api_name": "st",
+      "params": {
+        "ts_code": "000001.SZ"
+      },
+      "preview_status": "FAILED",
+      "sync_status": "NOT_REQUESTED",
+      "http_status": 403,
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error": "抱歉，您没有接口(st)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。",
+      "source_url": "https://tushare.pro/document/2?doc_id=423"
+    },
+    {
+      "subcategory": "基础数据",
+      "api_name": "stock_st",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 201,
+      "requested_fields": [
+        "ts_code",
+        "trade_date",
+        "type",
+        "name",
+        "type_name"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "trade_date",
+        "type",
+        "name",
+        "type_name"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=397"
+    },
+    {
+      "subcategory": "基础数据",
+      "api_name": "bse_mapping",
+      "params": {},
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 248,
+      "requested_fields": [
+        "o_code",
+        "n_code",
+        "name",
+        "list_date"
+      ],
+      "returned_fields": [
+        "o_code",
+        "n_code",
+        "name",
+        "list_date"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=375"
+    },
+    {
+      "subcategory": "基础数据",
+      "api_name": "stk_premarket",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "FAILED",
+      "sync_status": "NOT_REQUESTED",
+      "http_status": 403,
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error": "抱歉，您没有接口(stk_premarket)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。",
+      "source_url": "https://tushare.pro/document/2?doc_id=329"
+    },
+    {
+      "subcategory": "基础数据",
+      "api_name": "namechange",
+      "params": {
+        "start_date": "20260930",
+        "end_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 1,
+      "requested_fields": [
+        "ts_code",
+        "name",
+        "start_date",
+        "ann_date",
+        "end_date",
+        "change_reason"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "name",
+        "start_date",
+        "ann_date",
+        "end_date",
+        "change_reason"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=100"
+    },
+    {
+      "subcategory": "基础数据",
+      "api_name": "bak_basic",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 5577,
+      "requested_fields": [
+        "trade_date",
+        "ts_code",
+        "name",
+        "industry",
+        "area"
+      ],
+      "returned_fields": [
+        "trade_date",
+        "ts_code",
+        "name",
+        "industry",
+        "area"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=262"
+    },
+    {
+      "subcategory": "基础数据",
+      "api_name": "stk_rewards",
+      "params": {
+        "ts_code": "000001.SZ",
+        "end_date": "20251231"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 22,
+      "requested_fields": [
+        "ts_code",
+        "end_date",
+        "ann_date",
+        "name",
+        "title",
+        "reward",
+        "hold_vol"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "end_date",
+        "ann_date",
+        "name",
+        "title",
+        "reward",
+        "hold_vol"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=194"
+    },
+    {
+      "subcategory": "基础数据",
+      "api_name": "stock_hsgt",
+      "params": {
+        "trade_date": "20260930",
+        "type": "HK_SZ"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 1886,
+      "requested_fields": [
+        "ts_code",
+        "trade_date",
+        "type",
+        "name",
+        "type_name"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "trade_date",
+        "type",
+        "name",
+        "type_name"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=398"
+    },
+    {
+      "subcategory": "基础数据",
+      "api_name": "stk_managers",
+      "params": {
+        "start_date": "20260930",
+        "end_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 116,
+      "requested_fields": [
+        "ts_code",
+        "ann_date",
+        "name",
+        "begin_date",
+        "title",
+        "gender",
+        "lev",
+        "edu"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "ann_date",
+        "name",
+        "begin_date",
+        "title",
+        "gender",
+        "lev",
+        "edu"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=193"
+    },
+    {
+      "subcategory": "两融及转融通",
+      "api_name": "slb_len",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 0,
+      "requested_fields": [
+        "trade_date",
+        "ob",
+        "auc_amount",
+        "repo_amount"
+      ],
+      "returned_fields": [
+        "trade_date",
+        "ob",
+        "auc_amount",
+        "repo_amount"
+      ],
+      "field_match": true,
+      "empty_result_reason": "NO_ROWS_RETURNED_CHECK_DATE_PARAMS",
+      "source_url": "https://tushare.pro/document/2?doc_id=331"
+    },
+    {
+      "subcategory": "特色数据",
+      "api_name": "stk_ah_comparison",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 209,
+      "requested_fields": [
+        "ts_code",
+        "hk_code",
+        "trade_date",
+        "hk_name",
+        "hk_pct_chg",
+        "hk_close"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "hk_code",
+        "trade_date",
+        "hk_name",
+        "hk_pct_chg",
+        "hk_close"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=399"
+    },
+    {
+      "subcategory": "特色数据",
+      "api_name": "stk_factor_pro",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 5561,
+      "requested_fields": [
+        "ts_code",
+        "trade_date",
+        "open",
+        "open_hfq",
+        "open_qfq"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "trade_date",
+        "open",
+        "open_hfq",
+        "open_qfq"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=328"
+    },
+    {
+      "subcategory": "特色数据",
+      "api_name": "stk_factor",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 5561,
+      "requested_fields": [
+        "ts_code",
+        "trade_date",
+        "close",
+        "open",
+        "high"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "trade_date",
+        "close",
+        "open",
+        "high"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=296"
+    },
+    {
+      "subcategory": "特色数据",
+      "api_name": "stk_auction_o",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "FAILED",
+      "sync_status": "NOT_REQUESTED",
+      "http_status": 403,
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error": "抱歉，您没有接口(stk_auction_o)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。",
+      "source_url": "https://tushare.pro/document/2?doc_id=353"
+    },
+    {
+      "subcategory": "特色数据",
+      "api_name": "stk_auction_c",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "FAILED",
+      "sync_status": "NOT_REQUESTED",
+      "http_status": 403,
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error": "抱歉，您没有接口(stk_auction_c)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。",
+      "source_url": "https://tushare.pro/document/2?doc_id=354"
+    },
+    {
+      "subcategory": "特色数据",
+      "api_name": "stk_surv",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 44,
+      "requested_fields": [
+        "ts_code",
+        "surv_date",
+        "rece_org",
+        "rece_mode",
+        "name",
+        "fund_visitors",
+        "rece_place"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "surv_date",
+        "rece_org",
+        "rece_mode",
+        "name",
+        "fund_visitors",
+        "rece_place"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=275"
+    },
+    {
+      "subcategory": "特色数据",
+      "api_name": "report_rc",
+      "params": {
+        "start_date": "20260930",
+        "end_date": "20260930"
+      },
+      "preview_status": "FAILED",
+      "sync_status": "NOT_REQUESTED",
+      "http_status": 429,
+      "error_code": "HTTP_429",
+      "error": "抱歉，您访问接口(report_rc)频率超限(1次/分钟)，具体频次详情：https://tushare.pro/document/1?doc_id=108。",
+      "source_url": "https://tushare.pro/document/2?doc_id=292"
+    },
+    {
+      "subcategory": "特色数据",
+      "api_name": "stk_nineturn",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 5561,
+      "requested_fields": [
+        "ts_code",
+        "trade_date",
+        "freq",
+        "open",
+        "high",
+        "low"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "trade_date",
+        "freq",
+        "open",
+        "high",
+        "low"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=364"
+    },
+    {
+      "subcategory": "行情数据",
+      "api_name": "rt_min",
+      "params": {
+        "ts_code": "000001.SZ",
+        "freq": "1MIN"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 1,
+      "requested_fields": [
+        "ts_code",
+        "time",
+        "open",
+        "close",
+        "high"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "time",
+        "open",
+        "close",
+        "high"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=374"
+    },
+    {
+      "subcategory": "行情数据",
+      "api_name": "rt_min_daily",
+      "params": {
+        "ts_code": "000001.SZ",
+        "freq": "1MIN"
+      },
+      "preview_status": "FAILED",
+      "sync_status": "NOT_REQUESTED",
+      "http_status": 403,
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error": "抱歉，您没有接口(rt_min_daily)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。",
+      "source_url": "https://tushare.pro/document/2?doc_id=457"
+    },
+    {
+      "subcategory": "行情数据",
+      "api_name": "rt_k",
+      "params": {
+        "ts_code": "000001.SZ"
+      },
+      "preview_status": "FAILED",
+      "sync_status": "NOT_REQUESTED",
+      "http_status": 403,
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error": "抱歉，您没有接口(rt_k)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。",
+      "source_url": "https://tushare.pro/document/2?doc_id=372"
+    },
+    {
+      "subcategory": "行情数据",
+      "api_name": "bak_daily",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 5577,
+      "requested_fields": [
+        "ts_code",
+        "trade_date",
+        "name",
+        "pct_change",
+        "close"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "trade_date",
+        "name",
+        "pct_change",
+        "close"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=255"
+    },
+    {
+      "subcategory": "行情数据",
+      "api_name": "stk_mins",
+      "params": {
+        "ts_code": "000001.SZ",
+        "freq": "5min",
+        "start_date": "2026-09-30 09:30:00",
+        "end_date": "2026-09-30 10:00:00"
+      },
+      "preview_status": "FAILED",
+      "sync_status": "NOT_REQUESTED",
+      "http_status": 422,
+      "error_code": "METADATA_ERROR",
+      "error": "元数据包含暂不支持的参数类型：datetime",
+      "source_url": "https://tushare.pro/document/2?doc_id=370"
+    },
+    {
+      "subcategory": "行情数据",
+      "api_name": "stk_week_month_adj",
+      "params": {
+        "ts_code": "000001.SZ",
+        "freq": "week",
+        "trade_date": "20260925"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 1,
+      "requested_fields": [
+        "ts_code",
+        "trade_date",
+        "freq",
+        "end_date",
+        "open",
+        "high"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "trade_date",
+        "freq",
+        "end_date",
+        "open",
+        "high"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=365"
+    },
+    {
+      "subcategory": "行情数据",
+      "api_name": "stk_weekly_monthly",
+      "params": {
+        "ts_code": "000001.SZ",
+        "freq": "week",
+        "trade_date": "20260925"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 1,
+      "requested_fields": [
+        "ts_code",
+        "trade_date",
+        "freq",
+        "end_date",
+        "open",
+        "high"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "trade_date",
+        "freq",
+        "end_date",
+        "open",
+        "high"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=336"
+    },
+    {
+      "subcategory": "行情数据",
+      "api_name": "hsgt_top10",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 20,
+      "requested_fields": [
+        "trade_date",
+        "market_type",
+        "ts_code",
+        "rank",
+        "name",
+        "close",
+        "change"
+      ],
+      "returned_fields": [
+        "trade_date",
+        "market_type",
+        "ts_code",
+        "rank",
+        "name",
+        "close",
+        "change"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=48"
+    },
+    {
+      "subcategory": "行情数据",
+      "api_name": "daily_basic",
+      "params": {
+        "ts_code": "000001.SZ",
+        "trade_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 1,
+      "requested_fields": [
+        "ts_code",
+        "trade_date",
+        "close",
+        "turnover_rate",
+        "turnover_rate_f"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "trade_date",
+        "close",
+        "turnover_rate",
+        "turnover_rate_f"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=32"
+    },
+    {
+      "subcategory": "行情数据",
+      "api_name": "monthly",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 5649,
+      "requested_fields": [
+        "ts_code",
+        "trade_date",
+        "close",
+        "open",
+        "high"
+      ],
+      "returned_fields": [
+        "ts_code",
+        "trade_date",
+        "close",
+        "open",
+        "high"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=145"
+    },
+    {
+      "subcategory": "资金流向数据",
+      "api_name": "moneyflow_mkt_dc",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 1,
+      "requested_fields": [
+        "trade_date",
+        "close_sh",
+        "pct_change_sh",
+        "close_sz"
+      ],
+      "returned_fields": [
+        "trade_date",
+        "close_sh",
+        "pct_change_sh",
+        "close_sz"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=345"
+    },
+    {
+      "subcategory": "资金流向数据",
+      "api_name": "moneyflow_ind_dc",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 1031,
+      "requested_fields": [
+        "trade_date",
+        "content_type",
+        "ts_code",
+        "name",
+        "pct_change",
+        "close"
+      ],
+      "returned_fields": [
+        "trade_date",
+        "content_type",
+        "ts_code",
+        "name",
+        "pct_change",
+        "close"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=344"
+    },
+    {
+      "subcategory": "资金流向数据",
+      "api_name": "moneyflow_cnt_ths",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 387,
+      "requested_fields": [
+        "trade_date",
+        "ts_code",
+        "name",
+        "lead_stock",
+        "close_price"
+      ],
+      "returned_fields": [
+        "trade_date",
+        "ts_code",
+        "name",
+        "lead_stock",
+        "close_price"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=371"
+    },
+    {
+      "subcategory": "资金流向数据",
+      "api_name": "moneyflow_ind_ths",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_status": "SUCCESS",
+      "sync_status": "NOT_REQUESTED",
+      "rows_received": 90,
+      "requested_fields": [
+        "trade_date",
+        "ts_code",
+        "industry",
+        "lead_stock",
+        "close"
+      ],
+      "returned_fields": [
+        "trade_date",
+        "ts_code",
+        "industry",
+        "lead_stock",
+        "close"
+      ],
+      "field_match": true,
+      "empty_result_reason": null,
+      "source_url": "https://tushare.pro/document/2?doc_id=343"
+    }
+  ]
+}

@@ -17,6 +17,9 @@ class ChunkSpec:
 
 
 class QueryStrategy:
+    reports_total = False
+    continue_on_chunk_error = False
+
     async def chunks(self, prepared: PreparedQuery) -> AsyncIterator[ChunkSpec]:
         raise NotImplementedError
 
@@ -26,8 +29,16 @@ class QueryStrategy:
 
 
 class SingleRequestStrategy(QueryStrategy):
+    def __init__(self, config: dict[str, object] | None = None) -> None:
+        self._config = config or {}
+
     async def chunks(self, prepared: PreparedQuery) -> AsyncIterator[ChunkSpec]:
-        yield ChunkSpec(index=1, params=dict(prepared.params))
+        params = dict(prepared.params)
+        if self._config.get("all_codes_mode") == "omit":
+            code_param = str(self._config.get("code_param", "ts_code"))
+            if str(params.get(code_param, "")) == "__ALL__":
+                params.pop(code_param, None)
+        yield ChunkSpec(index=1, params=params)
 
 
 class TradeDateStrategy(QueryStrategy):
@@ -35,14 +46,22 @@ class TradeDateStrategy(QueryStrategy):
 
     def __init__(self, config: dict[str, object]) -> None:
         self._date_param = str(config.get("date_param", "trade_date"))
+        self._code_param = str(config.get("code_param", "ts_code"))
+        self._omit_all_codes = config.get("all_codes_mode") == "omit"
 
     async def chunks(self, prepared: PreparedQuery) -> AsyncIterator[ChunkSpec]:
         if not prepared.params.get(self._date_param):
             raise MetadataError(f"{self._date_param} is required by the trade_date fetch strategy")
-        yield ChunkSpec(index=1, params=dict(prepared.params))
+        params = dict(prepared.params)
+        if self._omit_all_codes and str(params.get(self._code_param, "")) == "__ALL__":
+            params.pop(self._code_param, None)
+        yield ChunkSpec(index=1, params=params)
 
 
 class CodeBatchStrategy(QueryStrategy):
+    reports_total = True
+    continue_on_chunk_error = True
+
     def __init__(self, config: dict[str, object], code_source: PostgresCodeSource) -> None:
         self._config = config
         self._code_source = code_source
@@ -51,7 +70,7 @@ class CodeBatchStrategy(QueryStrategy):
 
     async def code_batches(self, prepared: PreparedQuery) -> list[list[str]]:
         supplied = prepared.params.get(self.code_param)
-        if supplied:
+        if supplied and str(supplied).strip() != "__ALL__":
             codes = [value.strip() for value in str(supplied).split(",") if value.strip()]
         else:
             status_values = self._config.get("status_values", ["L"])
@@ -70,6 +89,14 @@ class CodeBatchStrategy(QueryStrategy):
         ]
 
     async def chunks(self, prepared: PreparedQuery) -> AsyncIterator[ChunkSpec]:
+        if (
+            self._config.get("all_codes_mode") == "omit"
+            and str(prepared.params.get(self.code_param, "")) == "__ALL__"
+        ):
+            params = dict(prepared.params)
+            params.pop(self.code_param, None)
+            yield ChunkSpec(index=1, params=params)
+            return
         for index, codes in enumerate(await self.code_batches(prepared), start=1):
             params = dict(prepared.params)
             params[self.code_param] = ",".join(codes)
@@ -81,6 +108,9 @@ class CodeBatchStrategy(QueryStrategy):
 
 
 class DateAndCodeStrategy(QueryStrategy):
+    reports_total = True
+    continue_on_chunk_error = True
+
     def __init__(self, config: dict[str, object], code_source: PostgresCodeSource) -> None:
         date_config = config.get("date", {})
         code_config = config.get("code", {})
@@ -118,10 +148,14 @@ class OffsetPaginationStrategy(QueryStrategy):
         self._offset_param = str(config.get("offset_param", "offset"))
         self._limit = int(config.get("default_limit", 5000))
         self._max_pages = max_pages
+        self._code_param = str(config.get("code_param", "ts_code"))
+        self._omit_all_codes = config.get("all_codes_mode") == "omit"
 
     async def chunks(self, prepared: PreparedQuery) -> AsyncIterator[ChunkSpec]:
         for index in range(1, self._max_pages + 1):
             params = dict(prepared.params)
+            if self._omit_all_codes and str(params.get(self._code_param, "")) == "__ALL__":
+                params.pop(self._code_param, None)
             params[self._limit_param] = self._limit
             params[self._offset_param] = (index - 1) * self._limit
             yield ChunkSpec(index=index, params=params)
@@ -138,14 +172,32 @@ class DateRangeStrategy(QueryStrategy):
         self._start_param = str(config.get("start_param", "start_date"))
         self._end_param = str(config.get("end_param", "end_date"))
         self._unit = str(config.get("chunk_unit", "month"))
+        self._date_format = str(config.get("date_format", "YYYYMMDD"))
+        self._code_param = str(config.get("code_param", "ts_code"))
+        self._omit_all_codes = config.get("all_codes_mode") == "omit"
         if self._unit not in {"day", "week", "month"}:
             raise MetadataError(f"Unsupported date range chunk unit: {self._unit}")
 
     async def chunks(self, prepared: PreparedQuery) -> AsyncIterator[ChunkSpec]:
+        prepared_params = dict(prepared.params)
+        if (
+            self._omit_all_codes
+            and str(prepared_params.get(self._code_param, "")) == "__ALL__"
+        ):
+            prepared_params.pop(self._code_param, None)
+        prepared = PreparedQuery(
+            prepared.metadata, prepared_params, prepared.requested_fields
+        )
         start_raw = prepared.params.get(self._start_param)
         end_raw = prepared.params.get(self._end_param)
         if not start_raw or not end_raw:
             yield ChunkSpec(index=1, params=dict(prepared.params))
+            return
+        if self._date_format == "YYYY-MM-DD HH:mm:ss":
+            async for chunk in self._datetime_chunks(
+                prepared, str(start_raw), str(end_raw)
+            ):
+                yield chunk
             return
         start = self._parse_date(str(start_raw), self._start_param)
         end = self._parse_date(str(end_raw), self._end_param)
@@ -161,6 +213,35 @@ class DateRangeStrategy(QueryStrategy):
             params[self._end_param] = chunk_end.strftime("%Y%m%d")
             yield ChunkSpec(index=index, params=params)
             cursor = chunk_end + timedelta(days=1)
+            index += 1
+
+    async def _datetime_chunks(
+        self, prepared: PreparedQuery, start_raw: str, end_raw: str
+    ) -> AsyncIterator[ChunkSpec]:
+        start = self._parse_datetime(start_raw, self._start_param)
+        end = self._parse_datetime(end_raw, self._end_param)
+        if start > end:
+            raise MetadataError(f"{self._start_param} cannot be later than {self._end_param}")
+        index = 1
+        cursor = start
+        while cursor <= end:
+            if self._unit == "day":
+                boundary = cursor.replace(hour=23, minute=59, second=59)
+            elif self._unit == "week":
+                boundary = (cursor + timedelta(days=6)).replace(
+                    hour=23, minute=59, second=59
+                )
+            else:
+                last_day = calendar.monthrange(cursor.year, cursor.month)[1]
+                boundary = cursor.replace(
+                    day=last_day, hour=23, minute=59, second=59
+                )
+            chunk_end = min(boundary, end)
+            params = dict(prepared.params)
+            params[self._start_param] = cursor.strftime("%Y-%m-%d %H:%M:%S")
+            params[self._end_param] = chunk_end.strftime("%Y-%m-%d %H:%M:%S")
+            yield ChunkSpec(index=index, params=params)
+            cursor = chunk_end + timedelta(seconds=1)
             index += 1
 
     def should_continue(self, result: ExecutedQuery, chunk_index: int) -> bool:
@@ -182,6 +263,15 @@ class DateRangeStrategy(QueryStrategy):
         except ValueError as exc:
             raise MetadataError(f"{parameter} must use YYYYMMDD format") from exc
 
+    @staticmethod
+    def _parse_datetime(value: str, parameter: str) -> datetime:
+        try:
+            return datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
+        except ValueError as exc:
+            raise MetadataError(
+                f"{parameter} must use YYYY-MM-DD HH:mm:ss format"
+            ) from exc
+
 
 class QueryStrategyFactory:
     def __init__(self, *, max_pages: int, code_source: PostgresCodeSource) -> None:
@@ -191,8 +281,20 @@ class QueryStrategyFactory:
     def create(self, metadata: object) -> QueryStrategy:
         config = dict(getattr(metadata, "fetch_strategy", None) or {"type": "single"})
         strategy_type = str(config.get("type", "single"))
+        if strategy_type in {"single", "offset", "date_range", "trade_date"}:
+            for parameter in getattr(metadata, "params", []) or []:
+                name = getattr(parameter, "name", None)
+                constraints = getattr(parameter, "constraints", None) or {}
+                if (
+                    name == "ts_code"
+                    and isinstance(constraints, dict)
+                    and constraints.get("allow_all") is True
+                ):
+                    config.setdefault("code_param", "ts_code")
+                    config.setdefault("all_codes_mode", "omit")
+                    break
         if strategy_type == "single":
-            return SingleRequestStrategy()
+            return SingleRequestStrategy(config)
         if strategy_type == "offset":
             return OffsetPaginationStrategy(config, max_pages=self._max_pages)
         if strategy_type == "date_range":
@@ -204,5 +306,17 @@ class QueryStrategyFactory:
         if strategy_type == "date_and_code":
             return DateAndCodeStrategy(config, self._code_source)
         if strategy_type == "custom":
-            return SingleRequestStrategy()
+            if config.get("handler") == "a_share_pro_bar":
+                return CodeBatchStrategy(
+                    {
+                        "code_param": "ts_code",
+                        "code_source": "stock_basic",
+                        "source_field": "ts_code",
+                        "status_field": "list_status",
+                        "status_values": ["L"],
+                        "batch_size": 1,
+                    },
+                    self._code_source,
+                )
+            return SingleRequestStrategy(config)
         raise PaginationLimitError(f"Unsupported query strategy: {strategy_type}")

@@ -32,17 +32,17 @@ export function getExecution(
   return getJson<ExecutionRecord>(`/executions/${encodeURIComponent(executionId)}`, signal)
 }
 
-export function rerunExecution(executionId: string, confirmAppendRisk = false): Promise<SyncSubmissionResponse> {
-  return postJson<SyncSubmissionResponse, { confirm_append_risk: boolean }>(
+export function rerunExecution(executionId: string): Promise<SyncSubmissionResponse> {
+  return postJson<SyncSubmissionResponse, Record<string, never>>(
     `/executions/${encodeURIComponent(executionId)}/rerun`,
-    { confirm_append_risk: confirmAppendRisk },
+    {},
   )
 }
 
-export function requeueStaleExecution(executionId: string, confirmAppendRisk = false) {
-  return postJson<SyncSubmissionResponse, { confirm_append_risk: boolean }>(
+export function requeueStaleExecution(executionId: string) {
+  return postJson<SyncSubmissionResponse, Record<string, never>>(
     `/executions/${encodeURIComponent(executionId)}/requeue`,
-    { confirm_append_risk: confirmAppendRisk },
+    {},
   )
 }
 

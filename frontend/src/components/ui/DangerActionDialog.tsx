@@ -25,6 +25,7 @@ export function DangerActionDialog({
   onCancel,
 }: DangerActionDialogProps) {
   return <Modal
+    className="danger-action-dialog"
     open={open}
     title={title}
     okText={confirmText}
@@ -35,7 +36,7 @@ export function DangerActionDialog({
     onOk={() => void onConfirm()}
     onCancel={onCancel}
   >
-    <Space direction="vertical" size={16} style={{ width: '100%' }}>
+    <Space direction="vertical" size={16} className="danger-action-dialog__content">
       <Typography.Paragraph>{explanation}</Typography.Paragraph>
       <Alert type="error" showIcon message="请确认影响范围" description={impact} />
       {children}

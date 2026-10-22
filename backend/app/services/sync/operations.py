@@ -52,6 +52,10 @@ class SyncOperationHandler(CallableOperationHandler):
     """Adapter for the existing SyncService execution path."""
 
 
+class SqlTaskOperationHandler(CallableOperationHandler):
+    """Adapter for scheduled INSERT INTO ... SELECT wide-table tasks."""
+
+
 class ReplaceRangeOperationHandler(CallableOperationHandler):
     """Adapter for replacement Dataset BUILD/APPLY operations."""
 

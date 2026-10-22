@@ -219,7 +219,7 @@ a:hover { color: var(--color-accent-hover); }
 }
 .filter-panel .ant-card-body { padding: var(--space-4); }
 .filter-controls, .filter-controls > .ant-space-item { width: 100%; }
-.history-page .filter-controls .ant-input, .filter-select { width: 100%; }
+.history-page .filter-controls .ant-input, .filter-select, .execution-api-filter { width: 100%; }
 .execution-json {
   max-height: 12rem; margin: 0; padding: var(--space-3); overflow: auto;
   background: var(--color-paper-subtle); border: 1px solid var(--color-rule);
@@ -316,6 +316,7 @@ a:hover { color: var(--color-accent-hover); }
   .filter-controls, .filter-controls > .ant-space-item { width: auto; }
   .history-page .filter-controls .ant-input { width: 14rem; }
   .filter-select { width: 10rem; }
+  .execution-api-filter { width: 18rem; }
 }
 
 @media (min-width: 60rem) {

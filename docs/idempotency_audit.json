@@ -1,0 +1,3285 @@
+{
+  "updated_at": "2026-10-22T12:17:45.045309+00:00",
+  "results": {
+    "fund_daily": {
+      "api_name": "fund_daily",
+      "source": "topic_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "510300.SH",
+        "trade_date": "20260930"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "a7d4a131-2410-4660-9d4e-f93360ce1b1a",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "e9ada039-1c02-4c30-bab4-7dd707e12d4e",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 2196,
+      "second_total": 2196,
+      "constraint_status": "SYNCED"
+    },
+    "forecast": {
+      "api_name": "forecast",
+      "source": "visible_api_audit",
+      "status": "EMPTY_SAMPLE",
+      "params": {
+        "ts_code": "000001.SZ",
+        "start_date": "20260930",
+        "end_date": "20260930"
+      },
+      "preview_rows": 0
+    },
+    "daily": {
+      "api_name": "daily",
+      "source": "stock_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ",
+        "trade_date": "20250929"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "6fc67737-bdd5-4747-9086-436ce7ae4195",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "581a3b75-9065-4f54-9e1d-6c427a890d34",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 11140,
+      "second_total": 11140,
+      "constraint_status": "SYNCED"
+    },
+    "stk_mins": {
+      "api_name": "stk_mins",
+      "source": "visible_api_audit",
+      "status": "FIRST_SYNC_FAILED",
+      "params": {
+        "ts_code": "000001.SZ",
+        "freq": "5min",
+        "start_date": "2026-09-30 09:30:00",
+        "end_date": "2026-09-30 10:00:00"
+      },
+      "preview_rows": 7,
+      "first": {
+        "execution_id": "ec899d63-2729-489b-bb2d-f6e9176f1020",
+        "status": "TIMEOUT"
+      }
+    },
+    "etf_auction": {
+      "api_name": "etf_auction",
+      "source": "topic_samples.json",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(etf_auction)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "etf_share_size": {
+      "api_name": "etf_share_size",
+      "source": "topic_samples.json",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(etf_share_size)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "etf_basic": {
+      "api_name": "etf_basic",
+      "source": "topic_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "510300.SH"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "457a0fca-7391-485e-85f0-4ac6b81f3977",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "8c98eaf4-b989-4fdb-9178-dae2903fe2e7",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1888,
+      "second_total": 1888,
+      "constraint_status": "SYNCED"
+    },
+    "etf_index": {
+      "api_name": "etf_index",
+      "source": "topic_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000300.SH"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "ada080e9-c691-4608-b5b4-ceb80b687132",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "e2496a36-1f06-418f-a470-bc821fd995f5",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "etf_mins": {
+      "api_name": "etf_mins",
+      "source": "topic_samples.json",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(etf_mins)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "rt_etf_sz_iopv": {
+      "api_name": "rt_etf_sz_iopv",
+      "source": "topic_samples.json",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(rt_etf_sz_iopv)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "rt_etf_min": {
+      "api_name": "rt_etf_min",
+      "source": "topic_samples.json",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(rt_etf_min)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "rt_etf_min_daily": {
+      "api_name": "rt_etf_min_daily",
+      "source": "topic_samples.json",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(rt_etf_min_daily)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "rt_etf_k": {
+      "api_name": "rt_etf_k",
+      "source": "topic_samples.json",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(rt_etf_k)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "fund_factor_pro": {
+      "api_name": "fund_factor_pro",
+      "source": "topic_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "510300.SH",
+        "trade_date": "20260930"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "d0db3df2-6dfe-4fe8-9eec-16fcb9515f6f",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "ceeb41f9-1e36-4709-b74a-4d4e1124ae85",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "fund_adj": {
+      "api_name": "fund_adj",
+      "source": "topic_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "510300.SH",
+        "trade_date": "20260930"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "2d6bd5ef-aed7-4bef-80f1-73209f314230",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "7ba15e11-47a3-4e9a-b988-de52037c84c2",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "etf_sh_cons": {
+      "api_name": "etf_sh_cons",
+      "source": "topic_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "517030.SH",
+        "trade_date": "20260615"
+      },
+      "preview_rows": 300,
+      "first": {
+        "execution_id": "5b2439fc-ffd2-4b9e-b363-52c07a00eecb",
+        "status": "SUCCESS",
+        "rows_received": 300,
+        "rows_written": 300,
+        "rows_inserted": 300,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "8106368b-4ba0-44d9-b125-99ba1ee5a216",
+        "status": "SUCCESS",
+        "rows_received": 300,
+        "rows_written": 300,
+        "rows_inserted": 0,
+        "rows_updated": 300,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 300,
+      "second_total": 300,
+      "constraint_status": "SYNCED"
+    },
+    "etf_sz_cons": {
+      "api_name": "etf_sz_cons",
+      "source": "topic_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "159051.SZ",
+        "trade_date": "20260625"
+      },
+      "preview_rows": 100,
+      "first": {
+        "execution_id": "278c76d5-e3d8-4bc6-bf1d-03537c96320f",
+        "status": "SUCCESS",
+        "rows_received": 100,
+        "rows_written": 100,
+        "rows_inserted": 100,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "ae865abd-9b7f-4e23-90ce-52abdd7f7671",
+        "status": "SUCCESS",
+        "rows_received": 100,
+        "rows_written": 100,
+        "rows_inserted": 0,
+        "rows_updated": 100,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 100,
+      "second_total": 100,
+      "constraint_status": "SYNCED"
+    },
+    "disclosure_date": {
+      "api_name": "disclosure_date",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "ann_date": "20260930",
+        "ts_code": "002107.SZ"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "8cfd2d70-d2a2-48e6-93fa-32087d81c699",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "d2bc2b51-0043-4780-927f-12fd4cde2a61",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "fina_audit": {
+      "api_name": "fina_audit",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ",
+        "period": "20251231"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "f2adec86-5133-4a38-bcc0-6df0b540bf31",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "e1a6b3a8-d42a-415d-8633-3b1794f292b5",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "fina_indicator": {
+      "api_name": "fina_indicator",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ",
+        "period": "20251231"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "ef36d792-af88-494b-95b2-9fe954986127",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "2bbb7d1c-3eb6-4b24-abbb-2e6b20a37bc5",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "dividend": {
+      "api_name": "dividend",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ"
+      },
+      "preview_rows": 98,
+      "first": {
+        "execution_id": "5cf6c364-4787-4947-98d1-d3daddad7a71",
+        "status": "SUCCESS",
+        "rows_received": 98,
+        "rows_written": 98,
+        "rows_inserted": 98,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "9282be70-fa7f-4536-aae8-d754ccea4e7b",
+        "status": "SUCCESS",
+        "rows_received": 98,
+        "rows_written": 98,
+        "rows_inserted": 0,
+        "rows_updated": 98,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 98,
+      "second_total": 98,
+      "constraint_status": "SYNCED"
+    },
+    "income": {
+      "api_name": "income",
+      "source": "stock_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ",
+        "period": "20250630"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "73443008-062a-4933-81b4-f255f76c7eba",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "177c4663-26b9-4f42-ad67-b62de8781827",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "income_vip": {
+      "api_name": "income_vip",
+      "source": "stock_samples.json",
+      "status": "PASS",
+      "params": {
+        "period": "20250630",
+        "ts_code": "874289.BJ"
+      },
+      "preview_rows": 2,
+      "first": {
+        "execution_id": "c13194a5-0d6c-4c3d-a79e-8587c16044ba",
+        "status": "SUCCESS",
+        "rows_received": 2,
+        "rows_written": 2,
+        "rows_inserted": 2,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "576de918-9d97-48c0-9072-c27ed5775f97",
+        "status": "SUCCESS",
+        "rows_received": 2,
+        "rows_written": 2,
+        "rows_inserted": 0,
+        "rows_updated": 2,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 5413,
+      "second_total": 5413,
+      "constraint_status": "SYNCED"
+    },
+    "cashflow": {
+      "api_name": "cashflow",
+      "source": "stock_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ",
+        "period": "20250630"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "85351cd4-e727-4608-ac02-4dcbf5cfbced",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "b49a4c5f-3af6-40d8-ac4b-a242a2d5106c",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "express": {
+      "api_name": "express",
+      "source": "visible_api_audit",
+      "status": "EMPTY_SAMPLE",
+      "params": {
+        "ts_code": "000001.SZ",
+        "period": "20251231"
+      },
+      "preview_rows": 0
+    },
+    "fina_mainbz": {
+      "api_name": "fina_mainbz",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ",
+        "period": "20251231"
+      },
+      "preview_rows": 37,
+      "first": {
+        "execution_id": "c288b6dc-0bca-44e6-829a-ac0ca01e7374",
+        "status": "SUCCESS",
+        "rows_received": 37,
+        "rows_written": 37,
+        "rows_inserted": 37,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "5ec65973-a116-4265-ae97-782a2859c6c8",
+        "status": "SUCCESS",
+        "rows_received": 37,
+        "rows_written": 37,
+        "rows_inserted": 0,
+        "rows_updated": 37,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 37,
+      "second_total": 37,
+      "constraint_status": "SYNCED"
+    },
+    "balancesheet": {
+      "api_name": "balancesheet",
+      "source": "stock_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ",
+        "period": "20250630"
+      },
+      "preview_rows": 2,
+      "first": {
+        "execution_id": "a251b12a-f469-4b97-af35-51f74321865b",
+        "status": "SUCCESS",
+        "rows_received": 2,
+        "rows_written": 2,
+        "rows_inserted": 0,
+        "rows_updated": 2,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "da2b8b3d-1441-4a8c-935d-20b5452b42bd",
+        "status": "SUCCESS",
+        "rows_received": 2,
+        "rows_written": 2,
+        "rows_inserted": 0,
+        "rows_updated": 2,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 3,
+      "second_total": 3,
+      "constraint_status": "SYNCED"
+    },
+    "block_trade": {
+      "api_name": "block_trade",
+      "source": "stock_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ",
+        "start_date": "20250101",
+        "end_date": "20250929"
+      },
+      "preview_rows": 3,
+      "first": {
+        "execution_id": "a751b860-998a-4e74-aaf0-fae883da3695",
+        "status": "SUCCESS",
+        "rows_received": 3,
+        "rows_written": 3,
+        "rows_inserted": 0,
+        "rows_updated": 3,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "4aba8a1d-a719-4b1a-b0a1-5b21c256b7ef",
+        "status": "SUCCESS",
+        "rows_received": 3,
+        "rows_written": 3,
+        "rows_inserted": 0,
+        "rows_updated": 3,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 3,
+      "second_total": 3,
+      "constraint_status": "SYNCED"
+    },
+    "stk_high_shock": {
+      "api_name": "stk_high_shock",
+      "source": "visible_api_audit",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(stk_high_shock)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "stk_shock": {
+      "api_name": "stk_shock",
+      "source": "visible_api_audit",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(stk_shock)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "stk_holdernumber": {
+      "api_name": "stk_holdernumber",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "start_date": "20260930",
+        "end_date": "20260930",
+        "ts_code": "002640.SZ"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "5023f246-b47d-4404-ba0d-f8faeed94175",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "e823f778-a139-4cac-ba38-63a218fcc63e",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 9,
+      "second_total": 9,
+      "constraint_status": "SYNCED"
+    },
+    "stk_holdertrade": {
+      "api_name": "stk_holdertrade",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "start_date": "20260930",
+        "end_date": "20260930"
+      },
+      "preview_rows": 134,
+      "first": {
+        "execution_id": "344f88dd-50a8-4c92-8beb-b86b984aaec1",
+        "status": "SUCCESS",
+        "rows_received": 134,
+        "rows_written": 134,
+        "rows_inserted": 134,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "09694155-1cd7-4ca5-b6e2-70d2c360582e",
+        "status": "SUCCESS",
+        "rows_received": 134,
+        "rows_written": 134,
+        "rows_inserted": 0,
+        "rows_updated": 134,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 134,
+      "second_total": 134,
+      "constraint_status": "SYNCED"
+    },
+    "repurchase": {
+      "api_name": "repurchase",
+      "source": "stock_samples.json",
+      "status": "PASS",
+      "params": {
+        "start_date": "20250901",
+        "end_date": "20250929"
+      },
+      "preview_rows": 477,
+      "first": {
+        "execution_id": "841fecee-bffa-47db-bd53-2cbb58b3d032",
+        "status": "SUCCESS",
+        "rows_received": 477,
+        "rows_written": 464,
+        "rows_inserted": 0,
+        "rows_updated": 464,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "5856ad13-e994-4208-9538-802fc018eb58",
+        "status": "SUCCESS",
+        "rows_received": 477,
+        "rows_written": 464,
+        "rows_inserted": 0,
+        "rows_updated": 464,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 464,
+      "second_total": 464,
+      "constraint_status": "SYNCED"
+    },
+    "stk_seasoned": {
+      "api_name": "stk_seasoned",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "start_date": "20260930",
+        "end_date": "20260930",
+        "ts_code": "601555.SH"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "301a1aa1-88d4-480e-8a7b-3c885be88fc7",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "52b23397-7d09-43f5-967b-d3a1ffeb1b0d",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "pledge_detail": {
+      "api_name": "pledge_detail",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "start_date": "20260930",
+        "end_date": "20260930",
+        "ts_code": "000430.SZ"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "7bb3fdec-1852-4b2d-9a2a-f1fc8b8a1af7",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "35774f87-29fa-427c-8438-5b23857c7009",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "pledge_stat": {
+      "api_name": "pledge_stat",
+      "source": "stock_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ"
+      },
+      "preview_rows": 649,
+      "first": {
+        "execution_id": "ab9b8c4d-2a7d-4b90-9407-9f81cbe0a1a5",
+        "status": "SUCCESS",
+        "rows_received": 649,
+        "rows_written": 649,
+        "rows_inserted": 3,
+        "rows_updated": 646,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "960162cb-2dcf-4f17-ba98-a4ec1955dbd9",
+        "status": "SUCCESS",
+        "rows_received": 649,
+        "rows_written": 649,
+        "rows_inserted": 0,
+        "rows_updated": 649,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 649,
+      "second_total": 649,
+      "constraint_status": "SYNCED"
+    },
+    "stk_alert": {
+      "api_name": "stk_alert",
+      "source": "visible_api_audit",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(stk_alert)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "top10_holders": {
+      "api_name": "top10_holders",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ",
+        "period": "20251231"
+      },
+      "preview_rows": 10,
+      "first": {
+        "execution_id": "cdea1d6c-730a-4c58-b8d0-26cb9ea6ebbd",
+        "status": "SUCCESS",
+        "rows_received": 10,
+        "rows_written": 10,
+        "rows_inserted": 10,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "10f14494-7b98-45ed-afa4-682fa467a6a6",
+        "status": "SUCCESS",
+        "rows_received": 10,
+        "rows_written": 10,
+        "rows_inserted": 0,
+        "rows_updated": 10,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 10,
+      "second_total": 10,
+      "constraint_status": "SYNCED"
+    },
+    "top10_floatholders": {
+      "api_name": "top10_floatholders",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ",
+        "period": "20251231"
+      },
+      "preview_rows": 10,
+      "first": {
+        "execution_id": "d86c3a0c-3b47-4d0d-b977-18096ca4b818",
+        "status": "SUCCESS",
+        "rows_received": 10,
+        "rows_written": 10,
+        "rows_inserted": 10,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "dc9efbe5-2b03-42a0-853d-2e4982470b18",
+        "status": "SUCCESS",
+        "rows_received": 10,
+        "rows_written": 10,
+        "rows_inserted": 0,
+        "rows_updated": 10,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 10,
+      "second_total": 10,
+      "constraint_status": "SYNCED"
+    },
+    "share_float": {
+      "api_name": "share_float",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "start_date": "20260930",
+        "end_date": "20260930",
+        "ts_code": "300547.SZ"
+      },
+      "preview_rows": 36,
+      "first": {
+        "execution_id": "8b478d2d-04e1-47fd-b6e0-4f816c6df82f",
+        "status": "SUCCESS",
+        "rows_received": 36,
+        "rows_written": 36,
+        "rows_inserted": 36,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "cdf304ce-59f1-44d6-9f60-45736a497463",
+        "status": "SUCCESS",
+        "rows_received": 36,
+        "rows_written": 36,
+        "rows_inserted": 0,
+        "rows_updated": 36,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 36,
+      "second_total": 36,
+      "constraint_status": "SYNCED"
+    },
+    "dc_hot": {
+      "api_name": "dc_hot",
+      "source": "visible_api_audit",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(dc_hot)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "tdx_member": {
+      "api_name": "tdx_member",
+      "source": "visible_api_audit",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(tdx_member)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "tdx_index": {
+      "api_name": "tdx_index",
+      "source": "visible_api_audit",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(tdx_index)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "tdx_daily": {
+      "api_name": "tdx_daily",
+      "source": "visible_api_audit",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(tdx_daily)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "ths_hot": {
+      "api_name": "ths_hot",
+      "source": "visible_api_audit",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(ths_hot)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "dc_member": {
+      "api_name": "dc_member",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "trade_date": "20260930",
+        "ts_code": "BK0145.DC"
+      },
+      "preview_rows": 447,
+      "first": {
+        "execution_id": "5c845682-69ff-41a9-93db-35384fe8d567",
+        "status": "SUCCESS",
+        "rows_received": 447,
+        "rows_written": 447,
+        "rows_inserted": 447,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "0258a266-5f23-4b32-9c13-09a7ef86cc2a",
+        "status": "SUCCESS",
+        "rows_received": 447,
+        "rows_written": 447,
+        "rows_inserted": 0,
+        "rows_updated": 447,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 447,
+      "second_total": 447,
+      "constraint_status": "SYNCED"
+    },
+    "ths_daily": {
+      "api_name": "ths_daily",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "trade_date": "20260930",
+        "ts_code": "700791.TI"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "aec2a86a-3e9b-4e07-81ac-5df750fc01c1",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "34c3a2d6-d8f8-48c8-8e09-d7a84846d8e8",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "stk_auction": {
+      "api_name": "stk_auction",
+      "source": "visible_api_audit",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(stk_auction)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "dc_index": {
+      "api_name": "dc_index",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "trade_date": "20260930",
+        "idx_type": "概念板块",
+        "ts_code": "BK1753.DC"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "6d6fdcb9-cd66-41e1-a466-356bffeebe56",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "9119daf1-d8c4-4a93-b438-46aa3504d3db",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "ths_member": {
+      "api_name": "ths_member",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "ts_code": "885916.TI"
+      },
+      "preview_rows": 100,
+      "first": {
+        "execution_id": "d6eedf56-41f0-49d2-af3c-e515d5c5661b",
+        "status": "SUCCESS",
+        "rows_received": 100,
+        "rows_written": 100,
+        "rows_inserted": 100,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "940743b0-da58-4523-847c-e7955fe2be38",
+        "status": "SUCCESS",
+        "rows_received": 100,
+        "rows_written": 100,
+        "rows_inserted": 0,
+        "rows_updated": 100,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 100,
+      "second_total": 100,
+      "constraint_status": "SYNCED"
+    },
+    "dc_daily": {
+      "api_name": "dc_daily",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "trade_date": "20260930",
+        "ts_code": "BK0145.DC"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "662f40ea-df67-46d2-a0e8-30f480a83369",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "c548614f-893a-4f33-bcc4-28e70d49ef96",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "ths_index": {
+      "api_name": "ths_index",
+      "source": "stock_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "883300.TI"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "ea592aa6-7a66-4e63-ab6b-9826cf372817",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "510821a4-8a1d-4eb8-8a68-93c04a7547b3",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "kpl_list": {
+      "api_name": "kpl_list",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_rows": 56,
+      "first": {
+        "execution_id": "6bae9713-049b-47f2-9dc8-4996d36aab33",
+        "status": "SUCCESS",
+        "rows_received": 56,
+        "rows_written": 56,
+        "rows_inserted": 56,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "aef287c2-ebc9-4fc8-baf3-bcfe1223e042",
+        "status": "SUCCESS",
+        "rows_received": 56,
+        "rows_written": 56,
+        "rows_inserted": 0,
+        "rows_updated": 56,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 56,
+      "second_total": 56,
+      "constraint_status": "SYNCED"
+    },
+    "kpl_concept_cons": {
+      "api_name": "kpl_concept_cons",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "trade_date": "20260930",
+        "ts_code": "000013.KP"
+      },
+      "preview_rows": 18,
+      "first": {
+        "execution_id": "83b5fdf2-91ff-4bce-8e9f-a89e196fab3e",
+        "status": "SUCCESS",
+        "rows_received": 18,
+        "rows_written": 18,
+        "rows_inserted": 18,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "42d5c13b-bbeb-4ab3-a2f0-ea48b1bc56e1",
+        "status": "SUCCESS",
+        "rows_received": 18,
+        "rows_written": 18,
+        "rows_inserted": 0,
+        "rows_updated": 18,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 18,
+      "second_total": 18,
+      "constraint_status": "SYNCED"
+    },
+    "top_inst": {
+      "api_name": "top_inst",
+      "source": "stock_samples.json",
+      "status": "EMPTY_SAMPLE",
+      "params": {
+        "ts_code": "000001.SZ",
+        "trade_date": "20250929"
+      },
+      "preview_rows": 0
+    },
+    "top_list": {
+      "api_name": "top_list",
+      "source": "stock_samples.json",
+      "status": "EMPTY_SAMPLE",
+      "params": {
+        "ts_code": "000001.SZ",
+        "trade_date": "20250929"
+      },
+      "preview_rows": 0
+    },
+    "hm_detail": {
+      "api_name": "hm_detail",
+      "source": "visible_api_audit",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(hm_detail)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "hm_list": {
+      "api_name": "hm_list",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {},
+      "preview_rows": 121,
+      "first": {
+        "execution_id": "2ec08a08-ad5e-442d-841f-bce654e6157f",
+        "status": "SUCCESS",
+        "rows_received": 121,
+        "rows_written": 121,
+        "rows_inserted": 121,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "48f743e4-0d41-444d-aa81-d514a85ea855",
+        "status": "SUCCESS",
+        "rows_received": 121,
+        "rows_written": 121,
+        "rows_inserted": 0,
+        "rows_updated": 121,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 121,
+      "second_total": 121,
+      "constraint_status": "SYNCED"
+    },
+    "limit_list_d": {
+      "api_name": "limit_list_d",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_rows": 73,
+      "first": {
+        "execution_id": "9079ced3-d26b-4393-a4f0-aa10aa95fbfb",
+        "status": "SUCCESS",
+        "rows_received": 73,
+        "rows_written": 73,
+        "rows_inserted": 73,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "6c9a9c6b-8efa-44f4-85a4-4afa9d6ac1d4",
+        "status": "SUCCESS",
+        "rows_received": 73,
+        "rows_written": 73,
+        "rows_inserted": 0,
+        "rows_updated": 73,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 73,
+      "second_total": 73,
+      "constraint_status": "SYNCED"
+    },
+    "new_share": {
+      "api_name": "new_share",
+      "source": "visible_api_audit",
+      "status": "EMPTY_SAMPLE",
+      "params": {
+        "start_date": "20260930",
+        "end_date": "20260930"
+      },
+      "preview_rows": 0
+    },
+    "st": {
+      "api_name": "st",
+      "source": "visible_api_audit",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(st)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "stock_st": {
+      "api_name": "stock_st",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_rows": 201,
+      "first": {
+        "execution_id": "60a17bfe-bd79-45ba-9fd8-2cc07d0b9c52",
+        "status": "SUCCESS",
+        "rows_received": 201,
+        "rows_written": 201,
+        "rows_inserted": 201,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "5841e948-99d4-4c20-b8b9-0e39a3181660",
+        "status": "SUCCESS",
+        "rows_received": 201,
+        "rows_written": 201,
+        "rows_inserted": 0,
+        "rows_updated": 201,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 201,
+      "second_total": 201,
+      "constraint_status": "SYNCED"
+    },
+    "bse_mapping": {
+      "api_name": "bse_mapping",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {},
+      "preview_rows": 248,
+      "first": {
+        "execution_id": "1eb40b10-c09e-4261-a10e-17bb5a21f030",
+        "status": "SUCCESS",
+        "rows_received": 248,
+        "rows_written": 248,
+        "rows_inserted": 248,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "016b1063-73d7-49f2-8b3d-f6a8e9a932e1",
+        "status": "SUCCESS",
+        "rows_received": 248,
+        "rows_written": 248,
+        "rows_inserted": 0,
+        "rows_updated": 248,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 248,
+      "second_total": 248,
+      "constraint_status": "SYNCED"
+    },
+    "stk_premarket": {
+      "api_name": "stk_premarket",
+      "source": "visible_api_audit",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(stk_premarket)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "namechange": {
+      "api_name": "namechange",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "start_date": "20260930",
+        "end_date": "20260930",
+        "ts_code": "001246.SZ"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "6d322a63-7a82-4357-acf1-ac18625aa3c1",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "c26f2116-2396-4444-851b-ab83ea9f504f",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "stock_basic": {
+      "api_name": "stock_basic",
+      "source": "stock_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "6a908d2d-7375-414f-8e42-8171b14866d8",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "6a52a528-ed3a-4ab7-a035-d77aaa83c91f",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 5577,
+      "second_total": 5577,
+      "constraint_status": "SYNCED"
+    },
+    "bak_basic": {
+      "api_name": "bak_basic",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "trade_date": "20260930",
+        "ts_code": "000001.SZ"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "2af1ed73-c5b9-4fb8-af65-c9d55fe56cce",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "7cdd5924-6804-42e1-b9ee-2929e2a746b9",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "stk_rewards": {
+      "api_name": "stk_rewards",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ",
+        "end_date": "20251231"
+      },
+      "preview_rows": 22,
+      "first": {
+        "execution_id": "96af9a76-acb8-4d00-9103-e54a5d2c9077",
+        "status": "SUCCESS",
+        "rows_received": 22,
+        "rows_written": 22,
+        "rows_inserted": 22,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "14605377-fd63-4e55-8cc3-bfdd87dbfe2e",
+        "status": "SUCCESS",
+        "rows_received": 22,
+        "rows_written": 22,
+        "rows_inserted": 0,
+        "rows_updated": 22,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 22,
+      "second_total": 22,
+      "constraint_status": "SYNCED"
+    },
+    "stock_hsgt": {
+      "api_name": "stock_hsgt",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "trade_date": "20260930",
+        "type": "HK_SZ",
+        "ts_code": "000060.SZ"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "5a88abab-4b26-4bd9-9e22-0bbc8d88522d",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "4b30dd4e-f519-49e3-a91e-81bf3022a83d",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "trade_cal": {
+      "api_name": "trade_cal",
+      "source": "stock_samples.json",
+      "status": "PASS",
+      "params": {
+        "exchange": "SSE",
+        "start_date": "20250929",
+        "end_date": "20250929"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "13b9b7f8-9a2e-4363-9a76-7fbcde226107",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "0355ca51-075f-4b8d-8fbc-2040b0b7ab60",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 13527,
+      "second_total": 13527,
+      "constraint_status": "SYNCED"
+    },
+    "stk_managers": {
+      "api_name": "stk_managers",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "start_date": "20260930",
+        "end_date": "20260930",
+        "ts_code": "002689.SZ"
+      },
+      "preview_rows": 3,
+      "first": {
+        "execution_id": "f2593350-ab94-4311-b92c-30b42dcb1a30",
+        "status": "SUCCESS",
+        "rows_received": 3,
+        "rows_written": 3,
+        "rows_inserted": 3,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "d066d4e2-ef02-42e9-9ead-f36197aa642e",
+        "status": "SUCCESS",
+        "rows_received": 3,
+        "rows_written": 3,
+        "rows_inserted": 0,
+        "rows_updated": 3,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 3,
+      "second_total": 3,
+      "constraint_status": "SYNCED"
+    },
+    "stock_company": {
+      "api_name": "stock_company",
+      "source": "stock_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "59a2b296-6d63-475d-8429-8f8a4b254d9d",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "2298c9b0-5d3d-4dd6-90dd-27394b5944e4",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "margin_secs": {
+      "api_name": "margin_secs",
+      "source": "stock_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ",
+        "trade_date": "20250929"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "b47664ec-ba8f-4faf-aa44-b7fb4acf9566",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "cfe0a3d9-4206-45dc-bd41-8295d74bf416",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "margin": {
+      "api_name": "margin",
+      "source": "stock_samples.json",
+      "status": "PASS",
+      "params": {
+        "trade_date": "20250929"
+      },
+      "preview_rows": 3,
+      "first": {
+        "execution_id": "27b87bfb-7750-43b6-b823-e2954e36ae24",
+        "status": "SUCCESS",
+        "rows_received": 3,
+        "rows_written": 3,
+        "rows_inserted": 0,
+        "rows_updated": 3,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "95b859cd-aa6b-4fa6-a6f5-6f41484b620a",
+        "status": "SUCCESS",
+        "rows_received": 3,
+        "rows_written": 3,
+        "rows_inserted": 0,
+        "rows_updated": 3,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 3,
+      "second_total": 3,
+      "constraint_status": "SYNCED"
+    },
+    "margin_detail": {
+      "api_name": "margin_detail",
+      "source": "stock_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ",
+        "trade_date": "20250929"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "f8335274-53ac-4242-91c3-aa665ee6fd3e",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "61154a85-ece1-448f-a3c5-06d2ec201116",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "slb_len": {
+      "api_name": "slb_len",
+      "source": "visible_api_audit",
+      "status": "EMPTY_SAMPLE",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_rows": 0
+    },
+    "stk_ah_comparison": {
+      "api_name": "stk_ah_comparison",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_rows": 209,
+      "first": {
+        "execution_id": "d3bd88cc-4fe5-4a45-9300-e183fce5bfc8",
+        "status": "SUCCESS",
+        "rows_received": 209,
+        "rows_written": 209,
+        "rows_inserted": 209,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "b092f25d-7e06-47be-a8e0-1551785e4804",
+        "status": "SUCCESS",
+        "rows_received": 209,
+        "rows_written": 209,
+        "rows_inserted": 0,
+        "rows_updated": 209,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 209,
+      "second_total": 209,
+      "constraint_status": "SYNCED"
+    },
+    "stk_factor_pro": {
+      "api_name": "stk_factor_pro",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "trade_date": "20260930",
+        "ts_code": "600162.SH"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "337625be-b6be-45c7-9a0d-cf1044affad2",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "5f3389db-40df-477e-9eb4-c7586bad090a",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "stk_factor": {
+      "api_name": "stk_factor",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "trade_date": "20260930",
+        "ts_code": "600162.SH"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "1c8da5f2-c54c-4636-afcd-ea95d1ce0029",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "f9d631a5-ec4b-4be3-b210-b50a2adceb55",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "stk_auction_o": {
+      "api_name": "stk_auction_o",
+      "source": "visible_api_audit",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(stk_auction_o)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "stk_auction_c": {
+      "api_name": "stk_auction_c",
+      "source": "visible_api_audit",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(stk_auction_c)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "stk_surv": {
+      "api_name": "stk_surv",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "trade_date": "20260930",
+        "ts_code": "601208.SH"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "c73fdf4d-36bb-4c12-981f-8dfe2f41a342",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "2a326d3b-00db-4dee-9ec7-32bb29642b59",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "cyq_chips": {
+      "api_name": "cyq_chips",
+      "source": "stock_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ",
+        "trade_date": "20250929"
+      },
+      "preview_rows": 103,
+      "first": {
+        "execution_id": "4be938ee-4dfe-4286-b053-c22caa48a910",
+        "status": "SUCCESS",
+        "rows_received": 103,
+        "rows_written": 103,
+        "rows_inserted": 103,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "d5b7805a-988b-4f6c-b111-6bffd1a299e7",
+        "status": "SUCCESS",
+        "rows_received": 103,
+        "rows_written": 103,
+        "rows_inserted": 0,
+        "rows_updated": 103,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 103,
+      "second_total": 103,
+      "constraint_status": "SYNCED"
+    },
+    "cyq_perf": {
+      "api_name": "cyq_perf",
+      "source": "stock_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ",
+        "trade_date": "20250929"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "8336d048-ff34-4ba6-b7c4-3dc45b52a577",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "178e4de1-7584-45d8-9dcb-33f3e3278fdf",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "broker_recommend": {
+      "api_name": "broker_recommend",
+      "source": "stock_samples.json",
+      "status": "PASS",
+      "params": {
+        "month": "202509"
+      },
+      "preview_rows": 210,
+      "first": {
+        "execution_id": "75c2c739-aa24-4bc3-80a2-025f7a391952",
+        "status": "SUCCESS",
+        "rows_received": 210,
+        "rows_written": 210,
+        "rows_inserted": 0,
+        "rows_updated": 210,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "c12b7ea2-5d0d-4837-a0f0-d99f988c8ace",
+        "status": "SUCCESS",
+        "rows_received": 210,
+        "rows_written": 210,
+        "rows_inserted": 0,
+        "rows_updated": 210,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 210,
+      "second_total": 210,
+      "constraint_status": "SYNCED"
+    },
+    "stk_nineturn": {
+      "api_name": "stk_nineturn",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "trade_date": "20260930",
+        "ts_code": "301429.SZ"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "8c6a5303-408a-426f-b8f5-8e5b6b6faf82",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "5af6ce22-e713-4d25-a008-14d9283a4afb",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "rt_min": {
+      "api_name": "rt_min",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ",
+        "freq": "1MIN"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "c9eff2ee-36bf-4a88-b18a-ab5f60945bbc",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "d4cc6182-df60-452d-97c0-c2b6d47916f6",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "rt_min_daily": {
+      "api_name": "rt_min_daily",
+      "source": "visible_api_audit",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(rt_min_daily)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "rt_k": {
+      "api_name": "rt_k",
+      "source": "visible_api_audit",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(rt_k)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "bak_daily": {
+      "api_name": "bak_daily",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "trade_date": "20260930",
+        "ts_code": "000001.SZ"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "aa627806-a4f4-4661-8f9a-853868a2b35c",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "1dbe4b35-dbb9-468f-9612-f632a6a8bfd2",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "adj_factor": {
+      "api_name": "adj_factor",
+      "source": "stock_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ",
+        "trade_date": "20250929"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "20e42334-ff9c-4a4b-bd28-506c66a53d78",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "8282718e-b4cb-4aa4-af32-f159480f01d5",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "stk_week_month_adj": {
+      "api_name": "stk_week_month_adj",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ",
+        "freq": "week",
+        "trade_date": "20260925"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "2b0efbfb-df7e-4f9c-bae7-c8f7311767c8",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "101f8de7-49dd-4703-837c-b56699b2ed16",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "stk_weekly_monthly": {
+      "api_name": "stk_weekly_monthly",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ",
+        "freq": "week",
+        "trade_date": "20260925"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "601444f7-b085-4901-96cb-8810c997602b",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "377bbc23-6cd6-4e01-93f2-8eaeac5ec2a7",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "hsgt_top10": {
+      "api_name": "hsgt_top10",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_rows": 20,
+      "first": {
+        "execution_id": "2971ab3e-c0e6-45db-8644-3e54f5892887",
+        "status": "SUCCESS",
+        "rows_received": 20,
+        "rows_written": 20,
+        "rows_inserted": 20,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "41c0f7a2-c5a2-4982-9566-80c12efce3ac",
+        "status": "SUCCESS",
+        "rows_received": 20,
+        "rows_written": 20,
+        "rows_inserted": 0,
+        "rows_updated": 20,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 20,
+      "second_total": 20,
+      "constraint_status": "SYNCED"
+    },
+    "daily_basic": {
+      "api_name": "daily_basic",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ",
+        "trade_date": "20260930"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "ae36cc2e-8a1b-4d77-92c4-38b6247a518e",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "e02a1c4e-68b4-4842-995d-5328b6dfd3e7",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 2,
+      "second_total": 2,
+      "constraint_status": "SYNCED"
+    },
+    "pro_bar": {
+      "api_name": "pro_bar",
+      "source": "stock_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ",
+        "start_date": "20250901",
+        "end_date": "20250929",
+        "adj": "qfq",
+        "freq": "D",
+        "asset": "E"
+      },
+      "preview_rows": 21,
+      "first": {
+        "execution_id": "f8a5acf9-ff71-4ac9-843a-9c4ad6f7f2cd",
+        "status": "SUCCESS",
+        "rows_received": 21,
+        "rows_written": 21,
+        "rows_inserted": 21,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "2b476e66-4a53-4adf-a366-66a8f4d16117",
+        "status": "SUCCESS",
+        "rows_received": 21,
+        "rows_written": 21,
+        "rows_inserted": 0,
+        "rows_updated": 21,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 5590,
+      "second_total": 5590,
+      "constraint_status": "SYNCED"
+    },
+    "monthly": {
+      "api_name": "monthly",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "trade_date": "20260930",
+        "ts_code": "000001.SZ"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "f9aa2ad3-5fd5-425c-82a7-8628b757e747",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "9ec8f8df-db09-410a-b1bd-5554fdb949fa",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "weekly": {
+      "api_name": "weekly",
+      "source": "stock_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ",
+        "start_date": "20250901",
+        "end_date": "20250929"
+      },
+      "preview_rows": 4,
+      "first": {
+        "execution_id": "d2784382-fc0d-45be-8078-6ca2e7d28863",
+        "status": "SUCCESS",
+        "rows_received": 4,
+        "rows_written": 4,
+        "rows_inserted": 0,
+        "rows_updated": 4,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "e17c44f2-53d7-4313-a3ea-c1d881927c27",
+        "status": "SUCCESS",
+        "rows_received": 4,
+        "rows_written": 4,
+        "rows_inserted": 0,
+        "rows_updated": 4,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 4,
+      "second_total": 4,
+      "constraint_status": "SYNCED"
+    },
+    "moneyflow_mkt_dc": {
+      "api_name": "moneyflow_mkt_dc",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "0d7eb08a-0d89-4c2a-a7ee-c337e5eca679",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "86135ca5-06a3-4273-8d10-f92abb39ce3a",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "moneyflow_ind_dc": {
+      "api_name": "moneyflow_ind_dc",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "trade_date": "20260930",
+        "ts_code": "BK1216.DC"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "0f97ed6c-6964-4659-9611-25eb91c5d2c8",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "1d0f20a0-06b5-4a16-83b1-b18e9290ac12",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "moneyflow": {
+      "api_name": "moneyflow",
+      "source": "stock_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ",
+        "trade_date": "20250929"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "4a39ab77-14f0-49f6-a1f7-7652d5fe5fd4",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "44bf04f5-5500-472c-868a-71d837dea84b",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "moneyflow_dc": {
+      "api_name": "moneyflow_dc",
+      "source": "stock_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ",
+        "trade_date": "20250929"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "c477ab27-a0f1-4ae3-9a0e-c6f232599142",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "78ba3075-d3f3-4f30-8144-3dcdee18abb5",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "moneyflow_ths": {
+      "api_name": "moneyflow_ths",
+      "source": "stock_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ",
+        "trade_date": "20250929"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "df8c4f3c-820f-4f6d-a856-b62c4ec6fcf5",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "cb20a894-52b9-4799-ad71-3f3195487847",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "moneyflow_cnt_ths": {
+      "api_name": "moneyflow_cnt_ths",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_rows": 387,
+      "first": {
+        "execution_id": "65ef6dba-f0a4-46cd-ad7c-13133bc4b6e5",
+        "status": "SUCCESS",
+        "rows_received": 387,
+        "rows_written": 387,
+        "rows_inserted": 387,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "9ca61d41-50f0-4904-b936-d8868c8e0758",
+        "status": "SUCCESS",
+        "rows_received": 387,
+        "rows_written": 387,
+        "rows_inserted": 0,
+        "rows_updated": 387,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 387,
+      "second_total": 387,
+      "constraint_status": "SYNCED"
+    },
+    "moneyflow_ind_ths": {
+      "api_name": "moneyflow_ind_ths",
+      "source": "visible_api_audit",
+      "status": "PASS",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_rows": 90,
+      "first": {
+        "execution_id": "44212e27-42d6-4d40-add9-ac2d7f846ebe",
+        "status": "SUCCESS",
+        "rows_received": 90,
+        "rows_written": 90,
+        "rows_inserted": 90,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "eda5031d-8ad3-4e2d-b251-6ef7125000b7",
+        "status": "SUCCESS",
+        "rows_received": 90,
+        "rows_written": 90,
+        "rows_inserted": 0,
+        "rows_updated": 90,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 90,
+      "second_total": 90,
+      "constraint_status": "SYNCED"
+    },
+    "rt_idx_min": {
+      "api_name": "rt_idx_min",
+      "source": "topic_samples.json",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(rt_idx_min)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "sw_mins": {
+      "api_name": "sw_mins",
+      "source": "topic_samples.json",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(sw_mins)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "index_dailybasic": {
+      "api_name": "index_dailybasic",
+      "source": "topic_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000300.SH",
+        "trade_date": "20260930"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "92ba68b6-f801-46e5-910d-2575508e9b1d",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "d5911f4a-a6ae-4e4e-bb55-aaa5331e36bf",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "index_global": {
+      "api_name": "index_global",
+      "source": "topic_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "XIN9",
+        "trade_date": "20260930"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "6639a2b8-6bb5-4c4e-8d09-350c3c307fef",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "6c369a74-7be6-4ec9-b763-6fca36355d4d",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "vix_index": {
+      "api_name": "vix_index",
+      "source": "topic_samples.json",
+      "status": "PASS",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "101e9ea4-fc7b-4890-b834-45483a663855",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "d4552cd3-a8ea-4b9a-8844-2e50d305d9f3",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "rt_sw_k": {
+      "api_name": "rt_sw_k",
+      "source": "topic_samples.json",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(rt_sw_k)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "index_member_all": {
+      "api_name": "index_member_all",
+      "source": "topic_samples.json",
+      "status": "PASS",
+      "params": {
+        "l1_code": "801010.SI",
+        "is_new": "Y"
+      },
+      "preview_rows": 126,
+      "first": {
+        "execution_id": "9a41d018-9dc0-4313-95cf-894c94167a67",
+        "status": "SUCCESS",
+        "rows_received": 126,
+        "rows_written": 126,
+        "rows_inserted": 126,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "3e2da878-6f20-4b3e-8825-58f06fe26e7d",
+        "status": "SUCCESS",
+        "rows_received": 126,
+        "rows_written": 126,
+        "rows_inserted": 0,
+        "rows_updated": 126,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 126,
+      "second_total": 126,
+      "constraint_status": "SYNCED"
+    },
+    "index_classify": {
+      "api_name": "index_classify",
+      "source": "topic_samples.json",
+      "status": "PASS",
+      "params": {
+        "src": "SW2021",
+        "level": "L1"
+      },
+      "preview_rows": 31,
+      "first": {
+        "execution_id": "9a29c131-8445-4639-8e10-cb30cd801dc0",
+        "status": "SUCCESS",
+        "rows_received": 31,
+        "rows_written": 31,
+        "rows_inserted": 0,
+        "rows_updated": 31,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "ee19dd40-e5fe-4e56-bda7-a3589fcaa4d8",
+        "status": "SUCCESS",
+        "rows_received": 31,
+        "rows_written": 31,
+        "rows_inserted": 0,
+        "rows_updated": 31,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 31,
+      "second_total": 31,
+      "constraint_status": "SYNCED"
+    },
+    "sw_daily": {
+      "api_name": "sw_daily",
+      "source": "topic_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "801010.SI",
+        "trade_date": "20260930"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "3087146a-52d2-4fc5-ad4d-5e113101a8e8",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "f27b9a48-db45-4460-93ac-feb550264c61",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "sz_daily_info": {
+      "api_name": "sz_daily_info",
+      "source": "topic_samples.json",
+      "status": "PASS",
+      "params": {
+        "trade_date": "20260930"
+      },
+      "preview_rows": 14,
+      "first": {
+        "execution_id": "55358e23-06b9-420c-98ba-9ba3b92072c8",
+        "status": "SUCCESS",
+        "rows_received": 14,
+        "rows_written": 14,
+        "rows_inserted": 14,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "d5d55b1d-f6ba-4985-98b0-70671f1bfd1a",
+        "status": "SUCCESS",
+        "rows_received": 14,
+        "rows_written": 14,
+        "rows_inserted": 0,
+        "rows_updated": 14,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 14,
+      "second_total": 14,
+      "constraint_status": "SYNCED"
+    },
+    "daily_info": {
+      "api_name": "daily_info",
+      "source": "topic_samples.json",
+      "status": "PASS",
+      "params": {
+        "trade_date": "20260930",
+        "exchange": "SH"
+      },
+      "preview_rows": 9,
+      "first": {
+        "execution_id": "3769f00c-e782-4578-adcc-52ffe3695aed",
+        "status": "SUCCESS",
+        "rows_received": 9,
+        "rows_written": 9,
+        "rows_inserted": 9,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "6acf8284-95e7-49f4-b0e5-71364d77c3e5",
+        "status": "SUCCESS",
+        "rows_received": 9,
+        "rows_written": 9,
+        "rows_inserted": 0,
+        "rows_updated": 9,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 9,
+      "second_total": 9,
+      "constraint_status": "SYNCED"
+    },
+    "index_weight": {
+      "api_name": "index_weight",
+      "source": "topic_samples.json",
+      "status": "PASS",
+      "params": {
+        "index_code": "000300.SH",
+        "start_date": "20260901",
+        "end_date": "20260930"
+      },
+      "preview_rows": 300,
+      "first": {
+        "execution_id": "bcbafde8-ea38-4a17-8024-e04fcfd59fd6",
+        "status": "SUCCESS",
+        "rows_received": 300,
+        "rows_written": 300,
+        "rows_inserted": 300,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "4b23e3c9-1e0c-47f4-a631-65b08d3ec414",
+        "status": "SUCCESS",
+        "rows_received": 300,
+        "rows_written": 300,
+        "rows_inserted": 0,
+        "rows_updated": 300,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 300,
+      "second_total": 300,
+      "constraint_status": "SYNCED"
+    },
+    "idx_anns": {
+      "api_name": "idx_anns",
+      "source": "topic_samples.json",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(idx_anns)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "index_basic": {
+      "api_name": "index_basic",
+      "source": "topic_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000300.SH"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "a98847a3-7357-4fbb-a826-1997e9652c3e",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "ee42e2f2-5478-4575-8d3d-d28f7c2f9fbb",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "idx_factor_pro": {
+      "api_name": "idx_factor_pro",
+      "source": "topic_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000300.SH",
+        "trade_date": "20260930"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "278d60f1-9d66-4315-8582-fe9154233298",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "dff0534b-a497-43cb-8928-22fbe3843335",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "idx_mins": {
+      "api_name": "idx_mins",
+      "source": "topic_samples.json",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(idx_mins)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "index_daily": {
+      "api_name": "index_daily",
+      "source": "topic_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000300.SH",
+        "trade_date": "20260930"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "86390ab0-e760-4195-992f-1a0259583418",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "cd6c440a-acda-4564-b985-ff506d0e3e93",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "rt_idx_k": {
+      "api_name": "rt_idx_k",
+      "source": "topic_samples.json",
+      "status": "PERMISSION_DENIED",
+      "error_code": "TUSHARE_PERMISSION_ERROR",
+      "error_message": "抱歉，您没有接口(rt_idx_k)访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。"
+    },
+    "index_monthly": {
+      "api_name": "index_monthly",
+      "source": "topic_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000300.SH",
+        "start_date": "20260901",
+        "end_date": "20260930"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "0466e356-422f-46b2-a35c-d27ab42bffba",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "a749ee1d-567e-4fe1-a798-0286857a0b05",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "index_weekly": {
+      "api_name": "index_weekly",
+      "source": "topic_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000300.SH",
+        "start_date": "20260901",
+        "end_date": "20260930"
+      },
+      "preview_rows": 5,
+      "first": {
+        "execution_id": "b802914b-39e1-4134-a888-757cb637280a",
+        "status": "SUCCESS",
+        "rows_received": 5,
+        "rows_written": 5,
+        "rows_inserted": 5,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "b64ffda2-ec11-4dd7-9c94-0ecbfef8c901",
+        "status": "SUCCESS",
+        "rows_received": 5,
+        "rows_written": 5,
+        "rows_inserted": 0,
+        "rows_updated": 5,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 5,
+      "second_total": 5,
+      "constraint_status": "SYNCED"
+    },
+    "ci_index_member": {
+      "api_name": "ci_index_member",
+      "source": "topic_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "000001.SZ",
+        "is_new": "Y"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "321f7eb0-92c9-4e7d-b257-9fce6db1a80b",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "09c52041-0b91-4d18-a27b-408dc2da04f5",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "ci_daily": {
+      "api_name": "ci_daily",
+      "source": "topic_samples.json",
+      "status": "PASS",
+      "params": {
+        "ts_code": "CI005001.CI",
+        "trade_date": "20260930"
+      },
+      "preview_rows": 1,
+      "first": {
+        "execution_id": "d1fedeb8-1903-44b9-88f4-4252b8c173d0",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 1,
+        "rows_updated": 0,
+        "error_type": null,
+        "error_message": null
+      },
+      "second": {
+        "execution_id": "6fc7c831-a31c-4cde-85fa-d8ff684d2f23",
+        "status": "SUCCESS",
+        "rows_received": 1,
+        "rows_written": 1,
+        "rows_inserted": 0,
+        "rows_updated": 1,
+        "error_type": null,
+        "error_message": null
+      },
+      "first_total": 1,
+      "second_total": 1,
+      "constraint_status": "SYNCED"
+    },
+    "report_rc": {
+      "api_name": "report_rc",
+      "status": "AUDIT_ERROR",
+      "error": "timed out"
+    }
+  }
+}

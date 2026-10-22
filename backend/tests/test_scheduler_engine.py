@@ -43,7 +43,7 @@ async def test_misfire_skip_creates_fire_without_execution() -> None:
         cron_expression="30 16 * * *",
         timezone="Asia/Shanghai",
         fields=[],
-        write_mode="APPEND",
+        write_mode="UPSERT",
     )
     schedules = AsyncMock()
     schedules.due.return_value = [schedule]
@@ -63,7 +63,7 @@ async def test_resolution_failure_is_recorded_and_schedule_advances() -> None:
         cron_expression="30 16 * * *",
         timezone="Asia/Shanghai",
         fields=[],
-        write_mode="APPEND",
+        write_mode="UPSERT",
     )
     schedules = AsyncMock()
     schedules.due.return_value = [schedule]

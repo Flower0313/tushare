@@ -1,5 +1,5 @@
 from datetime import UTC, datetime
-from uuid import UUID
+from uuid import UUID, uuid4
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
@@ -20,6 +20,7 @@ class ExecutionChunkRepository:
         dataset_id: UUID | None = None,
     ) -> ExecutionChunk:
         chunk = ExecutionChunk(
+            id=uuid4(),
             execution_id=execution_id,
             chunk_index=chunk_index,
             request_params=request_params,

@@ -22,6 +22,7 @@ services:
       APP_ENV: development
       DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-tushare}:${POSTGRES_PASSWORD:-change-me}@postgres:5432/${POSTGRES_DB:-tushare_platform}
       TUSHARE_TOKEN: ${TUSHARE_TOKEN:-}
+      RUNTIME_SECRET_KEY: ${RUNTIME_SECRET_KEY:-}
       TUSHARE_API_BASE_URL: https://api.tushare.pro
       CORS_ORIGINS: http://localhost:5173
       RUN_EMBEDDED_WORKER: "false"
@@ -44,6 +45,7 @@ services:
       APP_ENV: production
       DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-tushare}:${POSTGRES_PASSWORD:-change-me}@postgres:5432/${POSTGRES_DB:-tushare_platform}
       TUSHARE_TOKEN: ${TUSHARE_TOKEN:-}
+      RUNTIME_SECRET_KEY: ${RUNTIME_SECRET_KEY:-}
       TUSHARE_API_BASE_URL: https://api.tushare.pro
       RUN_EMBEDDED_WORKER: "false"
     depends_on:
@@ -58,6 +60,7 @@ services:
       APP_ENV: production
       DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-tushare}:${POSTGRES_PASSWORD:-change-me}@postgres:5432/${POSTGRES_DB:-tushare_platform}
       TUSHARE_TOKEN: ${TUSHARE_TOKEN:-}
+      RUNTIME_SECRET_KEY: ${RUNTIME_SECRET_KEY:-}
       RUN_EMBEDDED_WORKER: "false"
     depends_on:
       backend:
@@ -71,6 +74,7 @@ services:
       APP_ENV: production
       DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-tushare}:${POSTGRES_PASSWORD:-change-me}@postgres:5432/${POSTGRES_DB:-tushare_platform}
       TUSHARE_TOKEN: ${TUSHARE_TOKEN:-}
+      RUNTIME_SECRET_KEY: ${RUNTIME_SECRET_KEY:-}
       TUSHARE_API_BASE_URL: https://api.tushare.pro
       RUN_EMBEDDED_WORKER: "false"
     depends_on:

@@ -1,0 +1,23 @@
+{
+  "new": [],
+  "updated": [
+    "etf_mins"
+  ],
+  "unchanged": [
+    "etf_share_size",
+    "etf_index",
+    "etf_basic",
+    "rt_etf_min",
+    "rt_etf_min_daily",
+    "rt_etf_sz_iopv",
+    "rt_etf_k",
+    "etf_auction",
+    "fund_daily",
+    "etf_limit",
+    "fund_factor_pro",
+    "fund_adj",
+    "etf_sh_cons",
+    "etf_sz_cons"
+  ],
+  "removed": []
+}

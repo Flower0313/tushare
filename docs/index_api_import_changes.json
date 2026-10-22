@@ -1,0 +1,30 @@
+{
+  "new": [],
+  "updated": [
+    "sw_mins",
+    "idx_mins"
+  ],
+  "unchanged": [
+    "rt_idx_min",
+    "ci_index_member",
+    "ci_daily",
+    "index_global",
+    "index_dailybasic",
+    "daily_info",
+    "idx_anns",
+    "index_weekly",
+    "index_basic",
+    "rt_idx_k",
+    "index_weight",
+    "idx_factor_pro",
+    "index_daily",
+    "index_monthly",
+    "sz_daily_info",
+    "rt_sw_k",
+    "index_classify",
+    "index_member_all",
+    "sw_daily",
+    "vix_index"
+  ],
+  "removed": []
+}

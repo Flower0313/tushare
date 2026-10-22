@@ -16,7 +16,7 @@ import type {
 export interface ApiParameter {
   name: string
   type: string
-  input_kind: 'text' | 'date' | 'number' | 'boolean' | 'stock_code_select'
+  input_kind: 'text' | 'date' | 'datetime' | 'number' | 'boolean' | 'stock_code_select'
   required: boolean
   description: string
   format: string | null
@@ -40,6 +40,8 @@ export interface ResetCompletenessPolicy {
   storage_date_field?: string | null
   start_param?: string | null
   end_param?: string | null
+  coverage_mode?: 'BOUNDARY' | 'EXPECTED_DATES'
+  calendar_exchange?: string
   code_field?: string | null
   code_source?: string | null
   code_source_field?: string

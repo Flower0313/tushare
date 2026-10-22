@@ -5,7 +5,9 @@ import pytest
 from app.models.metadata import ApiField, ApiMetadata, ApiParam
 from app.schemas.tushare import PreviewRequest
 from app.services.sync.preview import PreviewService
-from app.services.sync.query import ExecutedQuery
+from app.services.sync.query import ExecutedQuery, PreparedQuery
+from app.services.sync.strategies import QueryStrategyFactory
+from tests.test_schema_manager import metadata as metadata_record
 
 
 @pytest.mark.asyncio
@@ -65,3 +67,93 @@ async def test_preview_validates_queries_and_limits_rows() -> None:
     assert result.truncated is True
     query_service.prepare.assert_awaited_once()
     request_executor.execute.assert_awaited_once_with(prepared)
+
+
+@pytest.mark.asyncio
+async def test_preview_samples_first_etf_batch_for_all_codes() -> None:
+    metadata = metadata_record()
+    metadata.api_name = "fund_daily"
+    metadata.fetch_strategy = {
+        "type": "code_batch",
+        "code_param": "ts_code",
+        "code_source": "etf_basic",
+        "batch_size": 1,
+    }
+    prepared = PreparedQuery(metadata, {"ts_code": "__ALL__"}, ["ts_code"])
+    query_service = AsyncMock()
+    query_service.prepare.return_value = prepared
+    code_source = AsyncMock()
+    code_source.load.return_value = ["159001.SZ", "510300.SH"]
+    request_executor = AsyncMock()
+    request_executor.execute.return_value = ExecutedQuery(
+        metadata=metadata,
+        params={"ts_code": "159001.SZ"},
+        requested_fields=["ts_code"],
+        returned_fields=["ts_code"],
+        rows=[{"ts_code": "159001.SZ"}],
+    )
+    service = PreviewService(
+        query_service=query_service,
+        request_executor=request_executor,
+        row_limit=10,
+        strategy_factory=QueryStrategyFactory(max_pages=10, code_source=code_source),
+    )
+
+    result = await service.preview(
+        "fund_daily",
+        PreviewRequest(params={"ts_code": "__ALL__"}, fields=["ts_code"]),
+    )
+
+    request_executor.execute.assert_awaited_once_with(
+        prepared, params={"ts_code": "159001.SZ"}
+    )
+    assert result.truncated is True
+    assert result.warnings[0].details == {"sample_ts_code": "159001.SZ"}
+
+
+@pytest.mark.asyncio
+async def test_preview_omits_all_sentinel_for_full_market_stock_query() -> None:
+    metadata = metadata_record()
+    metadata.fetch_strategy = {"type": "date_range"}
+    metadata.params = [
+        ApiParam(
+            name="ts_code",
+            data_type="str",
+            input_kind="stock_code_select",
+            required=False,
+            description="股票代码",
+            constraints={
+                "multiple": True,
+                "allow_all": True,
+                "code_source": "stock_basic",
+            },
+            position=1,
+        )
+    ]
+    prepared = PreparedQuery(metadata, {"ts_code": "__ALL__"}, ["ts_code"])
+    query_service = AsyncMock()
+    query_service.prepare.return_value = prepared
+    code_source = AsyncMock()
+    request_executor = AsyncMock()
+    request_executor.execute.return_value = ExecutedQuery(
+        metadata=metadata,
+        params={},
+        requested_fields=["ts_code"],
+        returned_fields=["ts_code"],
+        rows=[{"ts_code": "000001.SZ"}],
+    )
+    service = PreviewService(
+        query_service=query_service,
+        request_executor=request_executor,
+        row_limit=10,
+        strategy_factory=QueryStrategyFactory(max_pages=10, code_source=code_source),
+    )
+
+    result = await service.preview(
+        "daily",
+        PreviewRequest(params={"ts_code": "__ALL__"}, fields=["ts_code"]),
+    )
+
+    request_executor.execute.assert_awaited_once_with(prepared, params={})
+    code_source.load.assert_not_awaited()
+    assert result.warnings[0].details == {"mode": "FULL_MARKET_QUERY"}

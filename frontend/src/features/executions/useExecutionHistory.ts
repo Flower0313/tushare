@@ -1,9 +1,10 @@
-import { Modal, message } from 'antd'
+import { message } from 'antd'
 import { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { cancelExecution, getExecution, listExecutions, markStaleExecutionFailed, requeueStaleExecution, rerunExecution, retryFailedChunks } from '../../api/executions'
+import { listApis } from '../../api/metadata'
 import { operationError } from '../../locales/zh-CN'
-import type { ExecutionListResponse, ExecutionRecord } from '../../types/metadata'
+import type { ApiMetadataSummary, ExecutionListResponse, ExecutionRecord } from '../../types/metadata'
 
 function statusForView(view?: string) {
   if (view === 'running') return 'RUNNING'
@@ -21,6 +22,19 @@ export function useExecutionHistory() {
   const [detailLoading, setDetailLoading] = useState(false)
   const [rerunning, setRerunning] = useState(false)
   const [controlling, setControlling] = useState(false)
+  const [apis, setApis] = useState<ApiMetadataSummary[]>([])
+  const [apisLoading, setApisLoading] = useState(true)
+
+  useEffect(() => {
+    const controller = new AbortController()
+    void listApis(controller.signal)
+      .then(setApis)
+      .catch((caught) => {
+        if (!(caught instanceof DOMException && caught.name === 'AbortError')) setApis([])
+      })
+      .finally(() => { if (!controller.signal.aborted) setApisLoading(false) })
+    return () => controller.abort()
+  }, [])
 
   useEffect(() => {
     const status = statusForView(view)
@@ -55,21 +69,21 @@ export function useExecutionHistory() {
   }
 
   async function rerun() {
-    if (!detail || (detail.write_mode === 'APPEND' && !(await confirmAppendRisk()))) return
+    if (!detail) return
     setRerunning(true)
     try {
-      const result = await rerunExecution(detail.execution_id, detail.write_mode === 'APPEND')
+      const result = await rerunExecution(detail.execution_id)
       message.success(`已提交重跑任务：${result.execution_id}`); setDetail(await getExecution(result.execution_id)); await load()
     } catch { message.error(operationError('重新执行提交失败')) }
     finally { setRerunning(false) }
   }
 
   async function handleStale(action: 'requeue' | 'fail') {
-    if (!detail || (action === 'requeue' && detail.write_mode === 'APPEND' && !(await confirmAppendRisk()))) return
+    if (!detail) return
     setControlling(true)
     try {
       if (action === 'requeue') {
-        const result = await requeueStaleExecution(detail.execution_id, detail.write_mode === 'APPEND'); message.success(`恢复任务已入队：${result.execution_id}`)
+        const result = await requeueStaleExecution(detail.execution_id); message.success(`恢复任务已入队：${result.execution_id}`)
       } else { await markStaleExecutionFailed(detail.execution_id); message.success('已将失活任务标记为失败') }
       setDetail(await getExecution(detail.execution_id)); await load()
     } catch { message.error(operationError('任务恢复操作失败')) }
@@ -92,11 +106,7 @@ export function useExecutionHistory() {
     finally { setControlling(false) }
   }
 
-  return { query, setQuery, data, loading, error, detail, setDetail, detailLoading, rerunning, controlling, openDetail, rerun, handleStale, cancel, retryChunks }
-}
-
-function confirmAppendRisk(): Promise<boolean> {
-  return new Promise((resolve) => Modal.confirm({ title: '确认 APPEND 风险', content: 'APPEND 重新执行可能产生重复数据。确认仍要继续吗？', okText: '确认继续', cancelText: '取消', okButtonProps: { danger: true }, onOk: () => resolve(true), onCancel: () => resolve(false) }))
+  return { query, setQuery, data, loading, error, apis, apisLoading, detail, setDetail, detailLoading, rerunning, controlling, openDetail, rerun, handleStale, cancel, retryChunks }
 }
 
 export type ExecutionHistoryController = ReturnType<typeof useExecutionHistory>

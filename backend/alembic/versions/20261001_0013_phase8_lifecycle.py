@@ -4,11 +4,15 @@ Revision ID: 20261001_0013
 Revises: 20261001_0012
 """
 
+# Long SQL/JSON literals remain intact so this applied historical migration stays auditable.
+# ruff: noqa: E501
+
 from collections.abc import Sequence
 
 import sqlalchemy as sa
-from alembic import op
 from sqlalchemy.dialects import postgresql
+
+from alembic import op
 
 revision: str = "20261001_0013"
 down_revision: str | None = "20261001_0012"
@@ -19,18 +23,57 @@ depends_on: str | Sequence[str] | None = None
 def upgrade() -> None:
     op.add_column(
         "api_metadata",
-        sa.Column("replace_range", postgresql.JSONB(), server_default=sa.text("'{}'::jsonb"), nullable=False),
+        sa.Column(
+            "replace_range",
+            postgresql.JSONB(),
+            server_default=sa.text("'{}'::jsonb"),
+            nullable=False,
+        ),
         schema="platform",
     )
-    op.add_column("schedule", sa.Column("schedule_type", sa.String(20), server_default="USER", nullable=False), schema="platform")
-    op.add_column("execution", sa.Column("operation_type", sa.String(30), server_default="SYNC", nullable=False), schema="platform")
-    op.add_column("execution", sa.Column("cancel_requested_at", sa.DateTime(timezone=True)), schema="platform")
-    op.add_column("execution", sa.Column("recovery_count", sa.Integer(), server_default="0", nullable=False), schema="platform")
-    op.add_column("execution", sa.Column("recovered_from_execution_id", sa.Uuid()), schema="platform")
-    op.add_column("execution", sa.Column("max_recovery_attempts", sa.Integer(), server_default="2", nullable=False), schema="platform")
+    op.add_column(
+        "schedule",
+        sa.Column("schedule_type", sa.String(20), server_default="USER", nullable=False),
+        schema="platform",
+    )
+    op.add_column(
+        "execution",
+        sa.Column("operation_type", sa.String(30), server_default="SYNC", nullable=False),
+        schema="platform",
+    )
+    op.add_column(
+        "execution", sa.Column("cancel_requested_at", sa.DateTime(timezone=True)), schema="platform"
+    )
+    op.add_column(
+        "execution",
+        sa.Column("recovery_count", sa.Integer(), server_default="0", nullable=False),
+        schema="platform",
+    )
+    op.add_column(
+        "execution", sa.Column("recovered_from_execution_id", sa.Uuid()), schema="platform"
+    )
+    op.add_column(
+        "execution",
+        sa.Column("max_recovery_attempts", sa.Integer(), server_default="2", nullable=False),
+        schema="platform",
+    )
     op.add_column("execution", sa.Column("rows_deleted", sa.BigInteger()), schema="platform")
-    op.add_column("execution", sa.Column("retry_chunk_params", postgresql.JSONB(), server_default=sa.text("'[]'::jsonb"), nullable=False), schema="platform")
-    op.create_index("ix_platform_execution_recovered_from_execution_id", "execution", ["recovered_from_execution_id"], schema="platform")
+    op.add_column(
+        "execution",
+        sa.Column(
+            "retry_chunk_params",
+            postgresql.JSONB(),
+            server_default=sa.text("'[]'::jsonb"),
+            nullable=False,
+        ),
+        schema="platform",
+    )
+    op.create_index(
+        "ix_platform_execution_recovered_from_execution_id",
+        "execution",
+        ["recovered_from_execution_id"],
+        schema="platform",
+    )
 
     op.create_table(
         "delete_preview",
@@ -46,8 +89,12 @@ def upgrade() -> None:
         sa.PrimaryKeyConstraint("id", name="pk_delete_preview"),
         schema="platform",
     )
-    op.create_index("ix_platform_delete_preview_api_name", "delete_preview", ["api_name"], schema="platform")
-    op.create_index("ix_platform_delete_preview_expires_at", "delete_preview", ["expires_at"], schema="platform")
+    op.create_index(
+        "ix_platform_delete_preview_api_name", "delete_preview", ["api_name"], schema="platform"
+    )
+    op.create_index(
+        "ix_platform_delete_preview_expires_at", "delete_preview", ["expires_at"], schema="platform"
+    )
 
     op.create_table(
         "trade_calendar_state",
@@ -99,7 +146,7 @@ def upgrade() -> None:
             "(id, name, description, api_name, params, fields, write_mode, cron_expression, timezone, enabled, maturity_required, misfire_policy, max_concurrent_runs, created_at, updated_at, next_run_at, schedule_type) "
             "SELECT CAST('00000000-0000-0000-0000-000000000808' AS uuid), 'Trade Calendar Refresh', "
             "'Maintains local SSE calendar coverage for dynamic schedule parameters.', 'trade_cal', "
-            "'{\"exchange\":\"SSE\",\"start_date\":{\"$dynamic\":\"calendar_coverage_start\"},\"end_date\":{\"$dynamic\":\"calendar_coverage_end\"}}'::jsonb, "
+            '\'{"exchange":"SSE","start_date":{"$dynamic":"calendar_coverage_start"},"end_date":{"$dynamic":"calendar_coverage_end"}}\'::jsonb, '
             "'[\"exchange\",\"cal_date\",\"is_open\",\"pretrade_date\"]'::jsonb, 'UPSERT', '15 3 * * *', 'Asia/Shanghai', true, 'VERIFIED', 'RUN_ONCE', 1, now(), now(), now() + interval '1 day', 'SYSTEM' "
             "WHERE EXISTS (SELECT 1 FROM platform.api_metadata WHERE api_name = 'trade_cal') "
             "ON CONFLICT (id) DO NOTHING"
@@ -111,7 +158,11 @@ def downgrade() -> None:
     op.execute("DELETE FROM platform.schedule WHERE id = '00000000-0000-0000-0000-000000000808'")
     op.drop_table("trade_calendar_state", schema="platform")
     op.drop_table("delete_preview", schema="platform")
-    op.drop_index("ix_platform_execution_recovered_from_execution_id", table_name="execution", schema="platform")
+    op.drop_index(
+        "ix_platform_execution_recovered_from_execution_id",
+        table_name="execution",
+        schema="platform",
+    )
     for name in (
         "retry_chunk_params",
         "rows_deleted",

@@ -254,7 +254,7 @@ class TableSchemaManager:
             return ("OUT_OF_SYNC", next(iter(managed))) if managed else ("SYNCED", None)
         expected = list(unique_keys)
         for name, columns in managed.items():
-            if name == self.managed_constraint_name(table_name) and columns == expected:
+            if columns == expected:
                 return "SYNCED", name
         if not managed:
             return "MISSING", None

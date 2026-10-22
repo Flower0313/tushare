@@ -13,7 +13,7 @@ export function ExecutionDetail({ execution }: { execution: ExecutionRecord }) {
     : Math.min(95, execution.pages_total ? Math.round((execution.pages_completed / execution.pages_total) * 100) : execution.pages_completed > 0 ? 65 : execution.status === 'RUNNING' ? 28 : 0)
   const timeline = [
     { label: '已创建', time: execution.queued_at, active: true },
-    { label: 'Worker 已领取', time: execution.started_at, active: Boolean(execution.started_at) },
+    { label: '工作进程已领取', time: execution.started_at, active: Boolean(execution.started_at) },
     { label: progressLabel(execution.progress_message) || '抓取与写入', time: execution.last_heartbeat_at, active: execution.pages_completed > 0 || execution.status === 'RUNNING' },
     { label: execution.status === 'SUCCESS' ? '已完成' : execution.status, time: execution.finished_at, active: Boolean(execution.finished_at) },
   ]
@@ -22,7 +22,7 @@ export function ExecutionDetail({ execution }: { execution: ExecutionRecord }) {
     <section className="execution-detail__section">
       <SectionHeader title="概览" description="核心结果、来源和数据库目标。" />
       <div className="execution-metrics">
-        <Metric label="API" value={<code>{execution.api_name}</code>} />
+        <Metric label="接口" value={<code>{execution.api_name}</code>} />
         <Metric label="状态" value={<StatusBadge value={execution.status} />} />
         <Metric label="来源" value={sourceLabel(execution.source)} />
         <Metric label="写入模式" value={<code>{execution.write_mode}</code>} />
@@ -50,7 +50,7 @@ export function ExecutionDetail({ execution }: { execution: ExecutionRecord }) {
     </section>}
 
     <section className="execution-detail__section">
-      <SectionHeader title="Chunks 与重试" description={`完成 ${execution.pages_completed} 个 Chunk · 请求尝试 ${execution.attempt_count} 次 · 自动重试 ${execution.retry_count} 次`} />
+      <SectionHeader title="分片与重试" description={`完成 ${execution.pages_completed} 个分片 · 请求尝试 ${execution.attempt_count} 次 · 自动重试 ${execution.retry_count} 次`} />
       <Table rowKey="id" size="small" pagination={false} dataSource={execution.chunks} columns={[
         { title: '#', dataIndex: 'chunk_index', width: 56 },
         { title: '状态', dataIndex: 'status', render: (value: string) => <StatusBadge value={value} /> },
@@ -74,5 +74,8 @@ export function ExecutionDetail({ execution }: { execution: ExecutionRecord }) {
 }
 
 function Metric({ label, value }: { label: string; value: ReactNode }) {
-  return <div className="execution-metric"><span>{label}</span><strong>{value}</strong></div>
+  return <div className="execution-metric">
+    <span className="execution-metric__label">{label}</span>
+    <div className="execution-metric__value">{value}</div>
+  </div>
 }

@@ -18,7 +18,8 @@ class MisfirePolicy(StrEnum):
 class ScheduleWrite(BaseModel):
     name: str = Field(min_length=1, max_length=200)
     description: str | None = None
-    api_name: str = Field(min_length=1, max_length=100)
+    job_type: Literal["API_SYNC", "SQL_TRANSFORM"] = "API_SYNC"
+    api_name: str | None = Field(default=None, min_length=1, max_length=100)
     params: dict[str, Any] = Field(default_factory=dict)
     fields: list[str] = Field(default_factory=list)
     write_mode: WriteMode | None = None
@@ -30,11 +31,21 @@ class ScheduleWrite(BaseModel):
     max_concurrent_runs: int = Field(default=1, ge=1, le=100)
     schedule_type: Literal["USER", "SYSTEM"] = "USER"
     recovery_policy: Literal["MANUAL", "REQUEUE", "FAIL"] = "MANUAL"
+    target_schema: str | None = Field(default=None, min_length=1, max_length=100)
+    target_table: str | None = Field(default=None, min_length=1, max_length=100)
+    target_columns: list[str] = Field(default_factory=list)
+    sql_text: str | None = Field(default=None, max_length=100_000)
+    execution_calendar: Literal["ALL_DAYS", "TRADE_DAYS"] = "ALL_DAYS"
 
     @field_validator("fields")
     @classmethod
     def normalize_fields(cls, value: list[str]) -> list[str]:
         return list(dict.fromkeys(field.strip() for field in value if field.strip()))
+
+    @field_validator("target_columns")
+    @classmethod
+    def normalize_target_columns(cls, value: list[str]) -> list[str]:
+        return list(dict.fromkeys(column.strip() for column in value if column.strip()))
 
 
 class ScheduleCreate(ScheduleWrite):

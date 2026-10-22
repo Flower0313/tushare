@@ -5,10 +5,13 @@ from uuid import uuid4
 import pytest
 from pydantic import ValidationError
 
+from app.core.exceptions import CustomCompletenessHandlerNotFoundError
 from app.schemas.metadata import ResetCompletenessPolicyMetadata
 from app.services.sync.execution_outcomes import ExecutionOutcomeCoordinator
 from app.services.sync.reset_completeness import (
+    CompletenessHandlerRegistry,
     CompletenessResult,
+    CompletenessStatus,
     ResetCompletenessValidator,
 )
 from app.services.sync.sync import SyncRunResult
@@ -17,6 +20,19 @@ from tools.tushare_docs.validation import EffectiveMetadataValidator
 
 def test_reset_policy_defaults_to_disabled() -> None:
     assert ResetCompletenessPolicyMetadata().type == "NONE"
+
+
+def test_date_coverage_defaults_to_boundary_and_accepts_expected_dates() -> None:
+    assert ResetCompletenessPolicyMetadata().coverage_mode == "BOUNDARY"
+    policy = ResetCompletenessPolicyMetadata(
+        type="DATE_COVERAGE",
+        storage_date_field="trade_date",
+        start_param="start_date",
+        end_param="end_date",
+        coverage_mode="EXPECTED_DATES",
+    )
+    assert policy.coverage_mode == "EXPECTED_DATES"
+    assert policy.calendar_exchange == "SSE"
 
 
 @pytest.mark.parametrize(
@@ -123,9 +139,33 @@ def test_import_validator_checks_reset_policy_field_references() -> None:
 
 
 def test_completeness_result_preserves_diagnostic_details() -> None:
-    result = CompletenessResult(False, "DATE_COVERAGE", "range incomplete", {"missing": 2})
+    result = CompletenessResult(
+        policy="DATE_COVERAGE",
+        status=CompletenessStatus.FAIL,
+        missing={"dates": ["20260102"]},
+        details={"missing": 2},
+        message="range incomplete",
+    )
     assert result.complete is False
+    assert result.as_dict()["status"] == "FAIL"
     assert result.details == {"missing": 2}
+
+
+def test_custom_handler_registry_is_an_explicit_allow_list() -> None:
+    registry = CompletenessHandlerRegistry()
+    handler = AsyncMock()
+    registry.register("financial_revision_coverage", handler)
+    assert registry.get("financial_revision_coverage") is handler
+    with pytest.raises(CustomCompletenessHandlerNotFoundError) as exc_info:
+        registry.get("module.path.function")
+    assert exc_info.value.code.value == "CUSTOM_COMPLETENESS_HANDLER_NOT_FOUND"
+
+
+def test_custom_handler_registry_rejects_duplicate_names() -> None:
+    registry = CompletenessHandlerRegistry()
+    registry.register("registered", AsyncMock())
+    with pytest.raises(ValueError, match="already registered"):
+        registry.register("registered", AsyncMock())
 
 
 @pytest.mark.asyncio
@@ -147,7 +187,9 @@ async def test_reset_sync_success_requires_completeness_validation(
     operations.get.return_value = operation
     validator = AsyncMock()
     validator.validate.return_value = CompletenessResult(
-        complete, "ROW_COUNT_EXPECTATION", "ok" if complete else "incomplete", {}
+        policy="ROW_COUNT_EXPECTATION",
+        status=CompletenessStatus.PASS if complete else CompletenessStatus.FAIL,
+        message="ok" if complete else "incomplete",
     )
     coordinator = ExecutionOutcomeCoordinator(
         AsyncMock(), operations, AsyncMock(), validator
@@ -207,3 +249,34 @@ async def test_reset_validation_exception_has_explicit_failure_state() -> None:
         ),
     )
     assert operations.update.await_args.kwargs["status"] == "VALIDATION_FAILED"
+
+
+@pytest.mark.asyncio
+async def test_missing_custom_handler_code_is_preserved_in_operation_error() -> None:
+    execution = SimpleNamespace(id=uuid4(), data_operation_id=uuid4(), validation_result_id=None)
+    operation = SimpleNamespace(
+        id=execution.data_operation_id,
+        operation_type="RESET_AND_RESYNC",
+        sync_execution_id=execution.id,
+        matched_rows=20,
+    )
+    operations = AsyncMock()
+    operations.get.return_value = operation
+    validator = AsyncMock()
+    validator.validate.side_effect = CustomCompletenessHandlerNotFoundError("missing")
+    coordinator = ExecutionOutcomeCoordinator(AsyncMock(), operations, AsyncMock(), validator)
+
+    await coordinator.succeeded(
+        execution,
+        SyncRunResult(
+            duration_ms=1,
+            rows_received=20,
+            rows_written=20,
+            chunks_completed=1,
+        ),
+    )
+
+    assert operations.update.await_args.kwargs["status"] == "VALIDATION_FAILED"
+    assert "CUSTOM_COMPLETENESS_HANDLER_NOT_FOUND" in operations.update.await_args.kwargs[
+        "error_message"
+    ]

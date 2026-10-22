@@ -1,4 +1,4 @@
-import { Alert, Skeleton, Table } from 'antd'
+import { Alert, Skeleton } from 'antd'
 import { useEffect, useState } from 'react'
 import { getScheduleDashboard } from '../api/schedules'
 import { getSystemHealth, getTradeCalendarStatus, type SystemHealth, type TradeCalendarStatus } from '../api/system'
@@ -28,7 +28,7 @@ export function OverviewPage() {
       <section className="dashboard-status-grid">
         <div className="dashboard-status-panel">
           <SectionHeader title="交易日历" description="本地 PostgreSQL 覆盖范围" />
-        {calendar ? <div className="dashboard-next">
+        {calendar ? <div className="dashboard-status-list">
           <StatusBadge value={calendar.status} />
           <code>{calendar.min_date ?? '—'} → {calendar.max_date ?? '—'}</code>
           <span>未来覆盖 {formatNumber(calendar.future_coverage_days)} 天 · 最近同步 {formatDateTime(calendar.latest_sync_at)}</span>
@@ -36,11 +36,11 @@ export function OverviewPage() {
         </div>
         <div className="dashboard-status-panel">
           <SectionHeader title="系统状态" description="服务与上游健康度" />
-        {health ? <div className="dashboard-next">
+        {health ? <div className="dashboard-status-list dashboard-status-list--services">
           <StatusBadge value={health.status} />
           <span>数据库 <StatusBadge value={health.database} /></span>
-          <span>Worker {health.services.WORKER ?? 0}</span>
-          <span>Scheduler {health.services.SCHEDULER ?? 0}</span>
+          <span>工作进程 {health.services.WORKER ?? 0}</span>
+          <span>调度进程 {health.services.SCHEDULER ?? 0}</span>
           <span>Tushare 24h 成功率 {health.tushare.success_rate == null ? '暂无样本' : `${health.tushare.success_rate}%`}</span>
           <span>重试 {formatNumber(health.tushare.retry_attempts)} · 网络失败 {formatNumber(health.tushare.network_failure_count)}</span>
         </div> : '系统运行状态暂不可用'}
@@ -54,17 +54,13 @@ export function OverviewPage() {
       </section>
       <section className="dashboard-table-section">
         <SectionHeader title="最近失败任务" description="优先处理会影响数据完整性的异常" />
-        <Table
-          rowKey="execution_id"
-          pagination={false}
-          dataSource={data.recent_failures}
-          columns={[
-            { title: 'API', dataIndex: 'api_name' },
-            { title: '状态', dataIndex: 'status', render: (value: string) => <StatusBadge value={value} /> },
-            { title: '时间', dataIndex: 'queued_at', render: formatDateTime },
-            { title: '失败原因', dataIndex: 'error_message', ellipsis: true, render: (value: string | null) => value || '暂无详细信息' },
-          ]}
-        />
+        <div className="dashboard-failure-list" role="table" aria-label="最近失败任务">
+          <div className="dashboard-failure-list__head" role="row"><span>接口</span><span>状态</span><span>时间</span><span>失败原因</span></div>
+          {data.recent_failures.map((item) => <div className="dashboard-failure-list__row" role="row" key={item.execution_id}>
+            <code>{item.api_name}</code><StatusBadge value={item.status} /><time>{formatDateTime(item.queued_at)}</time><span>{item.error_message || '暂无详细信息'}</span>
+          </div>)}
+          {data.recent_failures.length === 0 && <div className="dashboard-failure-list__empty">最近没有失败任务</div>}
+        </div>
       </section>
     </>}
   </div>

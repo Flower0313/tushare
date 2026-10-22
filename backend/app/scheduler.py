@@ -19,6 +19,7 @@ from app.services.metadata.validator import MetadataParameterValidator
 from app.services.scheduler.dynamic_params import DynamicParameterResolver
 from app.services.scheduler.leader_lock import SchedulerLeaderLock
 from app.services.scheduler.service import SchedulerEngine, ScheduleService
+from app.services.scheduler.sql_tasks import SqlTaskService
 from app.services.scheduler.trade_calendar import (
     TradeCalendarService,
     tushare_trade_calendar_fallback,
@@ -70,6 +71,13 @@ async def run_scheduler() -> None:
                         metadata=metadata,
                         query_service=query_service,
                         resolver=DynamicParameterResolver(calendar),
+                        sql_tasks=SqlTaskService(
+                            engine,
+                            allowed_schemas=settings.sql_task_allowed_schema_list,
+                            statement_timeout_ms=settings.database_statement_timeout_ms,
+                            executions=ExecutionRepository(AsyncSessionFactory),
+                        ),
+                        trade_calendar=calendar,
                     )
                     scheduler = SchedulerEngine(
                         schedules,

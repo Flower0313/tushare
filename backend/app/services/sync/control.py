@@ -6,6 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncEngine
 from app.core.exceptions import ExecutionConflictError, ExecutionNotFoundError
 from app.repositories.execution import ExecutionChunkRepository, ExecutionRepository
 from app.repositories.metadata import MetadataRepository
+from app.schemas.tushare import WriteMode
 from app.services.sync.recovery import ExecutionRecoveryService
 from app.services.sync.schema_manager import TableSchemaManager
 from app.services.sync.type_mapper import TypeMapper
@@ -35,16 +36,12 @@ class ExecutionControlService:
             )
         return record
 
-    async def requeue_stale(self, execution_id: UUID, *, confirm_append_risk: bool = False):
+    async def requeue_stale(self, execution_id: UUID):
         source = await self._executions.get(execution_id)
         if source is None:
             raise ExecutionNotFoundError(f"Execution not found: {execution_id}")
         if source.status != "STALE":
             raise ExecutionConflictError("Only STALE executions can be requeued")
-        if source.write_mode == "APPEND" and not confirm_append_risk:
-            raise ExecutionConflictError(
-                "APPEND recovery can create duplicate rows; explicit confirmation is required"
-            )
         recovery = ExecutionRecoveryService(
             self._executions,
             self._metadata,
@@ -53,9 +50,9 @@ class ExecutionControlService:
                 TableSchemaManager(self._engine, TypeMapper()) if self._engine else None
             ),
         )
-        if source.write_mode != "APPEND" and not await recovery.can_auto_retry_execution(source):
+        if not await recovery.can_auto_retry_execution(source):
             raise ExecutionConflictError("Execution metadata is not safe for automatic requeue")
-        replacement = await recovery.requeue(source, allow_append=confirm_append_risk)
+        replacement = await recovery.requeue(source)
         if replacement is None:
             raise ExecutionConflictError("Execution cannot be safely requeued")
         await self._executions.mark_recovering(source.id)
@@ -74,8 +71,6 @@ class ExecutionControlService:
         source = await self._executions.get(execution_id)
         if source is None:
             raise ExecutionNotFoundError(f"Execution not found: {execution_id}")
-        if source.write_mode != "UPSERT":
-            raise ExecutionConflictError("Failed chunk retry requires UPSERT")
         if source.operation_type != "SYNC":
             raise ExecutionConflictError(
                 "Failed chunk retry currently supports SYNC executions only; "
@@ -100,7 +95,7 @@ class ExecutionControlService:
             task_key=source.task_key,
             params=source.request_params,
             fields=source.request_fields,
-            write_mode=source.write_mode,
+            write_mode=WriteMode.UPSERT.value,
             target_schema=source.target_schema,
             target_table=source.target_table,
             parent_execution_id=source.id,

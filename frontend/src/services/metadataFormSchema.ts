@@ -13,6 +13,8 @@ export interface MetadataFormField {
   dynamicSupported: boolean
   multiple: boolean
   allowAll: boolean
+  codeSource: string
+  codeLabelFields: string[]
 }
 
 export interface MetadataFormSchema {
@@ -38,6 +40,10 @@ export function buildMetadataFormSchema(metadata: ApiMetadataDetail): MetadataFo
       dynamicSupported: parameter.input_kind === 'date',
       multiple: parameter.constraints.multiple === true,
       allowAll: parameter.constraints.allow_all === true,
+      codeSource: typeof parameter.constraints.code_source === 'string' ? parameter.constraints.code_source : 'stock_basic',
+      codeLabelFields: Array.isArray(parameter.constraints.code_label_fields)
+        ? parameter.constraints.code_label_fields.filter(isString)
+        : ['name'],
     })),
     outputFields: metadata.fields.map((field) => ({
       name: field.name,
@@ -58,12 +64,12 @@ export function buildPreviewRequest(
     const value = params?.[field.name]
     if (value === undefined || value === null || value === '') continue
     if (Array.isArray(value)) {
-      const selected = value.includes('__ALL__') ? [] : value
+      const selected = value.includes('__ALL__') ? ['__ALL__'] : value
       if (selected.length) normalized[field.name] = selected.join(',')
       continue
     }
-    normalized[field.name] = field.inputKind === 'date' && typeof value === 'object' && 'format' in value
-      ? value.format('YYYYMMDD')
+    normalized[field.name] = ['date', 'datetime'].includes(field.inputKind) && typeof value === 'object' && 'format' in value
+      ? value.format(field.inputKind === 'datetime' ? 'YYYY-MM-DD HH:mm:ss' : 'YYYYMMDD')
       : value as PreviewValue
   }
   return { params: normalized, fields }

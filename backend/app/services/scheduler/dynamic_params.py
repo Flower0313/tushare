@@ -22,6 +22,7 @@ class DynamicParameterResolver:
         "latest_trade_date",
         "previous_trade_date",
         "trade_date_offset",
+        "calendar_year_offset",
         "calendar_coverage_start",
         "calendar_coverage_end",
     }
@@ -79,6 +80,18 @@ class DynamicParameterResolver:
             return (await self._calendar.get_latest_trade_date(basis)).strftime("%Y%m%d")
         if name == "previous_trade_date":
             return (await self._calendar.get_previous_trade_date(basis)).strftime("%Y%m%d")
+        if name == "calendar_year_offset":
+            try:
+                years = int(offset)
+            except (TypeError, ValueError) as exc:
+                raise ScheduleError("calendar_year_offset 需要整数 offset") from exc
+            if years >= 0 or years < -20:
+                raise ScheduleError("calendar_year_offset 必须在 -20 到 -1 之间")
+            try:
+                shifted = basis.replace(year=basis.year + years)
+            except ValueError:
+                shifted = basis.replace(year=basis.year + years, day=28)
+            return shifted.strftime("%Y%m%d")
         try:
             numeric_offset = int(offset)
         except (TypeError, ValueError) as exc:

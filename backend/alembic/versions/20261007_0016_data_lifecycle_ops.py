@@ -7,8 +7,9 @@ Revises: 20261001_0015
 from collections.abc import Sequence
 
 import sqlalchemy as sa
-from alembic import op
 from sqlalchemy.dialects import postgresql
+
+from alembic import op
 
 revision: str = "20261007_0016"
 down_revision: str | None = "20261001_0015"
@@ -113,14 +114,14 @@ def upgrade() -> None:
         op.create_index(name, "api_validation_result", columns, schema="platform")
     op.execute(
         "UPDATE platform.api_metadata SET validation_scenarios = "
-        "'[{\"name\":\"recent_trade_date\",\"params\":{\"trade_date\":\"{{ latest_trade_date }}\"}},"
-        "{\"name\":\"single_ts_code\",\"params\":{\"ts_code\":\"000001.SZ\"}}]'::jsonb "
+        '\'[{"name":"recent_trade_date","params":{"trade_date":"{{ latest_trade_date }}"}},'
+        '{"name":"single_ts_code","params":{"ts_code":"000001.SZ"}}]\'::jsonb '
         "WHERE api_name IN ('daily', 'daily_basic')"
     )
     op.execute(
         "UPDATE platform.api_metadata SET validation_scenarios = "
-        "'[{\"name\":\"full_snapshot\",\"params\":{\"list_status\":\"L\"}},"
-        "{\"name\":\"single_ts_code\",\"params\":{\"ts_code\":\"000001.SZ\"}}]'::jsonb "
+        '\'[{"name":"full_snapshot","params":{"list_status":"L"}},'
+        '{"name":"single_ts_code","params":{"ts_code":"000001.SZ"}}]\'::jsonb '
         "WHERE api_name = 'stock_basic'"
     )
 

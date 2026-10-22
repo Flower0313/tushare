@@ -102,7 +102,7 @@ export function UniqueKeyDrawer({ detail, open, onClose, onChanged }: Props) {
     setBusy(true); setError(null)
     try {
       setResetPreview(await previewUniqueKeyReset(detail.api_name, keys, restoreDefault))
-    } catch (caught) { setError(caught instanceof Error ? caught.message : 'Reset Preview 失败') }
+    } catch (caught) { setError(caught instanceof Error ? caught.message : '重置预览失败') }
     finally { setBusy(false) }
   }
 
@@ -120,15 +120,15 @@ export function UniqueKeyDrawer({ detail, open, onClose, onChanged }: Props) {
   const resetSafety = resetAvailability(detail)
   const resetDisabled = !resetSafety.allowed
 
-  return <Drawer open={open} width={760} onClose={onClose} title={<div><strong>管理唯一键</strong><Typography.Text type="secondary"> · {detail.api_name}</Typography.Text></div>}>
+  return <Drawer className="unique-key-drawer" open={open} width="min(47.5rem, 100vw)" onClose={onClose} title={<div><strong>管理唯一键</strong><Typography.Text type="secondary"> · {detail.api_name}</Typography.Text></div>}>
     <div className="unique-key-editor">
       <Descriptions size="small" column={1} items={[
-        { key: 'default', label: 'Metadata 默认', children: detail.default_unique_keys.join(' + ') || '无' },
+        { key: 'default', label: '元数据默认值', children: detail.default_unique_keys.join(' + ') || '无' },
         { key: 'current', label: '当前生效', children: detail.effective_unique_keys.join(' + ') || '无' },
-        { key: 'source', label: '来源', children: detail.unique_key_source === 'USER_OVERRIDE' ? '用户自定义' : 'Metadata 默认' },
+        { key: 'source', label: '来源', children: detail.unique_key_source === 'USER_OVERRIDE' ? '用户自定义' : '元数据默认值' },
         { key: 'constraint', label: '约束状态', children: detail.unique_constraint_status },
       ]} />
-      <div className="unique-key-editor__field"><Typography.Text strong>新的唯一键</Typography.Text><Select mode="multiple" value={keys} options={fieldOptions} onChange={(value) => { setKeys(value); setRestoreDefault(false); setPreview(null) }} placeholder="仅可选择 Output Fields" /></div>
+      <div className="unique-key-editor__field"><Typography.Text strong>新的唯一键</Typography.Text><Select mode="multiple" value={keys} options={fieldOptions} onChange={(value) => { setKeys(value); setRestoreDefault(false); setPreview(null) }} placeholder="仅可选择输出字段" /></div>
       <Space><Button onClick={() => { setKeys(detail.default_unique_keys); setRestoreDefault(true); setPreview(null) }}>恢复默认</Button><Button type="primary" loading={busy} onClick={inspect}>检查影响</Button></Space>
       {error && <Alert type="error" showIcon message={error} />}
       {preview && <div className="unique-key-impact">
@@ -145,14 +145,14 @@ export function UniqueKeyDrawer({ detail, open, onClose, onChanged }: Props) {
             { title: '行数', dataIndex: 'count', width: 90 },
           ]} expandable={{ expandedRowRender: (record) => <Table size="small" pagination={false} rowKey={(row) => String(row._row_fingerprint)} dataSource={record.rows ?? []} rowSelection={{ selectedRowKeys: rowFingerprints, onChange: (selected) => setRowFingerprints(selected.map(String)) }} columns={Object.keys(record.rows?.[0] ?? {}).filter((key) => key !== '_row_fingerprint').slice(0, 8).map((key) => ({ title: key, dataIndex: key, render: (value) => <code>{String(value ?? '')}</code> }))} /> }} />
           <Typography.Title level={5}>清理策略</Typography.Title>
-          <Space wrap><Select value={strategy} options={cleanupOptions} onChange={(value) => { setStrategy(value); setCleanupPreview(null) }} />{strategy !== 'MANUAL_DELETE' && <Select showSearch value={field} options={fieldOptions} onChange={(value) => { setField(value); setCleanupPreview(null) }} placeholder="选择排序字段" />}</Space>
+          <Space wrap className="unique-key-cleanup-controls"><Select aria-label="清理策略" popupMatchSelectWidth={260} value={strategy} options={cleanupOptions} onChange={(value) => { setStrategy(value); setCleanupPreview(null) }} />{strategy !== 'MANUAL_DELETE' && <Select aria-label="排序字段" popupMatchSelectWidth={320} showSearch value={field} options={fieldOptions} onChange={(value) => { setField(value); setCleanupPreview(null) }} placeholder="选择排序字段" />}</Space>
           {strategy === 'MANUAL_DELETE' && <Typography.Text type="secondary">在上方展开重复组并选择要删除的原始行。未解决全部冲突时迁移会回滚。</Typography.Text>}
           <Button loading={busy} disabled={strategy === 'MANUAL_DELETE' && rowFingerprints.length === 0} onClick={inspectCleanup}>预览清理</Button>
           {cleanupPreview && <Alert type="warning" showIcon message={`将删除 ${formatNumber(cleanupPreview.rows_to_delete)} 行，保留 ${formatNumber(cleanupPreview.rows_to_keep)} 行。`} action={<Button danger loading={busy} onClick={cleanupAndApply}>清理并切换唯一键</Button>} />}
         </>}
       </div>}
-      <div className="unique-key-danger-zone"><Typography.Title level={5}>高级危险操作</Typography.Title><Typography.Paragraph type="secondary">RESET_AND_RESYNC 只有在 Metadata 完整性策略允许且最终校验通过后才会成功。当前策略：<code>{resetPolicy.type}</code></Typography.Paragraph><Button danger disabled={resetDisabled} loading={busy} onClick={resetTable}>清空整表并全量重同步</Button>{resetDisabled && <Typography.Text type="secondary">{resetSafety.reason}；UI 禁止发起重置。</Typography.Text>}</div>
+      <div className="unique-key-danger-zone"><Typography.Title level={5}>高级危险操作</Typography.Title><Typography.Paragraph type="secondary">清空并重同步只有在元数据完整性策略允许且最终校验通过后才会成功。当前策略：<code>{resetPolicy.type}</code></Typography.Paragraph><Button danger disabled={resetDisabled} loading={busy} onClick={resetTable}>清空整表并全量重同步</Button>{resetDisabled && <Typography.Text type="secondary">{resetSafety.reason}；界面已禁止发起重置。</Typography.Text>}</div>
     </div>
-    <DangerActionDialog open={Boolean(resetPreview)} title={`确认清空并重同步 ${detail.api_name}？`} explanation="系统将先清空目标表、迁移唯一约束，再异步创建 UPSERT Execution。同步成功后仍需通过完整性校验。" impact={resetPreview ? `将删除 ${formatNumber(resetPreview.rows_to_delete)} 行；校验策略：${resetPreview.completeness_policy.type}。校验失败时操作状态为 INCOMPLETE。` : ''} confirmText="确认清空并重同步" loading={busy} onConfirm={confirmReset} onCancel={() => setResetPreview(null)} />
+    <DangerActionDialog open={Boolean(resetPreview)} title={`确认清空并重同步 ${detail.api_name}？`} explanation="系统将先清空目标表、迁移唯一约束，再异步创建幂等更新任务。同步成功后仍需通过完整性校验。" impact={resetPreview ? `将删除 ${formatNumber(resetPreview.rows_to_delete)} 行；校验策略：${resetPreview.completeness_policy.type}。校验失败时操作状态为“数据不完整”。` : ''} confirmText="确认清空并重同步" loading={busy} onConfirm={confirmReset} onCancel={() => setResetPreview(null)} />
   </Drawer>
 }

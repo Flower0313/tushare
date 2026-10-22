@@ -2,7 +2,12 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from app.core.exceptions import TushareDNSError, TusharePermissionError, TushareTimeoutError
+from app.core.exceptions import (
+    TushareDNSError,
+    TusharePermissionError,
+    TushareRateLimitError,
+    TushareTimeoutError,
+)
 from app.schemas.tushare import TushareQueryResult
 from app.services.sync.query import PreparedQuery
 from app.services.sync.transformer import DataTransformer
@@ -55,6 +60,24 @@ async def test_non_retryable_error_is_not_retried() -> None:
     )
 
     with pytest.raises(TusharePermissionError):
+        await executor.execute(prepared_query())
+
+    assert client.query.await_count == 1
+
+
+@pytest.mark.asyncio
+async def test_upstream_rate_limit_does_not_burn_more_quota_on_retry() -> None:
+    client = AsyncMock()
+    client.query.side_effect = TushareRateLimitError("1次/小时")
+    executor = TushareRequestExecutor(
+        client=client,
+        transformer=DataTransformer(),
+        rate_limiter=AsyncMock(),
+        retry_policy=RetryPolicy(max_attempts=3),
+        sleep=AsyncMock(),
+    )
+
+    with pytest.raises(TushareRateLimitError):
         await executor.execute(prepared_query())
 
     assert client.query.await_count == 1

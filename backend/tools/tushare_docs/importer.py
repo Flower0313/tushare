@@ -31,6 +31,14 @@ class DocumentationImporter:
         html = self._fetch(self.base_url)
         return self.parser.parse_inventory(html, self.base_url)
 
+    def discover_category(self, category: str) -> list[dict[str, str]]:
+        html = self._fetch(self.base_url)
+        return self.parser.parse_category_inventory(
+            html,
+            self.base_url,
+            category=category,
+        )
+
     def import_all(
         self,
         inventory: list[dict[str, str]],
@@ -126,12 +134,12 @@ class MetadataMerger:
         review_catalog = reviews or {}
         presets = review_catalog.get("strategy_presets", {})
         review_apis = review_catalog.get("apis", {})
+        defaults = overrides.get("__defaults__", {})
         effective: list[dict[str, Any]] = []
         for source in official:
             record = deepcopy(source)
-            override = overrides.get(record["api_name"], {})
-            for key, value in override.items():
-                record[key] = deepcopy(value)
+            self._apply_override(record, defaults)
+            self._apply_override(record, overrides.get(record["api_name"], {}))
             review = review_apis.get(record["api_name"])
             if review:
                 record["unique_keys"] = deepcopy(review["unique_keys"])
@@ -165,6 +173,32 @@ class MetadataMerger:
                 record["needs_review"] = True
             effective.append(record)
         return effective
+
+    @staticmethod
+    def _apply_override(record: dict[str, Any], override: dict[str, Any]) -> None:
+        param_overrides = override.get("param_overrides", {})
+        for key, value in override.items():
+            if key != "param_overrides":
+                record[key] = deepcopy(value)
+        for param in record.get("params", []):
+            param_override = param_overrides.get(param.get("name"))
+            if not param_override:
+                continue
+            excluded_apis = param_override.get("exclude_apis", [])
+            if record.get("api_name") in excluded_apis:
+                continue
+            constraints = {
+                **param.get("constraints", {}),
+                **param_override.get("constraints", {}),
+            }
+            param.update(
+                {
+                    key: deepcopy(value)
+                    for key, value in param_override.items()
+                    if key not in {"constraints", "exclude_apis"}
+                }
+            )
+            param["constraints"] = constraints
 
     @staticmethod
     def _default_order(record: dict[str, Any]) -> list[dict[str, str]]:

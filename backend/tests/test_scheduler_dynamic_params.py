@@ -51,3 +51,14 @@ async def test_unknown_dynamic_variable_is_rejected() -> None:
             {"trade_date": "{{ magic_day }}"},
             timezone="Asia/Shanghai",
         )
+
+
+@pytest.mark.asyncio
+async def test_resolves_rolling_calendar_year_offset() -> None:
+    resolver = DynamicParameterResolver(FakeCalendar())  # type: ignore[arg-type]
+    result = await resolver.resolve(
+        {"start_date": {"$dynamic": "calendar_year_offset", "offset": -3}},
+        timezone="Asia/Shanghai",
+        now=datetime(2026, 10, 18, 8, tzinfo=UTC),
+    )
+    assert result["start_date"] == "20231018"

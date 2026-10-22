@@ -20,6 +20,8 @@ class SyncRunResult:
     rows_received: int
     rows_written: int
     chunks_completed: int
+    rows_inserted: int = 0
+    rows_updated: int = 0
     warnings: tuple[dict[str, str], ...] = ()
     rows_affected: int = 0
 
@@ -83,34 +85,48 @@ class SyncService:
     ) -> SyncRunResult:
         rows_received = 0
         rows_written = 0
+        rows_inserted = 0
+        rows_updated = 0
         completed = 0
+        failed_chunks = 0
+        largest_chunk_rows = 0
         request_mode = WriteMode(execution.write_mode)
-        if request_mode is WriteMode.UPSERT and not prepared.metadata.effective_unique_keys:
+        if request_mode is not WriteMode.UPSERT:
+            from app.core.exceptions import SyncExecutionError
+
+            raise SyncExecutionError("SYNC executions require UPSERT write mode")
+        if not prepared.metadata.effective_unique_keys:
             from app.core.exceptions import UniqueKeySchemaMismatchError
 
-            raise UniqueKeySchemaMismatchError("UPSERT 没有可用的生效唯一键")
+            raise UniqueKeySchemaMismatchError("幂等写入没有可用的生效唯一键")
         target = await self._schema_manager.ensure_table(
             prepared.metadata,
             prepared.requested_fields,
-            require_unique_constraint=request_mode is WriteMode.UPSERT,
+            require_unique_constraint=True,
         )
         retry_chunk_params = getattr(execution, "retry_chunk_params", [])
         if retry_chunk_params:
             chunk_specs = _stored_chunks(retry_chunk_params)
         else:
             chunk_specs = strategy.chunks(prepared)
+        if retry_chunk_params or strategy.reports_total:
+            planned_chunks = [spec async for spec in chunk_specs]
+            await self._executions.set_pages_total(execution.id, len(planned_chunks))
+            chunk_specs = _planned_chunks(planned_chunks)
         async for spec in chunk_specs:
             await check_cancelled()
             await self._executions.update_progress(
                 execution.id,
                 rows_received=rows_received,
                 rows_written=rows_written,
+                rows_inserted=rows_inserted,
+                rows_updated=rows_updated,
                 pages_completed=completed,
                 current_page=spec.index,
                 progress_message=f"Fetching chunk {spec.index}",
             )
             chunk = await self._chunks.create_running(
-                execution.id,
+                execution_id=execution.id,
                 chunk_index=spec.index,
                 request_params=spec.params,
             )
@@ -125,6 +141,7 @@ class SyncService:
                     last_error_type=result.last_retry_error_type,
                 )
                 chunk_rows_received = len(result.rows)
+                largest_chunk_rows = max(largest_chunk_rows, chunk_rows_received)
                 rows_received += chunk_rows_received
                 await self._executions.update_progress(
                     execution.id,
@@ -135,25 +152,28 @@ class SyncService:
                     progress_message=f"Writing chunk {spec.index}",
                 )
                 await check_cancelled()
-                written = await self._writer.write(
+                write_result = await self._writer.write(
                     target,
                     prepared.metadata,
                     result.returned_fields,
                     result.rows,
-                    request_mode,
                 )
-                rows_written += written
+                rows_written += write_result.rows_written
+                rows_inserted += write_result.rows_inserted
+                rows_updated += write_result.rows_updated
                 completed += 1
                 await self._chunks.mark_success(
                     chunk.id,
                     attempt_count=result.attempt_count,
                     rows_received=chunk_rows_received,
-                    rows_written=written,
+                    rows_written=write_result.rows_written,
                 )
                 await self._executions.update_progress(
                     execution.id,
                     rows_received=rows_received,
                     rows_written=rows_written,
+                    rows_inserted=rows_inserted,
+                    rows_updated=rows_updated,
                     pages_completed=completed,
                     current_page=spec.index,
                     progress_message=f"Completed chunk {spec.index}",
@@ -180,10 +200,30 @@ class SyncService:
                     ),
                     error_message=self.safe_error_message(exc),
                 )
-                raise
+                failed_chunks += 1
+                if not strategy.continue_on_chunk_error:
+                    raise
+                await self._executions.update_progress(
+                    execution.id,
+                    rows_received=rows_received,
+                    rows_written=rows_written,
+                    rows_inserted=rows_inserted,
+                    rows_updated=rows_updated,
+                    pages_completed=completed,
+                    current_page=spec.index,
+                    progress_message=f"Chunk {spec.index} failed; continuing",
+                )
+
+        if failed_chunks:
+            from app.core.exceptions import SyncExecutionError
+
+            raise SyncExecutionError(
+                f"{failed_chunks} chunk(s) failed after retry; retry failed chunks to resume",
+                details={"failed_chunks": failed_chunks},
+            )
 
         warnings: list[dict[str, str]] = []
-        if prepared.metadata.row_limit and rows_received >= prepared.metadata.row_limit:
+        if prepared.metadata.row_limit and largest_chunk_rows >= prepared.metadata.row_limit:
             warnings.append(
                 {
                     "code": WarningCode.POSSIBLE_TRUNCATION,
@@ -192,7 +232,10 @@ class SyncService:
                     ),
                 }
             )
-        elif prepared.metadata.row_limit and rows_received >= prepared.metadata.row_limit * 0.95:
+        elif (
+            prepared.metadata.row_limit
+            and largest_chunk_rows >= prepared.metadata.row_limit * 0.95
+        ):
             warnings.append(
                 {
                     "code": WarningCode.NEAR_FETCH_LIMIT,
@@ -204,6 +247,8 @@ class SyncService:
             rows_received=rows_received,
             rows_written=rows_written,
             chunks_completed=completed,
+            rows_inserted=rows_inserted,
+            rows_updated=rows_updated,
             warnings=tuple(warnings),
         )
 
@@ -219,3 +264,8 @@ async def _stored_chunks(params: list[dict[str, object]]):
 
     for index, item in enumerate(params, start=1):
         yield ChunkSpec(index=index, params=dict(item))
+
+
+async def _planned_chunks(specs):
+    for spec in specs:
+        yield spec

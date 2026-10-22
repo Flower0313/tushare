@@ -32,10 +32,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 2
       },
       {
@@ -174,10 +182,18 @@
         "required": false,
         "description": "TS代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 2
       },
       {
@@ -518,10 +534,18 @@
         "required": false,
         "description": "标的代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -682,10 +706,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 2
       },
       {
@@ -820,10 +852,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 2
       },
       {
@@ -1086,10 +1126,18 @@
         "required": false,
         "description": "股票代码（可以通过stock_basic获取）示例:000001.SZ",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -1242,10 +1290,18 @@
         "required": false,
         "description": "股票代码（可以通过stock_basic获取）示例:000001.SZ",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -1398,10 +1454,18 @@
         "required": false,
         "description": "股票代码（可以通过stock_basic获取）示例:000001.SZ",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -1546,10 +1610,18 @@
         "required": true,
         "description": "TS代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -1752,10 +1824,18 @@
         "required": true,
         "description": "TS代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -1958,10 +2038,18 @@
         "required": false,
         "description": "TS代码（股票代码和日期至少输入一个参数）",
         "format": "YYYYMMDD",
-        "input_kind": "date",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -2115,10 +2203,18 @@
         "required": false,
         "description": "TS股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -2285,10 +2381,18 @@
         "required": false,
         "description": "TS股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -2516,10 +2620,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -2746,10 +2858,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -3037,10 +3157,18 @@
         "required": false,
         "description": "TS股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -3857,7 +3985,7 @@
     "status": "ACTIVE",
     "needs_review": false,
     "removed_from_source": false,
-    "enabled": true,
+    "enabled": false,
     "unique_keys": [
       "date"
     ],
@@ -3882,13 +4010,13 @@
       "doc_id": "165",
       "navigation_title": "股票开户数据（旧）"
     },
+    "visible_by_default": false,
     "maturity": "VERIFIED",
     "review_metadata": {
       "review_risk": null,
       "natural_key_status": "DOCUMENT_REVIEWED",
       "fetch_boundary_status": "DOCUMENT_REVIEWED"
     },
-    "visible_by_default": true,
     "validation_errors": []
   },
   {
@@ -3909,10 +4037,18 @@
         "required": false,
         "description": "TS股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -4248,10 +4384,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -4396,10 +4540,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -4547,10 +4699,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -4749,10 +4909,18 @@
         "required": false,
         "description": "股票代码，支持单个或多个股票输入",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -5205,10 +5373,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -5361,10 +5537,18 @@
         "required": true,
         "description": "TS股票代码，支持单个或多个代码输入",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -5510,10 +5694,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -5683,10 +5875,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 2
       }
     ],
@@ -5928,10 +6128,18 @@
         "required": false,
         "description": "TS股票代码(格式说明)",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -6171,10 +6379,18 @@
         "required": false,
         "description": "TS代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -6344,10 +6560,18 @@
         "required": false,
         "description": "TS代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 2
       },
       {
@@ -7217,10 +7441,18 @@
         "required": false,
         "description": "TS代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 2
       },
       {
@@ -7397,10 +7629,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -7838,10 +8078,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -8028,10 +8276,18 @@
         "required": false,
         "description": "板块代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 2
       },
       {
@@ -9252,10 +9508,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 2
       },
       {
@@ -9514,10 +9778,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 2
       },
       {
@@ -9883,10 +10155,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 2
       },
       {
@@ -10074,10 +10354,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 2
       },
       {
@@ -10207,10 +10495,18 @@
         "required": false,
         "description": "TS代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 2
       }
     ],
@@ -10361,10 +10657,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 2
       }
     ],
@@ -10548,10 +10852,18 @@
         "required": false,
         "description": "A股票代码(xxxxxx.SH/SZ/BJ)",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 2
       },
       {
@@ -10828,7 +11140,10 @@
     "data_description": "接口：report_rc\n描述：获取券商（卖方）每天研报的盈利预测数据，数据从2010年开始，交易日当天的数据会更新2次，第一次是在21点15更新一次，第二次是在次日9点15更新一次。\n限量：单次最大3000条，可分页和循环提取所有数据\n权限：本接口2000积分可以试用，每天10次请求，正式权限需8000积分，每天可请求100000次，10000积分以上无总量限制。\n\n输入参数\n\n输出参数\n\n接口用法",
     "points_required": 2000,
     "row_limit": null,
-    "rate_limit": {},
+    "rate_limit": {
+      "requests": 1,
+      "period_seconds": 60
+    },
     "params": [
       {
         "name": "ts_code",
@@ -10836,10 +11151,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -11108,10 +11431,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -11301,10 +11632,18 @@
         "required": true,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -11442,10 +11781,18 @@
         "required": true,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -11627,10 +11974,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -11839,10 +12194,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -12017,10 +12380,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -12390,10 +12761,18 @@
         "required": false,
         "description": "股票代码ts_code,trade_date至少输入一个参数",
         "format": "YYYYMMDD",
-        "input_kind": "date",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -14342,10 +14721,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -14529,10 +14916,18 @@
         "required": true,
         "description": "支持单个和多个：600000.SH 或者 600000.SH,000001.SZ",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 2
       }
     ],
@@ -14674,10 +15069,18 @@
         "required": true,
         "description": "股票代码，如：600000.SH",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 2
       }
     ],
@@ -14815,10 +15218,18 @@
         "required": true,
         "description": "支持通配符方式，e.g. 所有上交所股票：6*.SH、所有创业板股票3*.SZ、所有科创板股票688*.SH，或单个股票600000.SH",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       }
     ],
@@ -14997,10 +15408,18 @@
         "required": false,
         "description": "股票代码（支持多个股票同时提取，逗号分隔）",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -15201,10 +15620,18 @@
         "required": false,
         "description": "TS代码 （ts_code,trade_date两个参数任选一）",
         "format": "YYYYMMDD",
-        "input_kind": "date",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -15386,10 +15813,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -15740,10 +16175,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -15866,10 +16309,18 @@
         "required": false,
         "description": "TS代码 （ts_code,trade_date两个参数任选一）",
         "format": "YYYYMMDD",
-        "input_kind": "date",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -16051,10 +16502,18 @@
         "required": false,
         "description": "股票代码(可输入多值)",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -16184,10 +16643,18 @@
         "required": true,
         "description": "股票代码（二选一）",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -16432,10 +16899,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -16574,10 +17049,18 @@
         "required": false,
         "description": "股票代码（二选一）",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -16769,7 +17252,10 @@
     "data_description": "接口：stk_mins\n描述：获取A股分钟数据，支持1min/5min/15min/30min/60min行情，提供Python SDK和 http Restful API两种方式\n限量：单次最大8000行数据，每分钟500频次，每天的总量是30万频次，窗口24小时滚动刷新。可以通过股票代码和时间循环获取，本接口可以提供超过10年历史分钟数据\n权限：需单独开权限，正式权限请参阅 权限说明 ，可以在线开通分钟权限。\n\n输入参数\n\nfreq参数说明\n\n输出参数",
     "points_required": null,
     "row_limit": 8000,
-    "rate_limit": {},
+    "rate_limit": {
+      "requests": 1,
+      "period_seconds": 3660
+    },
     "params": [
       {
         "name": "ts_code",
@@ -16777,10 +17263,18 @@
         "required": true,
         "description": "股票代码，e.g. 600000.SH",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -16954,10 +17448,18 @@
         "required": false,
         "description": "TS代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -17243,10 +17745,18 @@
         "required": false,
         "description": "TS代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -17476,10 +17986,18 @@
         "required": true,
         "description": "证券代码，不支持多值输入，多值输入获取结果会有重复记录",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -17630,10 +18148,18 @@
         "required": true,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -17996,10 +18522,18 @@
         "required": false,
         "description": "股票代码(二选一)",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -18185,7 +18719,14 @@
         "direction": "asc"
       }
     ],
-    "validation_rules": {},
+    "validation_rules": {
+      "any_of": [
+        [
+          "ts_code",
+          "ann_date"
+        ]
+      ]
+    },
     "supports_offset": false,
     "raw_metadata": {
       "doc_id": "45",
@@ -18214,10 +18755,18 @@
         "required": true,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -18418,10 +18967,18 @@
         "required": false,
         "description": "TS代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -18667,10 +19224,18 @@
         "required": true,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -19506,10 +20071,18 @@
         "required": true,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -20378,10 +20951,18 @@
         "required": true,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -20571,10 +21152,18 @@
         "required": true,
         "description": "TS股票代码,e.g. 600001.SH/000001.SZ",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -21883,10 +22472,18 @@
         "required": false,
         "description": "TS股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -22061,10 +22658,18 @@
         "required": true,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -23587,10 +24192,18 @@
         "required": false,
         "description": "股票代码 （股票和时间参数至少输入一个）",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -23835,10 +24448,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -24048,10 +24669,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -24835,10 +25464,18 @@
         "required": false,
         "description": "股票代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1
       },
       {
@@ -25591,7 +26228,7 @@
     "documentation_url": "https://tushare.pro/document/2?doc_id=33",
     "source_url": "https://tushare.pro/document/2?doc_id=33",
     "source_hash": "b9fb68c3bd26c49c545ec96f3b9c25081204b4e4645699e914ae5279e4ef10ae",
-    "imported_at": "2026-10-01T03:21:11.203104+00:00",
+    "imported_at": "2026-10-22T12:21:06.606837+00:00",
     "metadata_review": "VERIFIED",
     "status": "ACTIVE",
     "needs_review": false,
@@ -25663,13 +26300,21 @@
         "name": "ts_code",
         "type": "str",
         "required": true,
-        "description": "A股证券代码",
+        "description": "A股证券代码，可选多股或由 Worker 遍历全部上市股票",
         "input_kind": "stock_code_select",
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": [
+            "name",
+            "fullname"
+          ]
+        },
         "position": 1,
         "format": null,
         "enum_values": [],
-        "default_value": null,
-        "constraints": {}
+        "default_value": null
       },
       {
         "name": "start_date",
@@ -25893,8 +26538,8 @@
       "replace_source_entry": true
     },
     "enabled": true,
-    "imported_at": "2026-10-01T03:21:11.203413+00:00",
-    "source_hash": "26e75911121c2b8e56ecf7d13e2c373a6fefec7fa54234a8485c50532451b61e",
+    "imported_at": "2026-10-22T12:21:06.607138+00:00",
+    "source_hash": "26d32a5a46cf9ed30421ac59918ae574b8db424d2ad2993fabfe8537503b4fa5",
     "validation_errors": []
   }
 ]

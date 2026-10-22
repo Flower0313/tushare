@@ -2498,23 +2498,6 @@
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "anyOf": [
-                  {
-                    "$ref": "#/components/schemas/ExecutionRiskConfirmation"
-                  },
-                  {
-                    "type": "null"
-                  }
-                ],
-                "title": "Payload"
-              }
-            }
-          }
-        },
         "responses": {
           "202": {
             "description": "Successful Response",
@@ -2918,16 +2901,6 @@
             }
           }
         ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ExecutionRiskConfirmation"
-              }
-            }
-          }
-        },
         "responses": {
           "202": {
             "description": "Successful Response",
@@ -5759,6 +5732,627 @@
         }
       }
     },
+    "/api/settings/tushare-token": {
+      "get": {
+        "tags": [
+          "Settings"
+        ],
+        "summary": "Get Tushare Token Status",
+        "operationId": "get_tushare_token_status_api_settings_tushare_token_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TushareTokenStatus"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Settings"
+        ],
+        "summary": "Replace Tushare Token",
+        "operationId": "replace_tushare_token_api_settings_tushare_token_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TushareTokenUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TushareTokenStatus"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Settings"
+        ],
+        "summary": "Restore Environment Tushare Token",
+        "operationId": "restore_environment_tushare_token_api_settings_tushare_token_delete",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TushareTokenStatus"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sql-tasks/targets": {
+      "get": {
+        "tags": [
+          "SQL Tasks"
+        ],
+        "summary": "List Sql Targets",
+        "operationId": "list_sql_targets_api_sql_tasks_targets_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SqlTargetListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sql-tasks/validate": {
+      "post": {
+        "tags": [
+          "SQL Tasks"
+        ],
+        "summary": "Validate Sql Task",
+        "operationId": "validate_sql_task_api_sql_tasks_validate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SqlTaskValidationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SqlTaskValidationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "统一错误响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/data-operations": {
       "get": {
         "tags": [
@@ -7831,6 +8425,15 @@
             ],
             "title": "Chunk Unit",
             "default": "month"
+          },
+          "date_format": {
+            "type": "string",
+            "enum": [
+              "YYYYMMDD",
+              "YYYY-MM-DD HH:mm:ss"
+            ],
+            "title": "Date Format",
+            "default": "YYYYMMDD"
           }
         },
         "type": "object",
@@ -8062,9 +8665,11 @@
           "REPLACE_RANGE_ERROR",
           "REPLACE_DATASET_NOT_FOUND",
           "EMPTY_REPLACEMENT_BLOCKED",
+          "CUSTOM_COMPLETENESS_HANDLER_NOT_FOUND",
           "SCHEDULE_ERROR",
           "SCHEDULE_NOT_FOUND",
-          "SCHEDULE_CONFLICT"
+          "SCHEDULE_CONFLICT",
+          "SQL_TASK_ERROR"
         ],
         "title": "ErrorCode"
       },
@@ -8242,6 +8847,7 @@
         "type": "string",
         "enum": [
           "SYNC",
+          "SQL_TASK",
           "DELETE",
           "REPLACE_RANGE",
           "FAILED_CHUNK_RETRY"
@@ -8683,17 +9289,6 @@
           "error_message"
         ],
         "title": "ExecutionRead"
-      },
-      "ExecutionRiskConfirmation": {
-        "properties": {
-          "confirm_append_risk": {
-            "type": "boolean",
-            "title": "Confirm Append Risk",
-            "default": false
-          }
-        },
-        "type": "object",
-        "title": "ExecutionRiskConfirmation"
       },
       "ExecutionSource": {
         "type": "string",
@@ -9435,6 +10030,20 @@
             ],
             "title": "End Param"
           },
+          "coverage_mode": {
+            "type": "string",
+            "enum": [
+              "BOUNDARY",
+              "EXPECTED_DATES"
+            ],
+            "title": "Coverage Mode",
+            "default": "BOUNDARY"
+          },
+          "calendar_exchange": {
+            "type": "string",
+            "title": "Calendar Exchange",
+            "default": "SSE"
+          },
           "code_field": {
             "anyOf": [
               {
@@ -9513,10 +10122,26 @@
             ],
             "title": "Description"
           },
-          "api_name": {
+          "job_type": {
             "type": "string",
-            "maxLength": 100,
-            "minLength": 1,
+            "enum": [
+              "API_SYNC",
+              "SQL_TRANSFORM"
+            ],
+            "title": "Job Type",
+            "default": "API_SYNC"
+          },
+          "api_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Api Name"
           },
           "params": {
@@ -9595,12 +10220,65 @@
             ],
             "title": "Recovery Policy",
             "default": "MANUAL"
+          },
+          "target_schema": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Schema"
+          },
+          "target_table": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Table"
+          },
+          "target_columns": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Target Columns"
+          },
+          "sql_text": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sql Text"
+          },
+          "execution_calendar": {
+            "type": "string",
+            "enum": [
+              "ALL_DAYS",
+              "TRADE_DAYS"
+            ],
+            "title": "Execution Calendar",
+            "default": "ALL_DAYS"
           }
         },
         "type": "object",
         "required": [
           "name",
-          "api_name",
           "cron_expression"
         ],
         "title": "ScheduleCreate"
@@ -9763,10 +10441,26 @@
             ],
             "title": "Description"
           },
-          "api_name": {
+          "job_type": {
             "type": "string",
-            "maxLength": 100,
-            "minLength": 1,
+            "enum": [
+              "API_SYNC",
+              "SQL_TRANSFORM"
+            ],
+            "title": "Job Type",
+            "default": "API_SYNC"
+          },
+          "api_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Api Name"
           },
           "params": {
@@ -9839,6 +10533,60 @@
             "title": "Recovery Policy",
             "default": "MANUAL"
           },
+          "target_schema": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Schema"
+          },
+          "target_table": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Table"
+          },
+          "target_columns": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Target Columns"
+          },
+          "sql_text": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sql Text"
+          },
+          "execution_calendar": {
+            "type": "string",
+            "enum": [
+              "ALL_DAYS",
+              "TRADE_DAYS"
+            ],
+            "title": "Execution Calendar",
+            "default": "ALL_DAYS"
+          },
           "id": {
             "type": "string",
             "format": "uuid",
@@ -9906,7 +10654,6 @@
         "type": "object",
         "required": [
           "name",
-          "api_name",
           "write_mode",
           "cron_expression",
           "id",
@@ -9938,10 +10685,26 @@
             ],
             "title": "Description"
           },
-          "api_name": {
+          "job_type": {
             "type": "string",
-            "maxLength": 100,
-            "minLength": 1,
+            "enum": [
+              "API_SYNC",
+              "SQL_TRANSFORM"
+            ],
+            "title": "Job Type",
+            "default": "API_SYNC"
+          },
+          "api_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Api Name"
           },
           "params": {
@@ -10020,12 +10783,65 @@
             ],
             "title": "Recovery Policy",
             "default": "MANUAL"
+          },
+          "target_schema": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Schema"
+          },
+          "target_table": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Table"
+          },
+          "target_columns": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Target Columns"
+          },
+          "sql_text": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sql Text"
+          },
+          "execution_calendar": {
+            "type": "string",
+            "enum": [
+              "ALL_DAYS",
+              "TRADE_DAYS"
+            ],
+            "title": "Execution Calendar",
+            "default": "ALL_DAYS"
           }
         },
         "type": "object",
         "required": [
           "name",
-          "api_name",
           "cron_expression"
         ],
         "title": "ScheduleUpdate"
@@ -10062,6 +10878,138 @@
         ],
         "title": "ScheduleValidationResponse"
       },
+      "SqlTargetColumn": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "data_type": {
+            "type": "string",
+            "title": "Data Type"
+          },
+          "nullable": {
+            "type": "boolean",
+            "title": "Nullable"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "data_type",
+          "nullable"
+        ],
+        "title": "SqlTargetColumn"
+      },
+      "SqlTargetListResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/SqlTargetTable"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "SqlTargetListResponse"
+      },
+      "SqlTargetTable": {
+        "properties": {
+          "schema_name": {
+            "type": "string",
+            "title": "Schema Name"
+          },
+          "table_name": {
+            "type": "string",
+            "title": "Table Name"
+          },
+          "columns": {
+            "items": {
+              "$ref": "#/components/schemas/SqlTargetColumn"
+            },
+            "type": "array",
+            "title": "Columns"
+          }
+        },
+        "type": "object",
+        "required": [
+          "schema_name",
+          "table_name",
+          "columns"
+        ],
+        "title": "SqlTargetTable"
+      },
+      "SqlTaskValidationRequest": {
+        "properties": {
+          "target_schema": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Target Schema"
+          },
+          "target_table": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Target Table"
+          },
+          "target_columns": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Target Columns"
+          },
+          "sql_text": {
+            "type": "string",
+            "maxLength": 100000,
+            "minLength": 1,
+            "title": "Sql Text"
+          }
+        },
+        "type": "object",
+        "required": [
+          "target_schema",
+          "target_table",
+          "sql_text"
+        ],
+        "title": "SqlTaskValidationRequest"
+      },
+      "SqlTaskValidationResponse": {
+        "properties": {
+          "valid": {
+            "type": "boolean",
+            "title": "Valid",
+            "default": true
+          },
+          "target": {
+            "type": "string",
+            "title": "Target"
+          },
+          "target_columns": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Target Columns"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "target",
+          "target_columns",
+          "message"
+        ],
+        "title": "SqlTaskValidationResponse"
+      },
       "SyncSubmissionResponse": {
         "properties": {
           "execution_id": {
@@ -10078,6 +11026,58 @@
           "execution_id"
         ],
         "title": "SyncSubmissionResponse"
+      },
+      "TushareTokenStatus": {
+        "properties": {
+          "configured": {
+            "type": "boolean",
+            "title": "Configured"
+          },
+          "source": {
+            "type": "string",
+            "title": "Source"
+          },
+          "token": {
+            "type": "string",
+            "title": "Token"
+          },
+          "updated_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "configured",
+          "source",
+          "token"
+        ],
+        "title": "TushareTokenStatus"
+      },
+      "TushareTokenUpdate": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "maxLength": 256,
+            "minLength": 20,
+            "format": "password",
+            "title": "Token",
+            "writeOnly": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "token"
+        ],
+        "title": "TushareTokenUpdate"
       },
       "UniqueKeyApplyRequest": {
         "properties": {
@@ -10650,7 +11650,6 @@
           "POSSIBLE_TRUNCATION",
           "EMPTY_RESULT",
           "TRADE_CAL_FALLBACK_USED",
-          "APPEND_NOT_IDEMPOTENT",
           "VALIDATION_INCOMPLETE"
         ],
         "title": "WarningCode"
@@ -10680,7 +11679,7 @@
       "WriteMode": {
         "type": "string",
         "enum": [
-          "APPEND",
+          "NONE",
           "UPSERT"
         ],
         "title": "WriteMode"

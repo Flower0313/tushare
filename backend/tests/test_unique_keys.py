@@ -7,6 +7,7 @@ from uuid import uuid4
 import pytest
 
 from app.core.exceptions import (
+    CustomCompletenessHandlerNotFoundError,
     MetadataError,
     UniqueKeyDuplicatesError,
     UniqueKeyPreviewExpiredError,
@@ -194,6 +195,24 @@ async def test_reset_is_rejected_without_completeness_policy() -> None:
         await service.reset_preview(
             "daily", UniqueKeyPreviewRequest(unique_keys=["ts_code", "trade_date"])
         )
+
+
+@pytest.mark.asyncio
+async def test_reset_is_rejected_before_preview_when_custom_handler_is_missing() -> None:
+    service, migrations, _ = make_service(DuplicateAnalysis(True, 10, 10, 0, 0, []))
+    record = service._metadata.get_by_name.return_value
+    record.reset_completeness_policy = {
+        "type": "CUSTOM",
+        "handler": "not_registered",
+    }
+
+    with pytest.raises(CustomCompletenessHandlerNotFoundError) as exc_info:
+        await service.reset_preview(
+            "daily", UniqueKeyPreviewRequest(unique_keys=["ts_code", "trade_date"])
+        )
+
+    assert exc_info.value.code.value == "CUSTOM_COMPLETENESS_HANDLER_NOT_FOUND"
+    migrations.create_migration.assert_not_awaited()
 
 
 def test_cleanup_execution_requires_matching_cleanup_preview_token() -> None:

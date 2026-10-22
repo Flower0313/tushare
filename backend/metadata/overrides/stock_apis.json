@@ -1,4 +1,32 @@
 {
+  "__defaults__": {
+    "param_overrides": {
+      "ts_code": {
+        "input_kind": "stock_code_select",
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "stock_basic",
+          "code_label_fields": ["name", "fullname"]
+        },
+        "exclude_apis": [
+          "tdx_index",
+          "tdx_member",
+          "tdx_daily",
+          "kpl_concept_cons",
+          "dc_member",
+          "ths_daily",
+          "ths_index",
+          "dc_index",
+          "ths_member",
+          "dc_daily",
+          "moneyflow_ind_dc",
+          "moneyflow_cnt_ths",
+          "moneyflow_ind_ths"
+        ]
+      }
+    }
+  },
   "stock_basic": {
     "status": "ACTIVE", "metadata_review": "VERIFIED", "needs_review": false,
     "unique_keys": ["ts_code"], "fetch_strategy": {"type": "single"},
@@ -77,8 +105,24 @@
   "forecast": {
     "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,
     "unique_keys": ["ts_code", "ann_date", "end_date", "type"],
+    "validation_rules": {"any_of": [["ts_code", "ann_date"]]},
     "fetch_strategy": {"type": "date_range", "start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"},
     "default_order_by": [{"field": "ann_date", "direction": "desc"}, {"field": "ts_code", "direction": "asc"}]
+  },
+  "stk_mins": {
+    "rate_limit": {"requests": 1, "period_seconds": 3660},
+    "fetch_strategy": {
+      "type": "date_and_code", "order": "code_first",
+      "date": {"start_param": "start_date", "end_param": "end_date", "chunk_unit": "day", "date_format": "YYYY-MM-DD HH:mm:ss"},
+      "code": {"param": "ts_code", "code_source": "stock_basic", "batch_size": 1}
+    }
+  },
+  "report_rc": {
+    "rate_limit": {"requests": 1, "period_seconds": 60}
+  },
+  "stk_account_old": {
+    "status": "DEPRECATED", "enabled": false, "visible_by_default": false,
+    "metadata_review": "REVIEWED", "needs_review": false
   },
   "block_trade": {
     "status": "ACTIVE", "metadata_review": "REVIEWED", "needs_review": false,

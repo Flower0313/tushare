@@ -57,8 +57,8 @@ export function putJson<TResponse, TBody>(path: string, body: TBody): Promise<TR
   })
 }
 
-export function deleteJson(path: string): Promise<void> {
-  return requestJson<void>(path, { method: 'DELETE' })
+export function deleteJson<T = void>(path: string): Promise<T> {
+  return requestJson<T>(path, { method: 'DELETE' })
 }
 
 export function getJson<T>(path: string, signal?: AbortSignal): Promise<T> {
