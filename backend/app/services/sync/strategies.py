@@ -1,5 +1,6 @@
 import calendar
 from collections.abc import AsyncIterator, Sequence
+from contextlib import aclosing
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta
 
@@ -175,6 +176,7 @@ class DateRangeStrategy(QueryStrategy):
         self._date_format = str(config.get("date_format", "YYYYMMDD"))
         self._code_param = str(config.get("code_param", "ts_code"))
         self._omit_all_codes = config.get("all_codes_mode") == "omit"
+        self._split_code_param = config.get("split_code_param") is True
         if self._unit not in {"day", "week", "month"}:
             raise MetadataError(f"Unsupported date range chunk unit: {self._unit}")
 
@@ -185,9 +187,32 @@ class DateRangeStrategy(QueryStrategy):
             and str(prepared_params.get(self._code_param, "")) == "__ALL__"
         ):
             prepared_params.pop(self._code_param, None)
+        if self._split_code_param and isinstance(prepared_params.get(self._code_param), str):
+            codes = [
+                code.strip()
+                for code in prepared_params[self._code_param].split(",")
+                if code.strip()
+            ]
+            if len(codes) > 1:
+                index = 1
+                for code in codes:
+                    code_params = {**prepared_params, self._code_param: code}
+                    code_query = PreparedQuery(
+                        prepared.metadata, code_params, prepared.requested_fields
+                    )
+                    async with aclosing(self._date_chunks(code_query)) as chunks:
+                        async for chunk in chunks:
+                            yield ChunkSpec(index=index, params=chunk.params)
+                            index += 1
+                return
         prepared = PreparedQuery(
             prepared.metadata, prepared_params, prepared.requested_fields
         )
+        async with aclosing(self._date_chunks(prepared)) as chunks:
+            async for chunk in chunks:
+                yield chunk
+
+    async def _date_chunks(self, prepared: PreparedQuery) -> AsyncIterator[ChunkSpec]:
         start_raw = prepared.params.get(self._start_param)
         end_raw = prepared.params.get(self._end_param)
         if not start_raw or not end_raw:

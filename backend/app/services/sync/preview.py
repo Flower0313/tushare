@@ -1,3 +1,5 @@
+from contextlib import aclosing
+
 from app.core.codes import WarningCode
 from app.schemas.tushare import PreviewRequest, PreviewResponse
 from app.services.sync.query import TushareQueryService
@@ -33,7 +35,8 @@ class PreviewService:
             strategy_config.get("handler") == "a_share_pro_bar" or should_sample_strategy
         ):
             strategy = self._strategies.create(prepared.metadata)
-            first_chunk = await anext(strategy.chunks(prepared), None)
+            async with aclosing(strategy.chunks(prepared)) as chunks:
+                first_chunk = await anext(chunks, None)
             if first_chunk is None:
                 from app.core.exceptions import MetadataError
 

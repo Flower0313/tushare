@@ -4,6 +4,405 @@
  */
 
 export interface paths {
+    "/api/analytics/sql/validate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Validate Sql Dataset */
+        post: operations["validate_sql_dataset_api_analytics_sql_validate_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/sql/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Preview Sql Dataset */
+        post: operations["preview_sql_dataset_api_analytics_sql_preview_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/sources/{api_name}/fields": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Source Fields */
+        get: operations["source_fields_api_analytics_sources__api_name__fields_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/sql/catalog": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Sql Catalog */
+        get: operations["sql_catalog_api_analytics_sql_catalog_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/datasets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Datasets */
+        get: operations["list_datasets_api_analytics_datasets_get"];
+        put?: never;
+        /** Create Dataset */
+        post: operations["create_dataset_api_analytics_datasets_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/datasets/{dataset_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Dataset */
+        get: operations["get_dataset_api_analytics_datasets__dataset_id__get"];
+        /** Update Dataset */
+        put: operations["update_dataset_api_analytics_datasets__dataset_id__put"];
+        post?: never;
+        /** Delete Dataset */
+        delete: operations["delete_dataset_api_analytics_datasets__dataset_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/datasets/{dataset_id}/query": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Query Dataset */
+        post: operations["query_dataset_api_analytics_datasets__dataset_id__query_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/datasets/{dataset_id}/pivot-preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Preview Pivot */
+        post: operations["preview_pivot_api_analytics_datasets__dataset_id__pivot_preview_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/dashboards": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Dashboards */
+        get: operations["list_dashboards_api_analytics_dashboards_get"];
+        put?: never;
+        /** Create Dashboard */
+        post: operations["create_dashboard_api_analytics_dashboards_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/dashboards/{dashboard_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Dashboard */
+        get: operations["get_dashboard_api_analytics_dashboards__dashboard_id__get"];
+        /** Update Dashboard */
+        put: operations["update_dashboard_api_analytics_dashboards__dashboard_id__put"];
+        post?: never;
+        /** Delete Dashboard */
+        delete: operations["delete_dashboard_api_analytics_dashboards__dashboard_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/dashboards/{dashboard_id}/publication": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Publication State */
+        get: operations["publication_state_api_analytics_dashboards__dashboard_id__publication_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/dashboards/{dashboard_id}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Publish Dashboard */
+        post: operations["publish_dashboard_api_analytics_dashboards__dashboard_id__publish_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/dashboards/{dashboard_id}/republish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Republish Dashboard */
+        post: operations["republish_dashboard_api_analytics_dashboards__dashboard_id__republish_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/dashboards/{dashboard_id}/unpublish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Unpublish Dashboard */
+        post: operations["unpublish_dashboard_api_analytics_dashboards__dashboard_id__unpublish_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/dashboards/{dashboard_id}/rotate-link": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Rotate Dashboard Link */
+        post: operations["rotate_dashboard_link_api_analytics_dashboards__dashboard_id__rotate_link_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/dashboards/{dashboard_id}/charts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Charts */
+        get: operations["list_charts_api_analytics_dashboards__dashboard_id__charts_get"];
+        put?: never;
+        /** Create Chart */
+        post: operations["create_chart_api_analytics_dashboards__dashboard_id__charts_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/dashboards/{dashboard_id}/charts/{chart_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Update Chart */
+        put: operations["update_chart_api_analytics_dashboards__dashboard_id__charts__chart_id__put"];
+        post?: never;
+        /** Delete Chart */
+        delete: operations["delete_chart_api_analytics_dashboards__dashboard_id__charts__chart_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/charts/{chart_id}/data": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Chart Data */
+        get: operations["chart_data_api_analytics_charts__chart_id__data_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/charts/{chart_id}/query": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Query Chart */
+        post: operations["query_chart_api_analytics_charts__chart_id__query_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/public/dashboards/{public_key}/access": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Unlock Dashboard */
+        post: operations["unlock_dashboard_api_public_dashboards__public_key__access_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/public/dashboards/{public_key}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Public Dashboard */
+        get: operations["get_public_dashboard_api_public_dashboards__public_key__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/public/dashboards/{public_key}/charts/{chart_public_id}/query": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Query Public Chart */
+        post: operations["query_public_chart_api_public_dashboards__public_key__charts__chart_public_id__query_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/public/dashboards/{public_key}/filters/{filter_id}/options": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Public Filter Options */
+        post: operations["public_filter_options_api_public_dashboards__public_key__filters__filter_id__options_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/health": {
         parameters: {
             query?: never;
@@ -1105,6 +1504,293 @@ export interface components {
             /** Notes */
             notes: string | null;
         };
+        /** BarConfig */
+        BarConfig: {
+            /**
+             * Version
+             * @default 2
+             * @constant
+             */
+            version: 2;
+            /** Dimensions */
+            dimensions?: string[];
+            /** Metrics */
+            metrics?: components["schemas"]["QueryMetric"][];
+            /** Filters */
+            filters?: components["schemas"]["FilterCondition"][];
+            /** Sort By */
+            sort_by?: string | null;
+            /**
+             * Sort Desc
+             * @default true
+             */
+            sort_desc: boolean;
+            /**
+             * Top N
+             * @default 100
+             */
+            top_n: number;
+            /** Date Granularity */
+            date_granularity?: ("day" | "month" | "year") | null;
+            /**
+             * Show Legend
+             * @default true
+             */
+            show_legend: boolean;
+            /**
+             * Show Labels
+             * @default false
+             */
+            show_labels: boolean;
+            /**
+             * Data Zoom
+             * @default true
+             */
+            data_zoom: boolean;
+            /**
+             * Theme
+             * @default auto
+             * @enum {string}
+             */
+            theme: "auto" | "light" | "dark";
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            chart_type: "bar";
+            /**
+             * Orientation
+             * @default vertical
+             * @enum {string}
+             */
+            orientation: "vertical" | "horizontal";
+            /**
+             * Stacked
+             * @default false
+             */
+            stacked: boolean;
+        };
+        /** CandlestickConfig */
+        CandlestickConfig: {
+            /**
+             * Version
+             * @default 2
+             * @constant
+             */
+            version: 2;
+            /** Dimensions */
+            dimensions?: string[];
+            /** Metrics */
+            metrics?: components["schemas"]["QueryMetric"][];
+            /** Filters */
+            filters?: components["schemas"]["FilterCondition"][];
+            /** Sort By */
+            sort_by?: string | null;
+            /**
+             * Sort Desc
+             * @default true
+             */
+            sort_desc: boolean;
+            /**
+             * Top N
+             * @default 100
+             */
+            top_n: number;
+            /** Date Granularity */
+            date_granularity?: ("day" | "month" | "year") | null;
+            /**
+             * Show Legend
+             * @default true
+             */
+            show_legend: boolean;
+            /**
+             * Show Labels
+             * @default false
+             */
+            show_labels: boolean;
+            /**
+             * Data Zoom
+             * @default true
+             */
+            data_zoom: boolean;
+            /**
+             * Theme
+             * @default auto
+             * @enum {string}
+             */
+            theme: "auto" | "light" | "dark";
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            chart_type: "candlestick";
+            /** Time Field */
+            time_field: string;
+            /** Open Field */
+            open_field: string;
+            /** Close Field */
+            close_field: string;
+            /** Low Field */
+            low_field: string;
+            /** High Field */
+            high_field: string;
+            /** Volume Field */
+            volume_field?: string | null;
+        };
+        /** ChartCreate */
+        ChartCreate: {
+            /** Dataset Id */
+            dataset_id: number;
+            /** Title */
+            title: string;
+            /**
+             * Chart Type
+             * @enum {string}
+             */
+            chart_type: "line" | "bar" | "pie" | "number" | "table" | "scatter" | "candlestick" | "treemap" | "funnel" | "pivot_table";
+            /** Dimension */
+            dimension?: string | null;
+            /** Metric */
+            metric?: string | null;
+            /**
+             * Aggregation
+             * @default COUNT
+             * @enum {string}
+             */
+            aggregation: "COUNT" | "SUM" | "AVG" | "MIN" | "MAX";
+            /**
+             * Position
+             * @default 0
+             */
+            position: number;
+            /**
+             * Grid Span
+             * @default 1
+             * @enum {integer}
+             */
+            grid_span: 1 | 2;
+            /**
+             * Height Px
+             * @default 320
+             */
+            height_px: number;
+            /** Filters */
+            filters?: components["schemas"]["FilterCondition"][];
+            /**
+             * Sort By
+             * @default metric
+             * @enum {string}
+             */
+            sort_by: "dimension" | "metric";
+            /**
+             * Sort Desc
+             * @default true
+             */
+            sort_desc: boolean;
+            /**
+             * Top N
+             * @default 100
+             */
+            top_n: number;
+            /** Date Granularity */
+            date_granularity?: ("day" | "month" | "year") | null;
+            /** Config */
+            config?: (components["schemas"]["LineConfig"] | components["schemas"]["BarConfig"] | components["schemas"]["PieConfig"] | components["schemas"]["ScatterConfig"] | components["schemas"]["CandlestickConfig"] | components["schemas"]["TreemapConfig"] | components["schemas"]["FunnelConfig"] | components["schemas"]["PivotConfig"] | components["schemas"]["NumberConfig"] | components["schemas"]["TableConfig"]) | null;
+        };
+        /** ChartData */
+        ChartData: {
+            /** Columns */
+            columns?: string[];
+            /** Rows */
+            rows?: {
+                [key: string]: string | number | boolean | null;
+            }[];
+            /** Points */
+            points?: {
+                [key: string]: string | number;
+            }[];
+            /**
+             * Truncated
+             * @default false
+             */
+            truncated: boolean;
+            pivot?: components["schemas"]["PivotResult"] | null;
+        };
+        /** ChartQueryRequest */
+        ChartQueryRequest: {
+            /** Global Filters */
+            global_filters?: components["schemas"]["FilterCondition"][];
+            /** Dataset Parameters */
+            dataset_parameters?: {
+                [key: string]: string | number | boolean | (string | number | boolean)[] | {
+                    [key: string]: string | number | boolean | (string | number | boolean)[] | null;
+                } | null;
+            };
+        };
+        /** ChartRead */
+        ChartRead: {
+            /** Dataset Id */
+            dataset_id: number;
+            /** Title */
+            title: string;
+            /**
+             * Chart Type
+             * @enum {string}
+             */
+            chart_type: "line" | "bar" | "pie" | "number" | "table" | "scatter" | "candlestick" | "treemap" | "funnel" | "pivot_table";
+            /** Dimension */
+            dimension?: string | null;
+            /** Metric */
+            metric?: string | null;
+            /**
+             * Aggregation
+             * @default COUNT
+             * @enum {string}
+             */
+            aggregation: "COUNT" | "SUM" | "AVG" | "MIN" | "MAX";
+            /**
+             * Position
+             * @default 0
+             */
+            position: number;
+            /**
+             * Grid Span
+             * @default 1
+             * @enum {integer}
+             */
+            grid_span: 1 | 2;
+            /**
+             * Height Px
+             * @default 320
+             */
+            height_px: number;
+            /** Filters */
+            filters?: components["schemas"]["FilterCondition"][];
+            /**
+             * Sort By
+             * @default metric
+             * @enum {string}
+             */
+            sort_by: "dimension" | "metric";
+            /**
+             * Sort Desc
+             * @default true
+             */
+            sort_desc: boolean;
+            /**
+             * Top N
+             * @default 100
+             */
+            top_n: number;
+            /** Date Granularity */
+            date_granularity?: ("day" | "month" | "year") | null;
+            /** Config */
+            config?: (components["schemas"]["LineConfig"] | components["schemas"]["BarConfig"] | components["schemas"]["PieConfig"] | components["schemas"]["ScatterConfig"] | components["schemas"]["CandlestickConfig"] | components["schemas"]["TreemapConfig"] | components["schemas"]["FunnelConfig"] | components["schemas"]["PivotConfig"] | components["schemas"]["NumberConfig"] | components["schemas"]["TableConfig"]) | null;
+            /** Id */
+            id: number;
+            /** Dashboard Id */
+            dashboard_id: number;
+        };
         /** CodeBatchMetadata */
         CodeBatchMetadata: {
             /**
@@ -1136,6 +1822,84 @@ export interface components {
              * @default 1
              */
             batch_size: number;
+            /**
+             * All Codes Mode
+             * @default expand
+             * @enum {string}
+             */
+            all_codes_mode: "expand" | "omit";
+        };
+        /** CompoundCondition */
+        CompoundCondition: {
+            /**
+             * Kind
+             * @default condition
+             * @constant
+             */
+            kind: "condition";
+            /** Id */
+            id: string;
+            /** Field */
+            field: string;
+            /**
+             * Operator
+             * @default EQ
+             * @enum {string}
+             */
+            operator: "EQ" | "NE" | "CONTAINS" | "NOT_CONTAINS" | "STARTS_WITH" | "ENDS_WITH" | "IN" | "NOT_IN" | "BETWEEN" | "GT" | "GTE" | "LT" | "LTE" | "IS_NULL" | "NOT_NULL";
+            /**
+             * Data Type
+             * @enum {string}
+             */
+            data_type: "text" | "number" | "date" | "datetime" | "boolean";
+        };
+        /** CompoundGroup */
+        "CompoundGroup-Input": {
+            /**
+             * Kind
+             * @default group
+             * @constant
+             */
+            kind: "group";
+            /**
+             * Combinator
+             * @default AND
+             * @enum {string}
+             */
+            combinator: "AND" | "OR";
+            /** Children */
+            children: (components["schemas"]["CompoundCondition"] | components["schemas"]["CompoundGroup-Input"])[];
+        };
+        /** CompoundGroup */
+        "CompoundGroup-Output": {
+            /**
+             * Kind
+             * @default group
+             * @constant
+             */
+            kind: "group";
+            /**
+             * Combinator
+             * @default AND
+             * @enum {string}
+             */
+            combinator: "AND" | "OR";
+            /** Children */
+            children: (components["schemas"]["CompoundCondition"] | components["schemas"]["CompoundGroup-Output"])[];
+        };
+        /** DashboardCreate */
+        DashboardCreate: {
+            /** Name */
+            name: string;
+            /**
+             * Description
+             * @default
+             */
+            description: string;
+            /** Global Filters */
+            global_filters?: components["schemas"]["GlobalFilterDefinition"][];
+            /** Query Controls */
+            query_controls?: components["schemas"]["QueryControl-Input"][];
         };
         /** DashboardFailure */
         DashboardFailure: {
@@ -1154,6 +1918,32 @@ export interface components {
             queued_at: string;
             /** Error Message */
             error_message: string | null;
+        };
+        /** DashboardRead */
+        DashboardRead: {
+            /** Name */
+            name: string;
+            /**
+             * Description
+             * @default
+             */
+            description: string;
+            /** Global Filters */
+            global_filters?: components["schemas"]["GlobalFilterDefinition"][];
+            /** Query Controls */
+            query_controls?: components["schemas"]["QueryControl-Output"][];
+            /** Id */
+            id: number;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
         };
         /** DashboardSummary */
         DashboardSummary: {
@@ -1266,6 +2056,75 @@ export interface components {
             /** Stable Order */
             stable_order: boolean;
         };
+        /** DatasetCreate */
+        DatasetCreate: {
+            /** Name */
+            name: string;
+            /**
+             * Description
+             * @default
+             */
+            description: string;
+            /**
+             * Source Type
+             * @default TABLE
+             * @enum {string}
+             */
+            source_type: "TABLE" | "SQL";
+            /** Api Name */
+            api_name?: string | null;
+            /** Sql Text */
+            sql_text?: string | null;
+            /** Fields */
+            fields: components["schemas"]["SemanticField"][];
+            /** Parameters */
+            parameters?: components["schemas"]["SqlParameterDefinition"][];
+        };
+        /** DatasetRead */
+        DatasetRead: {
+            /** Name */
+            name: string;
+            /**
+             * Description
+             * @default
+             */
+            description: string;
+            /**
+             * Source Type
+             * @default TABLE
+             * @enum {string}
+             */
+            source_type: "TABLE" | "SQL";
+            /** Api Name */
+            api_name?: string | null;
+            /** Sql Text */
+            sql_text?: string | null;
+            /** Fields */
+            fields: components["schemas"]["SemanticField"][];
+            /** Parameters */
+            parameters?: components["schemas"]["SqlParameterDefinition"][];
+            /** Id */
+            id: number;
+            /** Sql Hash */
+            sql_hash?: string | null;
+            /**
+             * Validation Status
+             * @default VALID
+             */
+            validation_status: string;
+            /** Validated At */
+            validated_at?: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
         /** DateChunkMetadata */
         DateChunkMetadata: {
             /**
@@ -1361,7 +2220,7 @@ export interface components {
          * ErrorCode
          * @enum {string}
          */
-        ErrorCode: "PLATFORM_ERROR" | "HTTP_ERROR" | "REQUEST_VALIDATION_ERROR" | "INTERNAL_SERVER_ERROR" | "TUSHARE_API_ERROR" | "TUSHARE_PERMISSION_ERROR" | "TUSHARE_TIMEOUT" | "TUSHARE_CONNECTION_ERROR" | "CONNECT_TIMEOUT" | "READ_TIMEOUT" | "WRITE_TIMEOUT" | "POOL_TIMEOUT" | "DNS_ERROR" | "CONNECTION_RESET" | "TLS_ERROR" | "HTTP_5XX" | "HTTP_500" | "HTTP_502" | "HTTP_503" | "HTTP_504" | "UNKNOWN_NETWORK_ERROR" | "HTTP_429" | "TUSHARE_CIRCUIT_OPEN" | "TUSHARE_RESPONSE_ERROR" | "TUSHARE_NOT_CONFIGURED" | "DATABASE_WRITE_ERROR" | "DB_STATEMENT_TIMEOUT" | "DATA_WRITE_ERROR" | "TABLE_CREATION_ERROR" | "SYNC_EXECUTION_ERROR" | "METADATA_ERROR" | "METADATA_NOT_FOUND" | "METADATA_UNAVAILABLE" | "TASK_ALREADY_RUNNING" | "SCHEMA_MISMATCH" | "UNIQUE_KEY_SCHEMA_MISMATCH" | "UNIQUE_KEY_MIGRATION_CONFLICT" | "UNIQUE_KEY_DUPLICATES" | "UNIQUE_KEY_PREVIEW_EXPIRED" | "DATA_TABLE_NOT_FOUND" | "PAGINATION_LIMIT_EXCEEDED" | "EXECUTION_NOT_FOUND" | "EXECUTION_CONFLICT" | "EXECUTION_CANCELLED" | "DELETE_PREVIEW_ERROR" | "DELETE_CONFIRMATION_ERROR" | "REPLACE_RANGE_ERROR" | "REPLACE_DATASET_NOT_FOUND" | "EMPTY_REPLACEMENT_BLOCKED" | "CUSTOM_COMPLETENESS_HANDLER_NOT_FOUND" | "SCHEDULE_ERROR" | "SCHEDULE_NOT_FOUND" | "SCHEDULE_CONFLICT" | "SQL_TASK_ERROR";
+        ErrorCode: "PLATFORM_ERROR" | "HTTP_ERROR" | "REQUEST_VALIDATION_ERROR" | "INTERNAL_SERVER_ERROR" | "TUSHARE_API_ERROR" | "TUSHARE_PERMISSION_ERROR" | "TUSHARE_TIMEOUT" | "TUSHARE_CONNECTION_ERROR" | "CONNECT_TIMEOUT" | "READ_TIMEOUT" | "WRITE_TIMEOUT" | "POOL_TIMEOUT" | "DNS_ERROR" | "CONNECTION_RESET" | "TLS_ERROR" | "HTTP_5XX" | "HTTP_500" | "HTTP_502" | "HTTP_503" | "HTTP_504" | "UNKNOWN_NETWORK_ERROR" | "HTTP_429" | "TUSHARE_CIRCUIT_OPEN" | "TUSHARE_RESPONSE_ERROR" | "TUSHARE_NOT_CONFIGURED" | "DATABASE_WRITE_ERROR" | "DB_STATEMENT_TIMEOUT" | "DATA_WRITE_ERROR" | "TABLE_CREATION_ERROR" | "SYNC_EXECUTION_ERROR" | "METADATA_ERROR" | "METADATA_NOT_FOUND" | "METADATA_UNAVAILABLE" | "TASK_ALREADY_RUNNING" | "SCHEMA_MISMATCH" | "UNIQUE_KEY_SCHEMA_MISMATCH" | "UNIQUE_KEY_MIGRATION_CONFLICT" | "UNIQUE_KEY_DUPLICATES" | "UNIQUE_KEY_PREVIEW_EXPIRED" | "DATA_TABLE_NOT_FOUND" | "PAGINATION_LIMIT_EXCEEDED" | "EXECUTION_NOT_FOUND" | "EXECUTION_CONFLICT" | "EXECUTION_CANCELLED" | "DELETE_PREVIEW_ERROR" | "DELETE_CONFIRMATION_ERROR" | "REPLACE_RANGE_ERROR" | "REPLACE_DATASET_NOT_FOUND" | "EMPTY_REPLACEMENT_BLOCKED" | "CUSTOM_COMPLETENESS_HANDLER_NOT_FOUND" | "SCHEDULE_ERROR" | "SCHEDULE_NOT_FOUND" | "SCHEDULE_CONFLICT" | "SQL_TASK_ERROR" | "ANALYTICS_VALIDATION_ERROR" | "ANALYTICS_NOT_FOUND" | "ANALYTICS_CONFLICT" | "ANALYTICS_QUERY_ERROR";
         /** ErrorDetail */
         ErrorDetail: {
             code: components["schemas"]["ErrorCode"];
@@ -1614,6 +2473,12 @@ export interface components {
              * @default 1
              */
             batch_size: number;
+            /**
+             * All Codes Mode
+             * @default expand
+             * @enum {string}
+             */
+            all_codes_mode: "expand" | "omit";
             date?: components["schemas"]["DateChunkMetadata"] | null;
             code?: components["schemas"]["CodeBatchMetadata"] | null;
             /**
@@ -1625,12 +2490,228 @@ export interface components {
             /** Handler */
             handler?: string | null;
         };
+        /** FilterCondition */
+        FilterCondition: {
+            /** Field */
+            field: string;
+            /**
+             * Operator
+             * @enum {string}
+             */
+            operator: "EQ" | "NE" | "CONTAINS" | "NOT_CONTAINS" | "STARTS_WITH" | "ENDS_WITH" | "IN" | "NOT_IN" | "BETWEEN" | "GT" | "GTE" | "LT" | "LTE" | "IS_NULL" | "NOT_NULL";
+            /** Value */
+            value?: string | number | boolean | (string | number | boolean)[] | null;
+        };
+        /** FilterGroup */
+        FilterGroup: {
+            /**
+             * Combinator
+             * @enum {string}
+             */
+            combinator: "AND" | "OR";
+            /** Children */
+            children: (components["schemas"]["FilterCondition"] | components["schemas"]["FilterGroup"])[];
+        };
+        /** FunnelConfig */
+        FunnelConfig: {
+            /**
+             * Version
+             * @default 2
+             * @constant
+             */
+            version: 2;
+            /** Dimensions */
+            dimensions?: string[];
+            /** Metrics */
+            metrics?: components["schemas"]["QueryMetric"][];
+            /** Filters */
+            filters?: components["schemas"]["FilterCondition"][];
+            /** Sort By */
+            sort_by?: string | null;
+            /**
+             * Sort Desc
+             * @default true
+             */
+            sort_desc: boolean;
+            /**
+             * Top N
+             * @default 100
+             */
+            top_n: number;
+            /** Date Granularity */
+            date_granularity?: ("day" | "month" | "year") | null;
+            /**
+             * Show Legend
+             * @default true
+             */
+            show_legend: boolean;
+            /**
+             * Show Labels
+             * @default false
+             */
+            show_labels: boolean;
+            /**
+             * Data Zoom
+             * @default true
+             */
+            data_zoom: boolean;
+            /**
+             * Theme
+             * @default auto
+             * @enum {string}
+             */
+            theme: "auto" | "light" | "dark";
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            chart_type: "funnel";
+        };
+        /** GlobalFilterDefinition */
+        GlobalFilterDefinition: {
+            /** Field */
+            field: string;
+            /** Label */
+            label: string;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "text_select" | "number_range" | "date_range";
+        };
         JsonValue: unknown;
+        /** LineConfig */
+        LineConfig: {
+            /**
+             * Version
+             * @default 2
+             * @constant
+             */
+            version: 2;
+            /** Dimensions */
+            dimensions?: string[];
+            /** Metrics */
+            metrics?: components["schemas"]["QueryMetric"][];
+            /** Filters */
+            filters?: components["schemas"]["FilterCondition"][];
+            /** Sort By */
+            sort_by?: string | null;
+            /**
+             * Sort Desc
+             * @default true
+             */
+            sort_desc: boolean;
+            /**
+             * Top N
+             * @default 100
+             */
+            top_n: number;
+            /** Date Granularity */
+            date_granularity?: ("day" | "month" | "year") | null;
+            /**
+             * Show Legend
+             * @default true
+             */
+            show_legend: boolean;
+            /**
+             * Show Labels
+             * @default false
+             */
+            show_labels: boolean;
+            /**
+             * Data Zoom
+             * @default true
+             */
+            data_zoom: boolean;
+            /**
+             * Theme
+             * @default auto
+             * @enum {string}
+             */
+            theme: "auto" | "light" | "dark";
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            chart_type: "line";
+            /**
+             * Smooth
+             * @default false
+             */
+            smooth: boolean;
+            /**
+             * Connect Nulls
+             * @default false
+             */
+            connect_nulls: boolean;
+        };
+        /** ManualOption */
+        ManualOption: {
+            /** Label */
+            label: string;
+            /** Value */
+            value: string | number | boolean;
+        };
         /**
          * MisfirePolicy
          * @enum {string}
          */
         MisfirePolicy: "SKIP" | "RUN_ONCE";
+        /** NumberConfig */
+        NumberConfig: {
+            /**
+             * Version
+             * @default 2
+             * @constant
+             */
+            version: 2;
+            /** Dimensions */
+            dimensions?: string[];
+            /** Metrics */
+            metrics?: components["schemas"]["QueryMetric"][];
+            /** Filters */
+            filters?: components["schemas"]["FilterCondition"][];
+            /** Sort By */
+            sort_by?: string | null;
+            /**
+             * Sort Desc
+             * @default true
+             */
+            sort_desc: boolean;
+            /**
+             * Top N
+             * @default 100
+             */
+            top_n: number;
+            /** Date Granularity */
+            date_granularity?: ("day" | "month" | "year") | null;
+            /**
+             * Show Legend
+             * @default true
+             */
+            show_legend: boolean;
+            /**
+             * Show Labels
+             * @default false
+             */
+            show_labels: boolean;
+            /**
+             * Data Zoom
+             * @default true
+             */
+            data_zoom: boolean;
+            /**
+             * Theme
+             * @default auto
+             * @enum {string}
+             */
+            theme: "auto" | "light" | "dark";
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            chart_type: "number";
+        };
         /** OrderByMetadata */
         OrderByMetadata: {
             /** Field */
@@ -1672,6 +2753,197 @@ export interface components {
              */
             max_limit: number;
         };
+        /** PasswordRequest */
+        PasswordRequest: {
+            /** Password */
+            password: string;
+        };
+        /** PieConfig */
+        PieConfig: {
+            /**
+             * Version
+             * @default 2
+             * @constant
+             */
+            version: 2;
+            /** Dimensions */
+            dimensions?: string[];
+            /** Metrics */
+            metrics?: components["schemas"]["QueryMetric"][];
+            /** Filters */
+            filters?: components["schemas"]["FilterCondition"][];
+            /** Sort By */
+            sort_by?: string | null;
+            /**
+             * Sort Desc
+             * @default true
+             */
+            sort_desc: boolean;
+            /**
+             * Top N
+             * @default 100
+             */
+            top_n: number;
+            /** Date Granularity */
+            date_granularity?: ("day" | "month" | "year") | null;
+            /**
+             * Show Legend
+             * @default true
+             */
+            show_legend: boolean;
+            /**
+             * Show Labels
+             * @default false
+             */
+            show_labels: boolean;
+            /**
+             * Data Zoom
+             * @default true
+             */
+            data_zoom: boolean;
+            /**
+             * Theme
+             * @default auto
+             * @enum {string}
+             */
+            theme: "auto" | "light" | "dark";
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            chart_type: "pie";
+            /**
+             * Donut
+             * @default false
+             */
+            donut: boolean;
+            /**
+             * Merge Others
+             * @default true
+             */
+            merge_others: boolean;
+        };
+        /** PivotCell */
+        PivotCell: {
+            /** Row Key */
+            row_key: (string | number | boolean | null)[];
+            /** Column Key */
+            column_key: (string | number | boolean | null)[];
+            /** Values */
+            values: (number | null)[];
+        };
+        /** PivotConfig */
+        PivotConfig: {
+            /**
+             * Version
+             * @default 2
+             * @constant
+             */
+            version: 2;
+            /** Dimensions */
+            dimensions?: string[];
+            /** Metrics */
+            metrics?: components["schemas"]["QueryMetric"][];
+            /** Filters */
+            filters?: components["schemas"]["FilterCondition"][];
+            /** Sort By */
+            sort_by?: string | null;
+            /**
+             * Sort Desc
+             * @default true
+             */
+            sort_desc: boolean;
+            /**
+             * Top N
+             * @default 100
+             */
+            top_n: number;
+            /** Date Granularity */
+            date_granularity?: ("day" | "month" | "year") | null;
+            /**
+             * Show Legend
+             * @default true
+             */
+            show_legend: boolean;
+            /**
+             * Show Labels
+             * @default false
+             */
+            show_labels: boolean;
+            /**
+             * Data Zoom
+             * @default true
+             */
+            data_zoom: boolean;
+            /**
+             * Theme
+             * @default auto
+             * @enum {string}
+             */
+            theme: "auto" | "light" | "dark";
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            chart_type: "pivot_table";
+            /** Row Dimensions */
+            row_dimensions: string[];
+            /** Column Dimensions */
+            column_dimensions: string[];
+            /**
+             * Row Subtotals
+             * @default true
+             */
+            row_subtotals: boolean;
+            /**
+             * Column Subtotals
+             * @default true
+             */
+            column_subtotals: boolean;
+            /**
+             * Grand Total
+             * @default true
+             */
+            grand_total: boolean;
+            /**
+             * Null Display
+             * @default —
+             */
+            null_display: string;
+        };
+        /** PivotResult */
+        PivotResult: {
+            /** Row Dimensions */
+            row_dimensions: string[];
+            /** Column Dimensions */
+            column_dimensions: string[];
+            /** Measures */
+            measures: components["schemas"]["QueryMetric"][];
+            /** Row Headers */
+            row_headers: (string | number | boolean | null)[][];
+            /** Column Headers */
+            column_headers: (string | number | boolean | null)[][];
+            /** Cells */
+            cells: components["schemas"]["PivotCell"][];
+            /** Row Totals */
+            row_totals: components["schemas"]["PivotTotal"][];
+            /** Column Totals */
+            column_totals: components["schemas"]["PivotTotal"][];
+            /** Grand Total */
+            grand_total: (number | null)[];
+            /**
+             * Truncated
+             * @default false
+             */
+            truncated: boolean;
+        };
+        /** PivotTotal */
+        PivotTotal: {
+            /** Key */
+            key: (string | number | boolean | null)[];
+            /** Values */
+            values: (number | null)[];
+        };
         /** PreviewRequest */
         PreviewRequest: {
             /** Params */
@@ -1702,6 +2974,545 @@ export interface components {
             empty_result_reason?: string | null;
             /** Warnings */
             warnings?: components["schemas"]["WarningDetail"][];
+        };
+        /** PublicChart */
+        PublicChart: {
+            /** Public Id */
+            public_id: string;
+            /** Title */
+            title: string;
+            /**
+             * Chart Type
+             * @enum {string}
+             */
+            chart_type: "line" | "bar" | "pie" | "number" | "table" | "scatter" | "candlestick" | "treemap" | "funnel" | "pivot_table";
+            /** Position */
+            position: number;
+            /**
+             * Grid Span
+             * @default 1
+             * @enum {integer}
+             */
+            grid_span: 1 | 2;
+            /**
+             * Height Px
+             * @default 320
+             */
+            height_px: number;
+            /** Dimension */
+            dimension?: string | null;
+            /** Metric */
+            metric?: string | null;
+            /** Config */
+            config?: (components["schemas"]["LineConfig"] | components["schemas"]["BarConfig"] | components["schemas"]["PieConfig"] | components["schemas"]["ScatterConfig"] | components["schemas"]["CandlestickConfig"] | components["schemas"]["TreemapConfig"] | components["schemas"]["FunnelConfig"] | components["schemas"]["PivotConfig"] | components["schemas"]["NumberConfig"] | components["schemas"]["TableConfig"]) | null;
+        };
+        /** PublicDashboard */
+        PublicDashboard: {
+            /** Name */
+            name: string;
+            /** Description */
+            description: string;
+            /** Version */
+            version: number;
+            /** Updated At */
+            updated_at?: string | null;
+            /** Controls */
+            controls: components["schemas"]["PublicQueryControl"][];
+            /** Charts */
+            charts: components["schemas"]["PublicChart"][];
+            /**
+             * Theme
+             * @enum {string}
+             */
+            theme: "light" | "dark" | "system";
+            /** Refresh Seconds */
+            refresh_seconds: number;
+            /** Show Title */
+            show_title: boolean;
+            /** Show Updated At */
+            show_updated_at: boolean;
+            /** Allow Url Parameters */
+            allow_url_parameters: boolean;
+            /** Allow Viewer Edit Url */
+            allow_viewer_edit_url: boolean;
+            /** Password Required */
+            password_required: boolean;
+        };
+        /** PublicOptionsRequest */
+        PublicOptionsRequest: {
+            /** Values */
+            values?: {
+                [key: string]: string | number | boolean | (string | number | boolean)[] | {
+                    [key: string]: string | number | boolean | (string | number | boolean)[] | null;
+                } | null;
+            };
+            /**
+             * Search
+             * @default
+             */
+            search: string;
+        };
+        /** PublicOptionsResponse */
+        PublicOptionsResponse: {
+            /** Options */
+            options: components["schemas"]["ManualOption"][];
+            /**
+             * Truncated
+             * @default false
+             */
+            truncated: boolean;
+        };
+        /** PublicQueryControl */
+        PublicQueryControl: {
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+            /** Parameter Name */
+            parameter_name: string;
+            /** Control Type */
+            control_type: string;
+            /**
+             * Data Type
+             * @enum {string}
+             */
+            data_type: "text" | "number" | "boolean" | "date" | "datetime";
+            /**
+             * Operator
+             * @enum {string}
+             */
+            operator: "EQ" | "NE" | "CONTAINS" | "NOT_CONTAINS" | "STARTS_WITH" | "ENDS_WITH" | "IN" | "NOT_IN" | "BETWEEN" | "GT" | "GTE" | "LT" | "LTE" | "IS_NULL" | "NOT_NULL";
+            /** Default Value */
+            default_value?: string | number | boolean | (string | number | boolean)[] | {
+                [key: string]: string | number | boolean | (string | number | boolean)[] | null;
+            } | null;
+            /** Required */
+            required: boolean;
+            /** Allow Clear */
+            allow_clear: boolean;
+            /**
+             * Trigger
+             * @enum {string}
+             */
+            trigger: "immediate" | "submit";
+            /**
+             * Option Source
+             * @enum {string}
+             */
+            option_source: "manual" | "distinct" | "dataset";
+            /** Manual Options */
+            manual_options: components["schemas"]["ManualOption"][];
+            /** Depends On */
+            depends_on: string[];
+            /** Allow Url */
+            allow_url: boolean;
+            /** Allow Viewer Edit */
+            allow_viewer_edit: boolean;
+            /** Locked */
+            locked: boolean;
+            /**
+             * Width
+             * @enum {string}
+             */
+            width: "small" | "medium" | "wide";
+            /** Position */
+            position: number;
+            /** Affected Charts */
+            affected_charts?: string[];
+            compound_group?: components["schemas"]["CompoundGroup-Output"] | null;
+        };
+        /** PublicQueryRequest */
+        PublicQueryRequest: {
+            /** Values */
+            values?: {
+                [key: string]: string | number | boolean | (string | number | boolean)[] | {
+                    [key: string]: string | number | boolean | (string | number | boolean)[] | null;
+                } | null;
+            };
+            /** Request Id */
+            request_id?: string | null;
+        };
+        /** PublicationRead */
+        PublicationRead: {
+            /** Dashboard Id */
+            dashboard_id: number;
+            /** Public Key */
+            public_key: string;
+            /** Version */
+            version: number;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "DRAFT" | "PUBLISHED" | "EXPIRED" | "REVOKED";
+            settings: components["schemas"]["PublicationSettings-Output"];
+            /** Published At */
+            published_at?: string | null;
+            /** Public Url */
+            public_url?: string | null;
+            /**
+             * Password Required
+             * @default false
+             */
+            password_required: boolean;
+        };
+        /** PublicationSettings */
+        "PublicationSettings-Input": {
+            /** Name */
+            name: string;
+            /** Expires At */
+            expires_at?: string | null;
+            /**
+             * Allow Url Parameters
+             * @default true
+             */
+            allow_url_parameters: boolean;
+            /**
+             * Allow Viewer Edit Url
+             * @default true
+             */
+            allow_viewer_edit_url: boolean;
+            /** Password */
+            password?: string | null;
+            /**
+             * Remove Password
+             * @default false
+             */
+            remove_password: boolean;
+            /**
+             * Refresh Seconds
+             * @default 0
+             * @enum {integer}
+             */
+            refresh_seconds: 0 | 60 | 300 | 900;
+            /**
+             * Theme
+             * @default system
+             * @enum {string}
+             */
+            theme: "light" | "dark" | "system";
+            /**
+             * Show Title
+             * @default true
+             */
+            show_title: boolean;
+            /**
+             * Show Updated At
+             * @default true
+             */
+            show_updated_at: boolean;
+        };
+        /** PublicationSettings */
+        "PublicationSettings-Output": {
+            /** Name */
+            name: string;
+            /** Expires At */
+            expires_at?: string | null;
+            /**
+             * Allow Url Parameters
+             * @default true
+             */
+            allow_url_parameters: boolean;
+            /**
+             * Allow Viewer Edit Url
+             * @default true
+             */
+            allow_viewer_edit_url: boolean;
+            /**
+             * Refresh Seconds
+             * @default 0
+             * @enum {integer}
+             */
+            refresh_seconds: 0 | 60 | 300 | 900;
+            /**
+             * Theme
+             * @default system
+             * @enum {string}
+             */
+            theme: "light" | "dark" | "system";
+            /**
+             * Show Title
+             * @default true
+             */
+            show_title: boolean;
+            /**
+             * Show Updated At
+             * @default true
+             */
+            show_updated_at: boolean;
+        };
+        /** QueryControl */
+        "QueryControl-Input": {
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+            /** Parameter Name */
+            parameter_name: string;
+            /**
+             * Control Type
+             * @enum {string}
+             */
+            control_type: "text" | "select" | "multi_select" | "number" | "number_range" | "date" | "date_range" | "month" | "year" | "relative_date" | "compound";
+            /**
+             * Data Type
+             * @enum {string}
+             */
+            data_type: "text" | "number" | "boolean" | "date" | "datetime";
+            /**
+             * Operator
+             * @default EQ
+             * @enum {string}
+             */
+            operator: "EQ" | "NE" | "CONTAINS" | "NOT_CONTAINS" | "STARTS_WITH" | "ENDS_WITH" | "IN" | "NOT_IN" | "BETWEEN" | "GT" | "GTE" | "LT" | "LTE" | "IS_NULL" | "NOT_NULL";
+            /** Default Value */
+            default_value?: string | number | boolean | (string | number | boolean)[] | {
+                [key: string]: string | number | boolean | (string | number | boolean)[] | null;
+            } | null;
+            /**
+             * Required
+             * @default false
+             */
+            required: boolean;
+            /**
+             * Allow Clear
+             * @default true
+             */
+            allow_clear: boolean;
+            /**
+             * Trigger
+             * @default immediate
+             * @enum {string}
+             */
+            trigger: "immediate" | "submit";
+            /**
+             * Option Source
+             * @default manual
+             * @enum {string}
+             */
+            option_source: "manual" | "distinct" | "dataset";
+            /** Manual Options */
+            manual_options?: components["schemas"]["ManualOption"][];
+            /** Option Dataset Id */
+            option_dataset_id?: number | null;
+            /** Option Value Field */
+            option_value_field?: string | null;
+            /** Option Label Field */
+            option_label_field?: string | null;
+            /** Option Sort Field */
+            option_sort_field?: string | null;
+            /**
+             * Option Sort Desc
+             * @default false
+             */
+            option_sort_desc: boolean;
+            /** Targets */
+            targets?: components["schemas"]["QueryControlTarget"][];
+            /** Depends On */
+            depends_on?: string[];
+            /**
+             * Allow Url
+             * @default false
+             */
+            allow_url: boolean;
+            /**
+             * Allow Viewer Edit
+             * @default true
+             */
+            allow_viewer_edit: boolean;
+            /**
+             * Locked
+             * @default false
+             */
+            locked: boolean;
+            /**
+             * Width
+             * @default medium
+             * @enum {string}
+             */
+            width: "small" | "medium" | "wide";
+            /**
+             * Position
+             * @default 0
+             */
+            position: number;
+            /** Relative Period */
+            relative_period?: ("last_7_days" | "last_30_days" | "this_month" | "last_month" | "this_year") | null;
+            compound_group?: components["schemas"]["CompoundGroup-Input"] | null;
+        };
+        /** QueryControl */
+        "QueryControl-Output": {
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+            /** Parameter Name */
+            parameter_name: string;
+            /**
+             * Control Type
+             * @enum {string}
+             */
+            control_type: "text" | "select" | "multi_select" | "number" | "number_range" | "date" | "date_range" | "month" | "year" | "relative_date" | "compound";
+            /**
+             * Data Type
+             * @enum {string}
+             */
+            data_type: "text" | "number" | "boolean" | "date" | "datetime";
+            /**
+             * Operator
+             * @default EQ
+             * @enum {string}
+             */
+            operator: "EQ" | "NE" | "CONTAINS" | "NOT_CONTAINS" | "STARTS_WITH" | "ENDS_WITH" | "IN" | "NOT_IN" | "BETWEEN" | "GT" | "GTE" | "LT" | "LTE" | "IS_NULL" | "NOT_NULL";
+            /** Default Value */
+            default_value?: string | number | boolean | (string | number | boolean)[] | {
+                [key: string]: string | number | boolean | (string | number | boolean)[] | null;
+            } | null;
+            /**
+             * Required
+             * @default false
+             */
+            required: boolean;
+            /**
+             * Allow Clear
+             * @default true
+             */
+            allow_clear: boolean;
+            /**
+             * Trigger
+             * @default immediate
+             * @enum {string}
+             */
+            trigger: "immediate" | "submit";
+            /**
+             * Option Source
+             * @default manual
+             * @enum {string}
+             */
+            option_source: "manual" | "distinct" | "dataset";
+            /** Manual Options */
+            manual_options?: components["schemas"]["ManualOption"][];
+            /** Option Dataset Id */
+            option_dataset_id?: number | null;
+            /** Option Value Field */
+            option_value_field?: string | null;
+            /** Option Label Field */
+            option_label_field?: string | null;
+            /** Option Sort Field */
+            option_sort_field?: string | null;
+            /**
+             * Option Sort Desc
+             * @default false
+             */
+            option_sort_desc: boolean;
+            /** Targets */
+            targets?: components["schemas"]["QueryControlTarget"][];
+            /** Depends On */
+            depends_on?: string[];
+            /**
+             * Allow Url
+             * @default false
+             */
+            allow_url: boolean;
+            /**
+             * Allow Viewer Edit
+             * @default true
+             */
+            allow_viewer_edit: boolean;
+            /**
+             * Locked
+             * @default false
+             */
+            locked: boolean;
+            /**
+             * Width
+             * @default medium
+             * @enum {string}
+             */
+            width: "small" | "medium" | "wide";
+            /**
+             * Position
+             * @default 0
+             */
+            position: number;
+            /** Relative Period */
+            relative_period?: ("last_7_days" | "last_30_days" | "this_month" | "last_month" | "this_year") | null;
+            compound_group?: components["schemas"]["CompoundGroup-Output"] | null;
+        };
+        /** QueryControlTarget */
+        QueryControlTarget: {
+            /** Chart Id */
+            chart_id: number;
+            /** Dataset Id */
+            dataset_id: number;
+            /**
+             * Target Type
+             * @enum {string}
+             */
+            target_type: "FIELD_FILTER" | "DATASET_PARAMETER";
+            /** Target Name */
+            target_name: string;
+            /**
+             * Operator
+             * @default EQ
+             * @enum {string}
+             */
+            operator: "EQ" | "NE" | "CONTAINS" | "NOT_CONTAINS" | "STARTS_WITH" | "ENDS_WITH" | "IN" | "NOT_IN" | "BETWEEN" | "GT" | "GTE" | "LT" | "LTE" | "IS_NULL" | "NOT_NULL";
+            /**
+             * Data Type
+             * @enum {string}
+             */
+            data_type: "text" | "number" | "boolean" | "date" | "datetime";
+            /** Date Granularity */
+            date_granularity?: ("day" | "month" | "year") | null;
+        };
+        /** QueryMetric */
+        QueryMetric: {
+            /** Field */
+            field?: string | null;
+            /**
+             * Aggregation
+             * @default COUNT
+             * @enum {string}
+             */
+            aggregation: "COUNT" | "SUM" | "AVG" | "MIN" | "MAX";
+        };
+        /** QueryRequest */
+        QueryRequest: {
+            /** Dimensions */
+            dimensions?: string[];
+            /** Metrics */
+            metrics?: components["schemas"]["QueryMetric"][];
+            /** Filters */
+            filters?: components["schemas"]["FilterCondition"][];
+            /** Filter Groups */
+            filter_groups?: components["schemas"]["FilterGroup"][];
+            /** Sort By */
+            sort_by?: string | null;
+            /**
+             * Sort Desc
+             * @default true
+             */
+            sort_desc: boolean;
+            /**
+             * Limit
+             * @default 100
+             */
+            limit: number;
+            /** Date Granularity */
+            date_granularity?: ("day" | "month" | "year") | null;
+            /**
+             * Mode
+             * @default aggregate
+             * @enum {string}
+             */
+            mode: "aggregate" | "table";
+            /** Dataset Parameters */
+            dataset_parameters?: {
+                [key: string]: string | number | boolean | (string | number | boolean)[] | {
+                    [key: string]: string | number | boolean | (string | number | boolean)[] | null;
+                } | null;
+            };
         };
         /** RateLimitMetadata */
         RateLimitMetadata: {
@@ -1850,6 +3661,69 @@ export interface components {
             require_all_chunks: boolean;
             /** Handler */
             handler?: string | null;
+        };
+        /** ScatterConfig */
+        ScatterConfig: {
+            /**
+             * Version
+             * @default 2
+             * @constant
+             */
+            version: 2;
+            /** Dimensions */
+            dimensions?: string[];
+            /** Metrics */
+            metrics?: components["schemas"]["QueryMetric"][];
+            /** Filters */
+            filters?: components["schemas"]["FilterCondition"][];
+            /** Sort By */
+            sort_by?: string | null;
+            /**
+             * Sort Desc
+             * @default true
+             */
+            sort_desc: boolean;
+            /**
+             * Top N
+             * @default 100
+             */
+            top_n: number;
+            /** Date Granularity */
+            date_granularity?: ("day" | "month" | "year") | null;
+            /**
+             * Show Legend
+             * @default true
+             */
+            show_legend: boolean;
+            /**
+             * Show Labels
+             * @default false
+             */
+            show_labels: boolean;
+            /**
+             * Data Zoom
+             * @default true
+             */
+            data_zoom: boolean;
+            /**
+             * Theme
+             * @default auto
+             * @enum {string}
+             */
+            theme: "auto" | "light" | "dark";
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            chart_type: "scatter";
+            /** X Field */
+            x_field: string;
+            /** Y Field */
+            y_field: string;
+            /** Category Field */
+            category_field?: string | null;
+            /** Size Field */
+            size_field?: string | null;
         };
         /** ScheduleCreate */
         ScheduleCreate: {
@@ -2171,6 +4045,153 @@ export interface components {
             /** Warnings */
             warnings?: components["schemas"]["WarningDetail"][];
         };
+        /** SemanticField */
+        SemanticField: {
+            /** Source Name */
+            source_name: string;
+            /** Display Name */
+            display_name: string;
+            /**
+             * Role
+             * @enum {string}
+             */
+            role: "dimension" | "metric";
+            /**
+             * Data Type
+             * @enum {string}
+             */
+            data_type: "text" | "number" | "date" | "datetime" | "boolean";
+            /**
+             * Default Aggregation
+             * @default COUNT
+             * @enum {string}
+             */
+            default_aggregation: "COUNT" | "SUM" | "AVG" | "MIN" | "MAX";
+            /**
+             * Visible
+             * @default true
+             */
+            visible: boolean;
+        };
+        /** SourceFieldRead */
+        SourceFieldRead: {
+            /** Source Name */
+            source_name: string;
+            /** Display Name */
+            display_name: string;
+            /**
+             * Role
+             * @enum {string}
+             */
+            role: "dimension" | "metric";
+            /**
+             * Data Type
+             * @enum {string}
+             */
+            data_type: "text" | "number" | "date" | "datetime" | "boolean";
+            /**
+             * Default Aggregation
+             * @default COUNT
+             * @enum {string}
+             */
+            default_aggregation: "COUNT" | "SUM" | "AVG" | "MIN" | "MAX";
+            /**
+             * Visible
+             * @default true
+             */
+            visible: boolean;
+        };
+        /** SqlCatalogColumn */
+        SqlCatalogColumn: {
+            /** Name */
+            name: string;
+            /** Pg Type */
+            pg_type: string;
+        };
+        /** SqlCatalogTable */
+        SqlCatalogTable: {
+            /** Schema Name */
+            schema_name: string;
+            /** Table Name */
+            table_name: string;
+            /** Columns */
+            columns: components["schemas"]["SqlCatalogColumn"][];
+        };
+        /** SqlInspectRequest */
+        SqlInspectRequest: {
+            /** Sql Text */
+            sql_text: string;
+            /** Parameters */
+            parameters?: components["schemas"]["SqlParameterDefinition"][];
+            /** Test Values */
+            test_values?: {
+                [key: string]: string | number | boolean | (string | number | boolean)[] | {
+                    [key: string]: string | number | boolean | (string | number | boolean)[] | null;
+                } | null;
+            };
+        };
+        /** SqlInspectResponse */
+        SqlInspectResponse: {
+            /**
+             * Valid
+             * @default true
+             */
+            valid: boolean;
+            /** Formatted Sql */
+            formatted_sql: string;
+            /** Sql Hash */
+            sql_hash: string;
+            /** Fields */
+            fields: components["schemas"]["SemanticField"][];
+            /** Rows */
+            rows?: {
+                [key: string]: string | number | boolean | null;
+            }[];
+        };
+        /** SqlParameterDefinition */
+        SqlParameterDefinition: {
+            /** Name */
+            name: string;
+            /** Label */
+            label: string;
+            /**
+             * Data Type
+             * @enum {string}
+             */
+            data_type: "text" | "number" | "boolean" | "date" | "datetime";
+            /**
+             * Shape
+             * @default scalar
+             * @enum {string}
+             */
+            shape: "scalar" | "list" | "range";
+            /**
+             * Required
+             * @default false
+             */
+            required: boolean;
+            /** Default Value */
+            default_value?: string | number | boolean | (string | number | boolean)[] | {
+                [key: string]: string | number | boolean | (string | number | boolean)[] | null;
+            } | null;
+            /**
+             * Allow Null
+             * @default true
+             */
+            allow_null: boolean;
+            /**
+             * Allow Url
+             * @default false
+             */
+            allow_url: boolean;
+            /** Allowed Values */
+            allowed_values?: (string | number | boolean)[] | null;
+            /**
+             * Description
+             * @default
+             */
+            description: string;
+        };
         /** SqlTargetColumn */
         SqlTargetColumn: {
             /** Name */
@@ -2225,6 +4246,116 @@ export interface components {
             execution_id: string;
             /** @default PENDING */
             status: components["schemas"]["ExecutionStatus"];
+        };
+        /** TableConfig */
+        TableConfig: {
+            /**
+             * Version
+             * @default 2
+             * @constant
+             */
+            version: 2;
+            /** Dimensions */
+            dimensions?: string[];
+            /** Metrics */
+            metrics?: components["schemas"]["QueryMetric"][];
+            /** Filters */
+            filters?: components["schemas"]["FilterCondition"][];
+            /** Sort By */
+            sort_by?: string | null;
+            /**
+             * Sort Desc
+             * @default true
+             */
+            sort_desc: boolean;
+            /**
+             * Top N
+             * @default 100
+             */
+            top_n: number;
+            /** Date Granularity */
+            date_granularity?: ("day" | "month" | "year") | null;
+            /**
+             * Show Legend
+             * @default true
+             */
+            show_legend: boolean;
+            /**
+             * Show Labels
+             * @default false
+             */
+            show_labels: boolean;
+            /**
+             * Data Zoom
+             * @default true
+             */
+            data_zoom: boolean;
+            /**
+             * Theme
+             * @default auto
+             * @enum {string}
+             */
+            theme: "auto" | "light" | "dark";
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            chart_type: "table";
+        };
+        /** TreemapConfig */
+        TreemapConfig: {
+            /**
+             * Version
+             * @default 2
+             * @constant
+             */
+            version: 2;
+            /** Dimensions */
+            dimensions?: string[];
+            /** Metrics */
+            metrics?: components["schemas"]["QueryMetric"][];
+            /** Filters */
+            filters?: components["schemas"]["FilterCondition"][];
+            /** Sort By */
+            sort_by?: string | null;
+            /**
+             * Sort Desc
+             * @default true
+             */
+            sort_desc: boolean;
+            /**
+             * Top N
+             * @default 100
+             */
+            top_n: number;
+            /** Date Granularity */
+            date_granularity?: ("day" | "month" | "year") | null;
+            /**
+             * Show Legend
+             * @default true
+             */
+            show_legend: boolean;
+            /**
+             * Show Labels
+             * @default false
+             */
+            show_labels: boolean;
+            /**
+             * Data Zoom
+             * @default true
+             */
+            data_zoom: boolean;
+            /**
+             * Theme
+             * @default auto
+             * @enum {string}
+             */
+            theme: "auto" | "light" | "dark";
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            chart_type: "treemap";
         };
         /** TushareTokenStatus */
         TushareTokenStatus: {
@@ -2460,6 +4591,3520 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    validate_sql_dataset_api_analytics_sql_validate_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SqlInspectRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SqlInspectResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    preview_sql_dataset_api_analytics_sql_preview_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SqlInspectRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SqlInspectResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    source_fields_api_analytics_sources__api_name__fields_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                api_name: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SourceFieldRead"][];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    sql_catalog_api_analytics_sql_catalog_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SqlCatalogTable"][];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    list_datasets_api_analytics_datasets_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DatasetRead"][];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    create_dataset_api_analytics_datasets_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DatasetCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DatasetRead"];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    get_dataset_api_analytics_datasets__dataset_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dataset_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DatasetRead"];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    update_dataset_api_analytics_datasets__dataset_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dataset_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DatasetCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DatasetRead"];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    delete_dataset_api_analytics_datasets__dataset_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dataset_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    query_dataset_api_analytics_datasets__dataset_id__query_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dataset_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QueryRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChartData"];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    preview_pivot_api_analytics_datasets__dataset_id__pivot_preview_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dataset_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PivotConfig"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChartData"];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    list_dashboards_api_analytics_dashboards_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DashboardRead"][];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    create_dashboard_api_analytics_dashboards_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DashboardCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DashboardRead"];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    get_dashboard_api_analytics_dashboards__dashboard_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dashboard_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DashboardRead"];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    update_dashboard_api_analytics_dashboards__dashboard_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dashboard_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DashboardCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DashboardRead"];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    delete_dashboard_api_analytics_dashboards__dashboard_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dashboard_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    publication_state_api_analytics_dashboards__dashboard_id__publication_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dashboard_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicationRead"];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    publish_dashboard_api_analytics_dashboards__dashboard_id__publish_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dashboard_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PublicationSettings-Input"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicationRead"];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    republish_dashboard_api_analytics_dashboards__dashboard_id__republish_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dashboard_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicationRead"];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    unpublish_dashboard_api_analytics_dashboards__dashboard_id__unpublish_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dashboard_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicationRead"];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    rotate_dashboard_link_api_analytics_dashboards__dashboard_id__rotate_link_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dashboard_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicationRead"];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    list_charts_api_analytics_dashboards__dashboard_id__charts_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dashboard_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChartRead"][];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    create_chart_api_analytics_dashboards__dashboard_id__charts_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dashboard_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ChartCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChartRead"];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    update_chart_api_analytics_dashboards__dashboard_id__charts__chart_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dashboard_id: number;
+                chart_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ChartCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChartRead"];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    delete_chart_api_analytics_dashboards__dashboard_id__charts__chart_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dashboard_id: number;
+                chart_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    chart_data_api_analytics_charts__chart_id__data_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                chart_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChartData"];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    query_chart_api_analytics_charts__chart_id__query_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                chart_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ChartQueryRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChartData"];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    unlock_dashboard_api_public_dashboards__public_key__access_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                public_key: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PasswordRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    get_public_dashboard_api_public_dashboards__public_key__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                public_key: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicDashboard"];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    query_public_chart_api_public_dashboards__public_key__charts__chart_public_id__query_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                public_key: string;
+                chart_public_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PublicQueryRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChartData"];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    public_filter_options_api_public_dashboards__public_key__filters__filter_id__options_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                public_key: string;
+                filter_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PublicOptionsRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicOptionsResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+            /** @description 统一错误响应 */
+            504: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
     health_check_api_health_get: {
         parameters: {
             query?: never;

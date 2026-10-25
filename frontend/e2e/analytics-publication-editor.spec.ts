@@ -1,0 +1,65 @@
+import { expect, test } from '@playwright/test'
+
+test('admin configures a query control and opens the publish dialog', async ({ page }) => {
+  const field = { source_name: 'ts_code', display_name: '证券代码', role: 'dimension', data_type: 'text', default_aggregation: 'COUNT', visible: true }
+  const dataset = { id: 4, name: '股票', description: '', source_type: 'TABLE', api_name: 'stock_basic', sql_text: null, fields: [field], parameters: [] }
+  const board = { id: 7, name: '股票总览', description: '', global_filters: [], query_controls: [], created_at: '2026-10-25T00:00:00Z', updated_at: '2026-10-25T00:00:00Z' }
+  const chart = { id: 9, dashboard_id: 7, dataset_id: 4, title: '股票数量', chart_type: 'number', dimension: null, metric: null, aggregation: 'COUNT', position: 0, filters: [], sort_by: 'metric', sort_desc: true, top_n: 100, date_granularity: null, config_version: 1, config: null }
+  let saved: unknown = null
+  await page.route('**/api/analytics/**', async (route) => {
+    const path = new URL(route.request().url()).pathname.replace('/api/analytics/', '')
+    if (path === 'datasets') return route.fulfill({ json: [dataset] })
+    if (path === 'dashboards') return route.fulfill({ json: [board] })
+    if (path === 'dashboards/7') {
+      if (route.request().method() === 'PUT') { saved = route.request().postDataJSON(); return route.fulfill({ json: { ...board, ...saved as object } }) }
+      return route.fulfill({ json: board })
+    }
+    if (path === 'dashboards/7/charts') return route.fulfill({ json: [chart] })
+    if (path === 'dashboards/7/publication') return route.fulfill({ json: { dashboard_id: 7, public_key: '', version: 0, status: 'DRAFT', settings: { name: board.name, refresh_seconds: 0, theme: 'system', show_title: true, show_updated_at: true }, password_required: false } })
+    if (path === 'charts/9/data') return route.fulfill({ json: { columns: ['metric_0'], rows: [{ metric_0: 10 }], points: [{ label: '总计', value: 10 }], truncated: false } })
+    return route.fulfill({ status: 404, json: { detail: 'missing mock' } })
+  })
+  await page.goto('/analytics/dashboards/7/controls')
+  await expect(page.getByRole('main', { name: '查询控件工作台' })).toBeVisible()
+  await page.locator('.query-control-studio__list button.ant-btn').click()
+  await page.getByRole('textbox', { name: '控件名称' }).fill('证券代码')
+  await page.getByRole('textbox', { name: '对外参数名' }).fill('ts_code')
+  await page.getByRole('button', { name: '添加目标' }).click()
+  await page.getByRole('combobox', { name: '目标字段或参数' }).click()
+  await page.getByText('证券代码', { exact: true }).last().click()
+  await page.getByRole('button', { name: '保存查询控件' }).click()
+  await expect.poll(() => (saved as { query_controls?: unknown[] } | null)?.query_controls?.length).toBe(1)
+  await page.getByRole('combobox', { name: '控件类型' }).click()
+  await page.getByText('下拉单选', { exact: true }).last().click()
+  await page.getByRole('button', { name: '添加目标' }).click()
+  await page.getByRole('combobox', { name: '目标字段或参数' }).click()
+  await page.getByText('证券代码', { exact: true }).last().click()
+  await page.getByRole('button', { name: '添加选项' }).click()
+  await page.getByRole('textbox', { name: '选项 1 显示名称' }).fill('主板')
+  await page.getByRole('textbox', { name: '选项 1 查询值' }).fill('主板代码')
+  await page.getByRole('button', { name: '添加选项' }).click()
+  await page.getByRole('textbox', { name: '选项 2 显示名称' }).fill('创业板')
+  await page.getByRole('textbox', { name: '选项 2 查询值' }).fill('创业板代码')
+  await page.getByRole('button', { name: '选项 2 上移' }).click()
+  await page.getByRole('button', { name: '保存查询控件' }).click()
+  await expect.poll(() => (saved as { query_controls?: Array<{ manual_options?: Array<{ value: string }> }> } | null)?.query_controls?.[0]?.manual_options?.[0]?.value).toBe('创业板代码')
+  await page.locator('.query-control-studio__properties').evaluate((element) => { element.scrollTop = 0 })
+  await page.screenshot({ path: 'test-results/query-control-workbench.png', fullPage: true })
+  await page.locator('.query-control-studio__list button.ant-btn').click()
+  await page.getByRole('combobox', { name: '控件类型' }).click()
+  await page.getByText('复合条件', { exact: true }).last().click()
+  await page.getByRole('combobox', { name: '受控图表' }).click()
+  await page.getByText('股票数量', { exact: true }).last().click()
+  await page.getByRole('combobox', { name: '条件字段' }).click()
+  await page.getByText('证券代码 · ts_code', { exact: true }).last().click()
+  await page.getByRole('button', { name: '保存查询控件' }).click()
+  await expect.poll(() => (saved as { query_controls?: Array<{ compound_group?: unknown }> } | null)?.query_controls?.[1]?.compound_group != null).toBe(true)
+  await page.keyboard.press('Escape')
+  await page.screenshot({ path: 'test-results/query-control-compound.png', fullPage: true })
+  await page.getByRole('button', { name: '← 返回看板' }).click()
+  await page.locator('.analytics-board-head button').last().click()
+  await expect(page.getByText('发布设置')).toBeVisible()
+  await expect(page.getByText('访问密码（可选，至少 8 位）')).toBeVisible()
+  await page.waitForTimeout(350)
+  await page.screenshot({ path: 'test-results/analytics-publish-dialog.png', fullPage: true })
+})

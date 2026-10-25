@@ -48,6 +48,24 @@ test('stock API ts_code selector is populated from local stock_basic data', asyn
   await expect(dialog.getByText('000002.SZ · 万科A', { exact: true })).toBeVisible()
 })
 
+test('index API ts_code selectors use local index_basic and support multiple choices', async ({ page }) => {
+  for (const apiName of ['idx_mins', 'index_daily', 'rt_idx_k', 'index_monthly', 'index_weekly']) {
+    await page.goto(`/apis/${apiName}`)
+    await page.getByRole('button', { name: '运行接口' }).click()
+    const dialog = page.getByRole('dialog')
+    const indexCode = dialog.locator('#params_ts_code')
+    await indexCode.click()
+    await expect(page.getByText('000001.SH · 上证指数', { exact: true }).last()).toBeVisible()
+    await expect(page.getByText('全部代码（由系统按接口策略安全处理）', { exact: true }).last()).toBeVisible()
+    await page.getByText('000001.SH · 上证指数', { exact: true }).last().click()
+    await indexCode.click()
+    await page.getByText('000002.SH · A股指数', { exact: true }).last().click()
+    await expect(dialog.getByText('000001.SH · 上证指数', { exact: true })).toBeVisible()
+    await expect(dialog.getByText('000002.SH · A股指数', { exact: true })).toBeVisible()
+    await dialog.getByRole('button', { name: '关闭' }).click()
+  }
+})
+
 test('sync confirmation closes after pro_bar is accepted by the queue', async ({ page }) => {
   const executionId = '00000000-0000-4000-8000-000000000001'
   await page.route('**/api/apis/pro_bar/sync', async (route) => {

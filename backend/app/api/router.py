@@ -1,6 +1,8 @@
 from fastapi import APIRouter
 
 from app.api.routes import (
+    analytics,
+    analytics_public,
     data,
     executions,
     health,
@@ -17,6 +19,8 @@ from app.api.routes import (
 )
 
 api_router = APIRouter()
+api_router.include_router(analytics.router)
+api_router.include_router(analytics_public.router)
 api_router.include_router(health.router)
 api_router.include_router(metadata.router)
 api_router.include_router(preview.router)

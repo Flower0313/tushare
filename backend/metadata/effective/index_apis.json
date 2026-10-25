@@ -1482,10 +1482,17 @@
         "required": true,
         "description": "指数代码，e.g. 000001.SH",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "index_basic",
+          "code_label_fields": [
+            "name"
+          ]
+        },
         "position": 1
       },
       {
@@ -1658,10 +1665,17 @@
         "required": false,
         "description": "TS代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "index_basic",
+          "code_label_fields": [
+            "name"
+          ]
+        },
         "position": 1
       },
       {
@@ -1805,7 +1819,10 @@
       "type": "date_range",
       "start_param": "start_date",
       "end_param": "end_date",
-      "chunk_unit": "day"
+      "chunk_unit": "day",
+      "code_param": "ts_code",
+      "split_code_param": true,
+      "all_codes_mode": "omit"
     },
     "default_order_by": [
       {
@@ -2058,10 +2075,17 @@
         "required": true,
         "description": "指数代码，支持通配符方式，e.g. 0*.SH、3*.SZ、000001.SH",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "index_basic",
+          "code_label_fields": [
+            "name"
+          ]
+        },
         "position": 1
       }
     ],
@@ -3100,10 +3124,17 @@
         "required": true,
         "description": "指数代码，来源指数基础信息接口",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "index_basic",
+          "code_label_fields": [
+            "name"
+          ]
+        },
         "position": 1
       },
       {
@@ -3244,10 +3275,21 @@
       "supported": false
     },
     "fetch_strategy": {
-      "type": "date_range",
-      "start_param": "start_date",
-      "end_param": "end_date",
-      "chunk_unit": "day"
+      "type": "date_and_code",
+      "order": "code_first",
+      "date": {
+        "start_param": "start_date",
+        "end_param": "end_date",
+        "chunk_unit": "month"
+      },
+      "code": {
+        "param": "ts_code",
+        "code_source": "index_basic",
+        "source_field": "ts_code",
+        "status_field": null,
+        "status_values": [],
+        "batch_size": 1
+      }
     },
     "default_order_by": [
       {
@@ -3285,10 +3327,17 @@
         "required": false,
         "description": "TS代码",
         "format": null,
-        "input_kind": "text",
+        "input_kind": "stock_code_select",
         "enum_values": [],
         "default_value": null,
-        "constraints": {},
+        "constraints": {
+          "multiple": true,
+          "allow_all": true,
+          "code_source": "index_basic",
+          "code_label_fields": [
+            "name"
+          ]
+        },
         "position": 1
       },
       {
@@ -3432,7 +3481,10 @@
       "type": "date_range",
       "start_param": "start_date",
       "end_param": "end_date",
-      "chunk_unit": "day"
+      "chunk_unit": "day",
+      "code_param": "ts_code",
+      "split_code_param": true,
+      "all_codes_mode": "omit"
     },
     "default_order_by": [
       {

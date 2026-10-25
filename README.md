@@ -61,6 +61,8 @@ npm --prefix frontend install
 
 开发期可设置 `RUN_EMBEDDED_WORKER=true` 让 FastAPI 内嵌 Worker；此时不要再启动独立 Worker。生产环境应设为 `false`。Linux/macOS 可使用根目录 `Makefile`。
 
+启动或重启 Web/Worker 后，特别是在受限终端中启动时，运行 `pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\smoke-upstream.ps1`。它只预览一小段 `pro_bar` 数据，不写库；普通单元测试和 `/health` 无法发现进程被禁止连接 Tushare 的情况。Worker 还应通过一笔小范围 UPSERT 任务验收，并核对重复执行后的目标表行数不变。真实上游验收需遵守 Tushare 调用额度，不放入普通 CI。
+
 ## Environment Variables
 
 `.env.example` 已按 APP、DATABASE、TUSHARE、WORKER、SCHEDULER、RETRY、RATE LIMIT、数据生命周期、TRADE CALENDAR、HEALTH、RETENTION 与 FRONTEND 分区。常用配置：
@@ -83,6 +85,12 @@ cd backend
 ```
 
 平台对象位于 `platform` schema；Tushare 业务表位于 `tushare` schema，业务字段名保持官方原名。首次同步自动建表，后续只安全增加缺失字段，不自动删除列或改变字段类型。
+
+## 数据集与看板
+
+在左侧“数据管理 → 数据看板”中，可以创建已登记 Tushare 单表数据集，或由独立只读数据库角色运行的 SQL 数据集。数据集全屏工作台提供 SQL 编辑、校验、最多 50 行预览和语义字段配置。图表全屏工作台支持指标卡、折线、柱状、饼图、散点、K 线、矩形树、漏斗、明细表及交叉表；常规图表统一由按需加载的 Apache ECharts 渲染。看板全局筛选器仅影响同名兼容字段，不修改源数据。数据集保存定义，不复制查询结果。
+
+SQL 数据集只允许单条只读 SELECT / WITH 查询，可使用 JOIN、子查询、UNION、窗口函数和受控只读函数；表必须显式指定允许的 schema。SQL 经 PostgreSQL AST 验证后在只读事务及独立只读角色下运行；若未配置 `ANALYTICS_READ_DATABASE_URL`，创建与执行 SQL 数据集会拒绝而不是退回写入账号。部署角色步骤见 [SQL 数据集安全与部署](docs/analytics_sql_security.md)。统一查询模型继续参数化外围筛选值，并限制语句时间、结果行数与并发数。迁移 `20261024_0036` 保留既有 TABLE 数据集和旧图表配置。
 
 ## Backend
 
@@ -212,6 +220,8 @@ Validation Runner 根据每个 API 的 `validation_scenarios` 提交低流量验
 仓库仍保留早期 staging atomic replacement 基础设施用于兼容和迁移参考，但不应被理解为当前默认产品路径；状态见 [Legacy Audit](docs/legacy_audit.md)。
 
 ## Troubleshooting
+
+数据看板支持草稿与不可变发布版本、独立访问页、类型化 SQL 参数及查询控件。部署和 URL 规则见 [数据看板发布与查询控件](docs/dashboard_publication.md)。
 
 - 页面无法加载：检查 `http://localhost:8000/health/ready` 和 `VITE_API_BASE_URL`。
 - Execution 一直 PENDING：确认 Worker 正在运行且心跳正常。

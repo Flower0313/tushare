@@ -30,7 +30,7 @@
 | 指数专题 | `rt_idx_k` | 指数实时日线 | GENERIC_COMPATIBLE | `code_batch` | Supported by the current generic engine |
 | 指数专题 | `index_weight` | 指数成分和权重 | GENERIC_COMPATIBLE | `date_and_code` | Supported by the current generic engine |
 | 指数专题 | `idx_factor_pro` | 指数技术因子(专业版) | GENERIC_COMPATIBLE | `date_and_code` | Supported by the current generic engine |
-| 指数专题 | `index_daily` | 指数日线行情 | GENERIC_COMPATIBLE | `date_range` | Supported by the current generic engine |
+| 指数专题 | `index_daily` | 指数日线行情 | GENERIC_COMPATIBLE | `date_and_code` | Supported by the current generic engine |
 | 指数专题 | `index_monthly` | 指数月线行情 | GENERIC_COMPATIBLE | `date_range` | Supported by the current generic engine |
 | 指数专题 | `sz_daily_info` | 深圳市场每日交易概况 | GENERIC_COMPATIBLE | `date_range` | Supported by the current generic engine |
 | 指数专题 | `rt_sw_k` | 申万实时行情 | GENERIC_COMPATIBLE | `single` | Supported by the current generic engine |

@@ -53,11 +53,17 @@ def register_exception_handlers(app: FastAPI) -> None:
 
     @app.exception_handler(RequestValidationError)
     async def handle_validation_error(_: Request, exc: RequestValidationError) -> JSONResponse:
+        # Pydantic may place a ValueError instance in ctx; do not return raw inputs or
+        # exception objects in the public error contract.
+        errors = [
+            {"type": item.get("type"), "loc": item.get("loc"), "msg": item.get("msg")}
+            for item in exc.errors()
+        ]
         return error_response(
             422,
             ErrorCode.REQUEST_VALIDATION_ERROR,
             "请求参数校验失败",
-            details={"errors": exc.errors()},
+            details={"errors": errors},
         )
 
     @app.exception_handler(Exception)

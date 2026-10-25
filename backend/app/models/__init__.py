@@ -1,3 +1,4 @@
+from app.models.analytics import AnalyticsChart, AnalyticsDashboard, AnalyticsDataset
 from app.models.metadata import (
     ApiField,
     ApiMetadata,
@@ -19,6 +20,9 @@ from app.models.metadata import (
 )
 
 __all__ = [
+    "AnalyticsChart",
+    "AnalyticsDashboard",
+    "AnalyticsDataset",
     "ApiRuntimeConfig",
     "ApiField",
     "ApiMetadata",

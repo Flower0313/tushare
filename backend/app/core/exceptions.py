@@ -245,3 +245,23 @@ class ScheduleConflictError(ScheduleError):
 class SqlTaskError(PlatformError):
     code = ErrorCode.SQL_TASK_ERROR
     status_code = 422
+
+
+class AnalyticsValidationError(PlatformError):
+    code = ErrorCode.ANALYTICS_VALIDATION_ERROR
+    status_code = 422
+
+
+class AnalyticsNotFoundError(PlatformError):
+    code = ErrorCode.ANALYTICS_NOT_FOUND
+    status_code = 404
+
+
+class AnalyticsConflictError(PlatformError):
+    code = ErrorCode.ANALYTICS_CONFLICT
+    status_code = 409
+
+
+class AnalyticsQueryError(PlatformError):
+    code = ErrorCode.ANALYTICS_QUERY_ERROR
+    status_code = 504

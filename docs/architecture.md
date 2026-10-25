@@ -85,7 +85,33 @@ Worker Process（FOR UPDATE SKIP LOCKED）→ SyncService
 
 手动执行、重跑与 Scheduler 只负责创建 Execution；独立 Worker 领取后统一调用 `SyncService.run()`，避免形成三套采集路径。Scheduler 使用 PostgreSQL advisory leader lock，多实例下只有 leader 生成 ScheduleFire。
 
+## 数据集与看板读取链路
+
+```text
+已同步 tushare.{api_name} 表 ─┐
+用户只读 SQL（SELECT / WITH）──┤ PostgreSQL AST 安全策略 + schema/函数白名单
+                           ├→ 独立只读角色 + READ ONLY 事务（SQL 来源）
+                           ▼
+DatasetDefinition / SqlSource（字段推断与来源验证）
+             ▼
+platform.analytics_dataset（语义字段：名称、角色、类型、默认聚合、可见性）
+             ▼
+AnalyticsService（数据集 / 看板 / 图表用例与兼容筛选）
+             ▼
+QueryPlanner（验证维度、度量、筛选、排序、日期粒度与 Top N）
+             ▼
+SqlAlchemyQueryExecutor（TABLE / SQL 派生表、参数化、限时执行）
+             ▼
+FastAPI analytics routes ──> 全屏数据集 / 图表工作台 ──> ECharts / 交叉表
+```
+
+TABLE 数据集继续限定为已登记接口；SQL 数据集仅保存只读查询定义，可跨允许的 schema 进行 JOIN，不复制业务数据。SQL 先由 pglast 解析为 PostgreSQL AST，拒绝多语句、写入语句、未授权来源、危险函数，再在独立只读账号的 READ ONLY 事务里推断字段和执行。前端传入的外围维度与筛选字段只能引用已验证的语义字段，筛选值由 SQLAlchemy 参数化。看板全局筛选只影响同名兼容字段。`20261024_0036` 增加来源类型及版本化图表配置，旧配置继续可读。更多边界与部署要求见 [SQL 数据集安全与部署](analytics_sql_security.md)。
+
+旧图表的 `dimension`、`metric`、`aggregation`、`filters`、`sort_by`、`top_n` 和 `date_granularity` 保持原字段与查询语义，迁移后 `config_version=1`；读取接口的 `config=null` 表示旧配置，图表工作台从旧字段确定性地装载。新图表使用 `config_version=2` 与按图表类型区分的 `config` JSONB；数据集与查询服务负责校验、规划和执行，前端仅将有界查询结果适配到统一 ECharts 渲染器或交叉表。SQL 来源树由白名单 schema 的表字段目录提供，但最终读取权限仍由独立只读角色判定。
+
 ## 关键设计决定
+
+数据看板的发布边界使用 `20261025_0037` 建立 publication/revision：草稿可继续编辑，公开查询只读取已发布定义快照，业务数据仍实时查询。查询控件显式映射图表输出字段或 SQL 类型化参数，详情见 [数据看板发布与查询控件](dashboard_publication.md)。
 
 1. **元数据规范化存储**：接口、参数、字段分表，便于排序、差异比较和增量导入。暂不使用单个 JSONB 大字段作为唯一事实源。
 2. **迁移负责初始数据**：初始元数据随 Alembic 版本化；服务启动不隐式改数据库。

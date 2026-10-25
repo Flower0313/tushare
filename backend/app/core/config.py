@@ -22,6 +22,12 @@ class Settings(BaseSettings):
     app_env: Literal["development", "test", "production"] = "development"
     api_v1_prefix: str = "/api"
     database_url: str
+    analytics_read_database_url: str = Field(default="", repr=False)
+    analytics_allowed_schemas: str = "tushare,analytics,public"
+    analytics_sql_statement_timeout_ms: int = Field(default=10000, ge=1000, le=30000)
+    analytics_sql_lock_timeout_ms: int = Field(default=1000, ge=100, le=5000)
+    public_app_base_url: str = ""
+    public_cookie_secret: str = Field(default="", repr=False)
     tushare_token: str = Field(default="", repr=False)
     runtime_secret_key: str = Field(default="", repr=False)
     tushare_api_base_url: HttpUrl = HttpUrl("https://api.tushare.pro")
@@ -77,6 +83,14 @@ class Settings(BaseSettings):
         return [
             schema.strip()
             for schema in self.sql_task_allowed_schemas.split(",")
+            if schema.strip()
+        ]
+
+    @property
+    def analytics_allowed_schema_list(self) -> list[str]:
+        return [
+            schema.strip()
+            for schema in self.analytics_allowed_schemas.split(",")
             if schema.strip()
         ]
 

@@ -10,7 +10,7 @@ $Python = Join-Path $Backend '.venv\Scripts\python.exe'
 
 switch ($Command) {
     'dev' { & (Join-Path $PSScriptRoot 'start-tushare-platform.bat') }
-    'backend' { Set-Location $Backend; $env:RUN_EMBEDDED_WORKER='false'; & (Join-Path $Backend '.venv\Scripts\uvicorn.exe') app.main:app --reload --host 127.0.0.1 --port 8000 }
+    'backend' { Set-Location $Backend; $env:RUN_EMBEDDED_WORKER='false'; & (Join-Path $Backend '.venv\Scripts\uvicorn.exe') app.main:app --reload --host 127.0.0.1 --port 8000 --no-access-log }
     'frontend' { npm --prefix $Frontend run dev }
     'worker' { Set-Location $Backend; & $Python -m app.worker }
     'scheduler' { Set-Location $Backend; & $Python -m app.scheduler }

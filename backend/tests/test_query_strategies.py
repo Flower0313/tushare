@@ -192,6 +192,82 @@ async def test_date_range_strategy_omits_all_code_sentinel() -> None:
 
 
 @pytest.mark.asyncio
+async def test_date_range_strategy_splits_selected_index_codes() -> None:
+    strategy = DateRangeStrategy(
+        {
+            "start_param": "start_date",
+            "end_param": "end_date",
+            "chunk_unit": "day",
+            "code_param": "ts_code",
+            "split_code_param": True,
+            "all_codes_mode": "omit",
+        }
+    )
+
+    chunks = [
+        chunk
+        async for chunk in strategy.chunks(
+            prepared(
+                {
+                    "ts_code": "000001.SH,399001.SZ",
+                    "start_date": "20261001",
+                    "end_date": "20261002",
+                }
+            )
+        )
+    ]
+
+    assert [chunk.index for chunk in chunks] == [1, 2, 3, 4]
+    assert [(chunk.params["ts_code"], chunk.params["start_date"]) for chunk in chunks] == [
+        ("000001.SH", "20261001"),
+        ("000001.SH", "20261002"),
+        ("399001.SZ", "20261001"),
+        ("399001.SZ", "20261002"),
+    ]
+
+    no_code = [
+        chunk
+        async for chunk in strategy.chunks(
+            prepared({"start_date": "20261001", "end_date": "20261002"})
+        )
+    ]
+    assert len(no_code) == 2
+    assert all("ts_code" not in chunk.params for chunk in no_code)
+
+
+@pytest.mark.asyncio
+async def test_index_daily_expands_selected_and_all_codes_individually() -> None:
+    code_source = AsyncMock()
+    code_source.load.return_value = ["000001.SH", "399001.SZ"]
+    config = {
+        "date": {"start_param": "start_date", "end_param": "end_date", "chunk_unit": "month"},
+        "code": {
+            "param": "ts_code",
+            "code_source": "index_basic",
+            "source_field": "ts_code",
+            "status_field": None,
+            "status_values": [],
+            "batch_size": 1,
+        },
+        "order": "code_first",
+    }
+    strategy = DateAndCodeStrategy(config, code_source)
+    selected = [
+        chunk.params["ts_code"]
+        async for chunk in strategy.chunks(prepared({"ts_code": "000001.SH,399001.SZ"}))
+    ]
+    all_codes = [
+        chunk.params["ts_code"]
+        async for chunk in strategy.chunks(prepared({"ts_code": "__ALL__"}))
+    ]
+
+    assert selected == all_codes == ["000001.SH", "399001.SZ"]
+    code_source.load.assert_awaited_once_with(
+        source="index_basic", field="ts_code", status_field=None, status_values=[]
+    )
+
+
+@pytest.mark.asyncio
 async def test_trade_date_strategy_omits_all_code_sentinel() -> None:
     strategy = TradeDateStrategy(
         {

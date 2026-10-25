@@ -52,6 +52,29 @@ def test_etf_ts_code_selectors_use_domain_code_sources() -> None:
         assert parameter["constraints"]["code_source"] == expected_source, api_name
 
 
+def test_index_market_ts_code_selectors_use_index_basic() -> None:
+    records = json.loads(
+        (ROOT / "metadata" / "effective" / "index_apis.json").read_text(encoding="utf-8")
+    )
+    by_name = {record["api_name"]: record for record in records}
+
+    for api_name in ("idx_mins", "index_daily", "rt_idx_k", "index_monthly", "index_weekly"):
+        record = by_name[api_name]
+        parameter = next(item for item in record["params"] if item["name"] == "ts_code")
+        assert parameter["input_kind"] == "stock_code_select", api_name
+        assert parameter["constraints"] == {
+            "multiple": True,
+            "allow_all": True,
+            "code_source": "index_basic",
+            "code_label_fields": ["name"],
+        }, api_name
+
+    assert by_name["index_daily"]["fetch_strategy"]["type"] == "date_and_code"
+    for api_name in ("index_weekly", "index_monthly"):
+        assert by_name[api_name]["fetch_strategy"]["split_code_param"] is True
+        assert by_name[api_name]["fetch_strategy"]["all_codes_mode"] == "omit"
+
+
 def test_stock_security_code_selectors_use_stock_basic() -> None:
     records = json.loads(
         (ROOT / "metadata" / "effective" / "stock_apis.json").read_text(encoding="utf-8")

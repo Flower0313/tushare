@@ -1,6 +1,7 @@
 import {
   ApiOutlined,
   AppstoreOutlined,
+  BarChartOutlined,
   CheckCircleOutlined,
   ClockCircleOutlined,
   CodeOutlined,
@@ -53,6 +54,7 @@ const topLevelItems: MenuProps['items'] = [
     label: '数据管理',
     children: [
       { key: '/data', icon: <TableOutlined />, label: '数据浏览与维护' },
+      { key: '/analytics', icon: <BarChartOutlined />, label: '数据看板' },
       { key: '/operations', icon: <FileSearchOutlined />, label: '数据操作历史' },
     ],
   },
@@ -72,6 +74,7 @@ export function AppShell() {
   const navigate = useNavigate()
   const location = useLocation()
   const [navigationOpen, setNavigationOpen] = useState(false)
+  const [themeMenuOpen, setThemeMenuOpen] = useState(false)
   const selected = location.pathname.startsWith('/apis/') ? '/apis' : location.pathname
   const apiName = location.pathname.startsWith('/apis/')
     ? decodeURIComponent(location.pathname.slice('/apis/'.length))
@@ -161,10 +164,12 @@ export function AppShell() {
             </Button>
             <Dropdown
               trigger={['click']}
+              open={themeMenuOpen}
+              onOpenChange={setThemeMenuOpen}
               menu={{
                 selectable: true,
                 selectedKeys: [mode],
-                onClick: ({ key }) => setMode(key as ThemeMode),
+                onClick: ({ key }) => { setMode(key as ThemeMode); setThemeMenuOpen(false) },
                 items: [
                   { key: 'light', icon: <SunOutlined />, label: '浅色' },
                   { key: 'dark', icon: <MoonOutlined />, label: '深色' },
@@ -200,6 +205,7 @@ function routeContextFor(pathname: string): string[] {
   if (pathname === '/tasks') return ['任务中心', '定时任务']
   if (pathname.startsWith('/history')) return ['任务中心', pathname.endsWith('running') ? '运行中' : pathname.endsWith('exceptions') ? '异常任务' : '执行记录']
   if (pathname === '/data' || pathname === '/operations') return ['数据管理', '数据浏览与维护']
+  if (pathname === '/analytics') return ['数据管理', '数据看板']
   if (pathname === '/system') return ['运维', '系统状态']
   if (pathname === '/settings') return ['设置']
   return ['概览']
