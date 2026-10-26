@@ -7,7 +7,18 @@ from functools import lru_cache
 from typing import Any
 
 import asyncpg
-from sqlalchemy import Boolean, Date, DateTime, Float, Integer, Numeric, String, column, text
+from sqlalchemy import (
+    Boolean,
+    Date,
+    DateTime,
+    Float,
+    Integer,
+    Numeric,
+    String,
+    bindparam,
+    column,
+    text,
+)
 from sqlalchemy.engine import make_url
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 from sqlalchemy.pool import NullPool
@@ -202,7 +213,7 @@ def sql_subquery(
     ]
     return (
         text(template.sqlalchemy_sql)
-        .bindparams(**binds)
+        .bindparams(*(bindparam(name, value, unique=True) for name, value in binds.items()))
         .columns(*selected)
         .subquery("dataset_source")
     )

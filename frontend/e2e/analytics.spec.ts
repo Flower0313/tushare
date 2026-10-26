@@ -112,6 +112,30 @@ test('chart filter conditions can be removed without horizontal scrolling', asyn
   await expect(page.locator('.analytics-filter-row')).toHaveCount(0)
 })
 
+test('unfinished filter rows do not break preview and must be resolved before saving', async ({ page }) => {
+  await mockAnalytics(page)
+  const queryBodies: Array<{ filters?: unknown[] }> = []
+  page.on('request', (request) => {
+    if (request.url().endsWith('/api/analytics/datasets/1/query')) {
+      queryBodies.push(request.postDataJSON() as { filters?: unknown[] })
+    }
+  })
+  await page.goto('/analytics/dashboards/1/charts/new')
+  await page.getByRole('tab', { name: '筛选' }).click()
+  await page.getByRole('button', { name: '添加条件' }).click()
+  await page.getByRole('tab', { name: '数据' }).click()
+  await expect(page.getByText('有 1 条未完成或已失效的筛选条件，预览暂未应用。')).toBeVisible()
+  await page.getByRole('button', { name: '刷新预览' }).click()
+  await expect.poll(() => queryBodies.length).toBeGreaterThan(0)
+  expect(queryBodies.at(-1)?.filters).toEqual([])
+  await page.locator('.analytics-studio__properties label').filter({ hasText: '图表标题' }).locator('input').fill('行情图')
+  await page.getByRole('button', { name: '保存图表' }).click()
+  await expect(page.getByRole('tab', { name: '筛选' })).toHaveAttribute('aria-selected', 'true')
+  await expect(page.getByText('请填写或移除未完成的筛选条件')).toBeVisible()
+  await page.getByRole('button', { name: '移除' }).click()
+  await expect(page.getByText('有 1 条未完成或已失效的筛选条件，预览暂未应用。')).toHaveCount(0)
+})
+
 test('mobile and dark mode keep the workspaces usable', async ({ page }) => {
   await mockAnalytics(page)
   await page.setViewportSize({ width: 390, height: 844 })

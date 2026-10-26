@@ -2,6 +2,8 @@
 
 SQL 数据集允许自定义 **单条只读 SELECT 查询**，不开放写操作。校验采用 `pglast` PostgreSQL AST，而非字符串或正则；禁止数据修改 CTE、DDL、`SELECT INTO`、行锁、未经授权的 schema、未列入白名单的函数及 `FROM` 函数。表达式输出必须有 `AS` 别名，输出列名唯一。允许的 schema 默认 `tushare,analytics,public`，通过 `ANALYTICS_ALLOWED_SCHEMAS` 缩小；实际可读对象仍由数据库 GRANT 决定。
 
+参数定义中的名称须与 SQL 占位符一致。可用 `:code`、`${code}`，也接受完整的字符串占位符 `'${code}'`；编译器把整个占位符转换为带类型的驱动参数绑定。默认值用于无控件值时的校验、预览和查询；预览测试值可临时覆盖默认值。看板查询控件可显式映射到 SQL 参数，草稿预览和发布页都沿用同一绑定链路。参数不能嵌入其他字符串、标识符或 SQL 关键字；数据库账号仍须独立且只读。
+
 工作台的来源树由 `GET /api/analytics/sql/catalog` 列出白名单 schema 中当前账号可见的表和字段；它只提供编辑辅助，不代表独立只读角色已获 SELECT 权限。SQL 校验与执行仍使用该只读角色重新验证。嵌套 CTE 名称按作用域判定，不能凭其他作用域中的同名 CTE 绕过 schema 白名单。
 
 必须由数据库管理员创建与平台写入账号不同的登录角色，且**不能**是超级用户、数据库/角色创建者，也不能对任何业务表有 INSERT/UPDATE/DELETE/TRUNCATE、白名单外业务表 SELECT 或 schema CREATE 权限。角色运行时会检查它实际可读取的非系统 schema，不能依赖 SQL 解析器独自阻止误授权。示例（将密码与角色名称在安全渠道替换，勿提交到仓库）：

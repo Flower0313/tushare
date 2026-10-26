@@ -1,50 +1,19 @@
-import { Alert, Button, DatePicker, Empty, Input, InputNumber, Select, Skeleton, Table, message } from 'antd'
-import dayjs from 'dayjs'
+import { Alert, Button, Empty, Input, Skeleton, Table, message } from 'antd'
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import {
-  getPublicDashboard, publicFilterOptions, queryPublicChart, unlockPublicDashboard,
+  getPublicDashboard, queryPublicChart, unlockPublicDashboard,
   type ChartData, type PublicDashboard, type PublicQueryControl,
 } from '../api/analytics'
 import { ApiRequestError } from '../api/client'
 import { CrossTab } from '../components/analytics/CrossTab'
+import { QueryControlInput } from '../components/analytics/QueryControlInput'
+import { hasNullCondition } from '../components/analytics/controlDefaults'
 import { parsePublicUrl, valuesToPublicUrl, type ViewerValues } from '../components/analytics/publicFilters'
 import './publicDashboard.css'
 
 const EChartRenderer = lazy(() => import('../components/analytics/EChartRenderer').then((module) => ({ default: module.EChartRenderer })))
 type PublicChart = PublicDashboard['charts'][number]
-type CompoundGroup = NonNullable<PublicQueryControl['compound_group']>
-type CompoundValues = Record<string, string | number | boolean | Array<string | number | boolean> | null>
-type CompoundCondition = Extract<CompoundGroup['children'][number], { kind: 'condition' }>
-
-function hasNullCondition(group: CompoundGroup | null | undefined): boolean {
-  return Boolean(group?.children.some((node) => node.kind === 'group' ? hasNullCondition(node) : ['IS_NULL', 'NOT_NULL'].includes(node.operator)))
-}
-
-function CompoundConditionInput({ node, values, onChange, disabled }: {
-  node: CompoundCondition; values: CompoundValues;
-  onChange: (next: CompoundValues) => void; disabled: boolean
-}) {
-  const current = values[node.id]
-  const range = Array.isArray(current) ? current : []
-  return <label><span>{node.field} · {node.operator}</span>
-    {['IS_NULL', 'NOT_NULL'].includes(node.operator) ? <span>按空值条件筛选</span> :
-      node.operator === 'BETWEEN' && node.data_type === 'date' ?
-        <DatePicker.RangePicker disabled={disabled} value={range.length === 2 ? [dayjs(String(range[0])), dayjs(String(range[1]))] : null} onChange={(_, dates) => onChange({ ...values, [node.id]: dates[0] && dates[1] ? [dates[0], dates[1]] : null })} /> :
-        <Input disabled={disabled} value={Array.isArray(current) ? current.join(',') : String(current ?? '')} placeholder={['BETWEEN', 'IN', 'NOT_IN'].includes(node.operator) ? '多个值用逗号分隔' : '输入条件值'} onChange={(event) => { const raw = event.target.value; const multiple = ['BETWEEN', 'IN', 'NOT_IN'].includes(node.operator); const parts = multiple ? raw.split(',').map((part) => part.trim()).filter(Boolean) : [raw]; onChange({ ...values, [node.id]: raw ? multiple ? parts.map((part) => node.data_type === 'number' ? Number(part) : part) : node.data_type === 'number' ? Number(raw) : raw : null }) }} />}
-  </label>
-}
-
-function CompoundInput({ group, values, onChange, disabled }: {
-  group: CompoundGroup; values: CompoundValues;
-  onChange: (next: CompoundValues) => void; disabled: boolean
-}) {
-  return <div className="public-compound"><strong>{group.combinator === 'AND' ? '同时满足' : '满足任一'}</strong>
-    {group.children.map((node, index) => node.kind === 'group' ?
-      <CompoundInput key={`group-${index}`} group={node} values={values} onChange={onChange} disabled={disabled} /> :
-      <CompoundConditionInput key={node.id} node={node} values={values} onChange={onChange} disabled={disabled} />)}
-  </div>
-}
 
 function PublicChartCard({ publicKey, chart, values, revision, blocked, requestId }: {
   publicKey: string; chart: PublicChart; values: ViewerValues; revision: number; blocked: boolean; requestId: string
@@ -87,59 +56,6 @@ function PublicChartCard({ publicKey, chart, values, revision, blocked, requestI
   </section>
 }
 
-function QueryInput({ control, publicKey, value, allValues, onChange, disabled }: {
-  control: PublicQueryControl; publicKey: string; value: ViewerValues[string];
-  allValues: ViewerValues; onChange: (next: ViewerValues[string]) => void; disabled: boolean
-}) {
-  const [options, setOptions] = useState(control.manual_options)
-  const [optionsError, setOptionsError] = useState(false)
-  const [search, setSearch] = useState('')
-  const optionCache = useRef(new Map<string, { at: number; options: typeof control.manual_options }>())
-  useEffect(() => {
-    if (control.control_type !== 'select' && control.control_type !== 'multi_select') return
-    if (control.option_source === 'manual') { setOptions(control.manual_options); setOptionsError(false); return }
-    const cacheKey = JSON.stringify([search, allValues])
-    const cached = optionCache.current.get(cacheKey)
-    if (cached && Date.now() - cached.at < 30_000) { setOptions(cached.options); setOptionsError(false); return }
-    const controller = new AbortController()
-    const timer = window.setTimeout(() => {
-      void publicFilterOptions(publicKey, control.id, { values: allValues, search }, controller.signal)
-        .then((result) => { if (!controller.signal.aborted) { setOptions(result.options); setOptionsError(false); if (optionCache.current.size > 100) optionCache.current.clear(); optionCache.current.set(cacheKey, { at: Date.now(), options: result.options }) } })
-        .catch(() => { if (!controller.signal.aborted) { setOptions([]); setOptionsError(true) } })
-    }, 250)
-    return () => { window.clearTimeout(timer); controller.abort() }
-  }, [allValues, control.control_type, control.id, control.manual_options, control.option_source, publicKey, search])
-
-  const common = { disabled, 'aria-label': control.name }
-  if (control.operator === 'IS_NULL' || control.operator === 'NOT_NULL') {
-    return <span className="public-filter-unsupported">{control.operator === 'IS_NULL' ? '字段为空' : '字段不为空'}</span>
-  }
-  if (control.control_type === 'select' || control.control_type === 'multi_select') {
-    return <div className="public-filter__select"><Select {...common} showSearch filterOption={control.option_source === 'manual'}
-      onSearch={setSearch} mode={control.control_type === 'multi_select' ? 'multiple' : undefined}
-      allowClear={control.allow_clear && !control.required} value={value ?? undefined}
-      options={options.map((item) => ({ label: item.label, value: item.value }))}
-      onChange={(next) => onChange(next ?? null)} />{optionsError && <span role="alert">选项加载失败，请重新搜索或稍后重试</span>}</div>
-  }
-  if (control.control_type === 'number_range') {
-    const pair = Array.isArray(value) ? value : []
-    return <div className="public-filter-range"><InputNumber {...common} placeholder="最小值" value={typeof pair[0] === 'number' ? pair[0] : null} onChange={(next) => onChange(next === null ? null : [next, typeof pair[1] === 'number' ? pair[1] : next])} /><span>至</span><InputNumber {...common} placeholder="最大值" value={typeof pair[1] === 'number' ? pair[1] : null} onChange={(next) => onChange(next === null ? null : [typeof pair[0] === 'number' ? pair[0] : next, next])} /></div>
-  }
-  if (control.control_type === 'date_range') {
-    const pair = Array.isArray(value) ? value : []
-    return <DatePicker.RangePicker {...common} value={pair.length === 2 ? [dayjs(String(pair[0])), dayjs(String(pair[1]))] : null} onChange={(_, dates) => onChange(dates[0] && dates[1] ? [dates[0], dates[1]] : null)} />
-  }
-  if (control.control_type === 'relative_date') return <Select {...common} value={value ?? undefined} options={[{ value: 'last_7_days', label: '最近 7 日' }, { value: 'last_30_days', label: '最近 30 日' }, { value: 'this_month', label: '本月' }, { value: 'last_month', label: '上月' }, { value: 'this_year', label: '本年' }]} onChange={onChange} />
-  if (['date', 'month', 'year'].includes(control.control_type)) {
-    return <DatePicker {...common} picker={control.control_type === 'month' ? 'month' : control.control_type === 'year' ? 'year' : 'date'} value={typeof value === 'string' ? dayjs(value) : null} onChange={(_, date) => onChange(date || null)} />
-  }
-  if (control.control_type === 'number') return <InputNumber {...common} value={typeof value === 'number' ? value : null} onChange={(next) => onChange(next)} />
-  if (control.control_type === 'compound' && control.compound_group) {
-    const current = value && typeof value === 'object' && !Array.isArray(value) ? value as CompoundValues : {}
-    return <CompoundInput group={control.compound_group} values={current} disabled={disabled} onChange={onChange} />
-  }
-  return <Input {...common} value={typeof value === 'string' ? value : ''} onChange={(event) => onChange(event.target.value || null)} placeholder="输入查询值" />
-}
 
 function initialViewerValues(publicKey: string, dashboard: PublicDashboard): ViewerValues {
   let remembered: ViewerValues = {}
@@ -252,7 +168,7 @@ export function PublicDashboardPage() {
   if (!dashboard) return null
   return <main className="public-dashboard" aria-label="已发布数据看板">
     <header className="public-dashboard__header"><div>{dashboard.show_title && <h1>{dashboard.name}</h1>}{dashboard.show_updated_at && dashboard.updated_at && <span>发布内容更新于 {new Date(dashboard.updated_at).toLocaleString('zh-CN')}</span>}</div><div className="public-dashboard__actions"><Button onClick={() => { setRequestId(crypto.randomUUID()); setRefresh((current) => current + 1) }}>刷新数据</Button><Button onClick={() => void document.documentElement.requestFullscreen?.()}>全屏</Button></div></header>
-    {!!controls.length && <section className="public-dashboard__filters" aria-label="查询控件"><div className="public-dashboard__filter-head"><strong>查询条件</strong><span>当前生效 {Object.values(applied).filter((value) => value != null && value !== '').length} 项</span><Button type="link" onClick={() => { const values = Object.fromEntries(controls.map((control) => [control.parameter_name, control.locked || urlLocked(control) ? applied[control.parameter_name] ?? control.default_value ?? null : null])); setDraft(values); apply(values) }}>一键清空</Button><Button type="link" onClick={() => { const values = Object.fromEntries(controls.map((control) => [control.parameter_name, control.locked || urlLocked(control) ? applied[control.parameter_name] ?? control.default_value ?? null : control.default_value ?? null])); setDraft(values); apply(values) }}>恢复默认</Button></div><div className="public-dashboard__filter-grid">{controls.filter((_, index) => more || index < 5).map((control) => <label key={control.id} className={`public-filter public-filter--${control.width}`}><span>{control.name}{control.required && ' *'}{control.locked || urlLocked(control) ? ' · 已锁定' : ''}</span><QueryInput control={control} publicKey={publicKey} value={draft[control.parameter_name]} allValues={draft} disabled={control.locked || urlLocked(control) || !control.allow_viewer_edit} onChange={(next) => change(control, next)} /></label>)}</div><div className="public-dashboard__filter-foot">{controls.length > 5 && <Button type="link" onClick={() => setMore((current) => !current)}>{more ? '收起筛选' : '更多筛选'}</Button>}{missing.length > 0 && <span role="alert">请填写：{missing.map((item) => item.name).join('、')}</span>}{controls.some((control) => control.trigger === 'submit') && <Button type="primary" onClick={() => apply(draft)}>查询</Button>}</div></section>}
+    {!!controls.length && <section className="public-dashboard__filters" aria-label="查询控件"><div className="public-dashboard__filter-head"><strong>查询条件</strong><span>当前生效 {Object.values(applied).filter((value) => value != null && value !== '').length} 项</span><Button type="link" onClick={() => { const values = Object.fromEntries(controls.map((control) => [control.parameter_name, control.locked || urlLocked(control) ? applied[control.parameter_name] ?? control.default_value ?? null : null])); setDraft(values); apply(values) }}>一键清空</Button><Button type="link" onClick={() => { const values = Object.fromEntries(controls.map((control) => [control.parameter_name, control.locked || urlLocked(control) ? applied[control.parameter_name] ?? control.default_value ?? null : control.default_value ?? null])); setDraft(values); apply(values) }}>恢复默认</Button></div><div className="public-dashboard__filter-grid">{controls.filter((_, index) => more || index < 5).map((control) => <label key={control.id} className={`public-filter public-filter--${control.width}`}><span>{control.name}{control.required && ' *'}{control.locked || urlLocked(control) ? ' · 已锁定' : ''}</span><QueryControlInput control={control} publicKey={publicKey} value={draft[control.parameter_name]} allValues={draft} disabled={control.locked || urlLocked(control) || !control.allow_viewer_edit} onChange={(next) => change(control, next)} /></label>)}</div><div className="public-dashboard__filter-foot">{controls.length > 5 && <Button type="link" onClick={() => setMore((current) => !current)}>{more ? '收起筛选' : '更多筛选'}</Button>}{missing.length > 0 && <span role="alert">请填写：{missing.map((item) => item.name).join('、')}</span>}{controls.some((control) => control.trigger === 'submit') && <Button type="primary" onClick={() => apply(draft)}>查询</Button>}</div></section>}
     <div className="public-dashboard__canvas">{dashboard.charts.map((chart) => {
       const relevant = Object.fromEntries(controls.filter((control) => control.affected_charts?.includes(chart.public_id)).map((control) => [control.parameter_name, applied[control.parameter_name] ?? null]))
       return <PublicChartCard key={chart.public_id} publicKey={publicKey} chart={chart} values={relevant} revision={refresh} blocked={missing.some((control) => control.affected_charts?.includes(chart.public_id))} requestId={requestId} />

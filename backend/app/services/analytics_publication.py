@@ -25,8 +25,6 @@ from app.schemas.analytics import (
     ChartCreate,
     ChartData,
     ControlValue,
-    FilterCondition,
-    ManualOption,
     PublicationRead,
     PublicationSettings,
     PublicationSnapshot,
@@ -41,6 +39,7 @@ from app.schemas.analytics import (
 )
 from app.services.analytics import _chart_request
 from app.services.analytics_chart_config import chart_query, validate_chart_config
+from app.services.analytics_control_options import query_control_options
 from app.services.analytics_controls import (
     chart_control_inputs,
     legacy_controls,
@@ -242,7 +241,10 @@ class DashboardPublicationService:
             or (publication and publication.password_hash and not settings.remove_password)
         )
         if password_enabled and not get_settings().public_cookie_secret:
-            raise AnalyticsValidationError("设置访问密码前请配置 PUBLIC_COOKIE_SECRET")
+            raise AnalyticsValidationError(
+                "当前环境尚未配置密码保护。若只需通过链接访问，请清空访问密码后发布；"
+                "如需密码保护，请配置 PUBLIC_COOKIE_SECRET 和 HTTPS 公开地址。"
+            )
         if password_enabled and not get_settings().public_app_base_url.startswith("https://"):
             raise AnalyticsValidationError("密码保护的看板需要 HTTPS 公开访问地址")
         snapshot.name = settings.name
@@ -352,7 +354,7 @@ class DashboardPublicationService:
         )
         if dataset_def is None:
             raise AnalyticsNotFoundError("发布版本中的数据集已失效")
-        resolved = resolve_controls(snapshot.controls, values)
+        resolved = resolve_controls(snapshot.controls, values, chart_id=chart.id)
         filters, parameters, groups = chart_control_inputs(snapshot.controls, resolved, chart.id)
         dataset = AnalyticsDataset(
             id=dataset_def.id,
@@ -382,70 +384,18 @@ class DashboardPublicationService:
         self, key: str, control_id: str, search: str, values: dict[str, ControlValue]
     ) -> PublicOptionsResponse:
         _, snapshot = await self.active_publication(key)
-        control = next((item for item in snapshot.controls if item.id == control_id), None)
-        if not control:
-            raise AnalyticsNotFoundError("查询控件不存在")
-        if control.option_source == "manual":
-            matches = [
-                item for item in control.manual_options if search.lower() in item.label.lower()
-            ]
-            return PublicOptionsResponse(options=matches[:1000], truncated=len(matches) > 1000)
-        if control.control_type not in {"select", "multi_select"}:
-            raise AnalyticsValidationError("此控件不支持加载下拉选项")
-        dataset_id = (
-            control.option_dataset_id
-            if control.option_source == "dataset"
-            else control.targets[0].dataset_id
-        )
-        source = next((item for item in snapshot.datasets if item.id == dataset_id), None)
-        if source is None:
-            raise AnalyticsValidationError("选项数据集已失效")
-        value_field = control.option_value_field or control.targets[0].target_name
-        label_field = control.option_label_field or value_field
-        dataset = AnalyticsDataset(
-            id=source.id,
-            source_type=source.source_type,
-            api_name=source.api_name,
-            sql_text=source.sql_text,
-            sql_hash=source.sql_hash,
-            fields=[item.model_dump(mode="json") for item in source.fields],
-            parameters=[item.model_dump(mode="json") for item in source.parameters],
-        )
-        relaxed = [item.model_copy(update={"required": False}) for item in snapshot.controls]
-        selected = resolve_controls(relaxed, values)
-        parent_filters: list[FilterCondition] = []
-        source_parameters: dict[str, ControlValue] = {}
-        for parent_id in control.depends_on:
-            parent = next(item for item in snapshot.controls if item.id == parent_id)
-            value = selected[parent.parameter_name]
-            if value is None:
-                continue
-            for target in parent.targets:
-                if target.dataset_id == dataset_id and target.target_type == "FIELD_FILTER":
-                    parent_filters.append(
-                        FilterCondition(
-                            field=target.target_name,
-                            operator=target.operator,
-                            value=value,
-                        )
-                    )
-                elif target.dataset_id == dataset_id and target.target_type == "DATASET_PARAMETER":
-                    source_parameters[target.target_name] = value
-        rows, truncated = await self._executor.distinct_options(
-            dataset,
-            value_field,
-            label_field,
-            search=search,
-            filters=parent_filters,
-            parameters=source_parameters,
-            sort_field=control.option_sort_field,
-            sort_desc=control.option_sort_desc,
-        )
-        return PublicOptionsResponse(
-            options=[
-                ManualOption(value=value, label=str(label))
-                for value, label in rows
-                if value is not None
-            ],
-            truncated=truncated,
+        datasets = [
+            AnalyticsDataset(
+                id=item.id,
+                source_type=item.source_type,
+                api_name=item.api_name,
+                sql_text=item.sql_text,
+                sql_hash=item.sql_hash,
+                fields=[field.model_dump(mode="json") for field in item.fields],
+                parameters=[param.model_dump(mode="json") for param in item.parameters],
+            )
+            for item in snapshot.datasets
+        ]
+        return await query_control_options(
+            self._executor, snapshot.controls, datasets, control_id, search, values
         )

@@ -415,6 +415,7 @@ class QueryRequest(BaseModel):
 class ChartQueryRequest(BaseModel):
     global_filters: list[FilterCondition] = Field(default_factory=list, max_length=12)
     dataset_parameters: dict[str, ControlValue] = Field(default_factory=dict, max_length=30)
+    control_values: dict[str, ControlValue] = Field(default_factory=dict, max_length=30)
 
 
 class ChartData(BaseModel):

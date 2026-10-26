@@ -18,6 +18,8 @@ from app.schemas.analytics import (
     PivotConfig,
     PublicationRead,
     PublicationSettings,
+    PublicOptionsRequest,
+    PublicOptionsResponse,
     QueryRequest,
     SourceFieldRead,
     SqlCatalogTable,
@@ -151,6 +153,16 @@ async def delete_dashboard(dashboard_id: int, service: ServiceDep) -> Response:
 @router.get("/dashboards/{dashboard_id}/publication", response_model=PublicationRead)
 async def publication_state(dashboard_id: int, service: PublicationDep) -> PublicationRead:
     return await service.management_state(dashboard_id)
+
+
+@router.post(
+    "/dashboards/{dashboard_id}/controls/{control_id}/options",
+    response_model=PublicOptionsResponse,
+)
+async def draft_control_options(
+    dashboard_id: int, control_id: str, payload: PublicOptionsRequest, service: ServiceDep
+) -> PublicOptionsResponse:
+    return await service.control_options(dashboard_id, control_id, payload)
 
 
 @router.post("/dashboards/{dashboard_id}/publish", response_model=PublicationRead)

@@ -60,6 +60,7 @@ test('admin configures a query control and opens the publish dialog', async ({ p
   await page.locator('.analytics-board-head button').last().click()
   await expect(page.getByText('发布设置')).toBeVisible()
   await expect(page.getByText('访问密码（可选，至少 8 位）')).toBeVisible()
+  await expect(page.getByText('只需通过链接访问请留空。密码保护需要服务端配置签名密钥和 HTTPS 公开地址。')).toBeVisible()
   await page.waitForTimeout(350)
   await page.screenshot({ path: 'test-results/analytics-publish-dialog.png', fullPage: true })
 })

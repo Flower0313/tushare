@@ -25,6 +25,9 @@ from app.schemas.analytics import (
     FunnelConfig,
     GlobalFilterDefinition,
     PivotConfig,
+    PublicOptionsRequest,
+    PublicOptionsResponse,
+    QueryControl,
     QueryMetric,
     QueryRequest,
     SemanticField,
@@ -37,7 +40,12 @@ from app.services.analytics_chart_config import (
     referenced_fields,
     validate_chart_config,
 )
-from app.services.analytics_controls import validate_control_targets
+from app.services.analytics_control_options import query_control_options
+from app.services.analytics_controls import (
+    chart_control_inputs,
+    resolve_controls,
+    validate_control_targets,
+)
 from app.services.analytics_definition import DatasetDefinition, reflect_source
 from app.services.analytics_pivot import pivot_result
 from app.services.analytics_query import QueryPlanner, SqlAlchemyQueryExecutor
@@ -158,9 +166,9 @@ class AnalyticsService:
         rows = (await preview_sql(sql, parameters=parameters, values=values))[1] if preview else []
         return {
             "formatted_sql": (
-                checked.text if parameters else format_sql(
-                    checked.text, set(get_settings().analytics_allowed_schema_list)
-                )
+                checked.text
+                if parameters
+                else format_sql(checked.text, set(get_settings().analytics_allowed_schema_list))
             ),
             "sql_hash": checked.content_hash,
             "fields": fields,
@@ -262,8 +270,9 @@ class AnalyticsService:
             table = sql_subquery(
                 dataset.sql_text,
                 [SemanticField.model_validate(item) for item in dataset.fields],
-                parameters=[SqlParameterDefinition.model_validate(item)
-                            for item in dataset.parameters or []],
+                parameters=[
+                    SqlParameterDefinition.model_validate(item) for item in dataset.parameters or []
+                ],
             )
             QueryPlanner().plan(dataset, table, request)
         else:
@@ -332,6 +341,16 @@ class AnalyticsService:
                     request.filters.append(item)
         if runtime:
             request.dataset_parameters = runtime.dataset_parameters
+        dashboard = await self.get_dashboard(chart.dashboard_id)
+        controls = [QueryControl.model_validate(item) for item in dashboard.query_controls or []]
+        if controls:
+            values = resolve_controls(
+                controls, runtime.control_values if runtime else {}, chart_id=chart.id
+            )
+            filters, parameters, groups = chart_control_inputs(controls, values, chart.id)
+            request.filters.extend(filters)
+            request.filter_groups.extend(groups)
+            request.dataset_parameters.update(parameters)
         data = await self._queries.execute(dataset, request)
         if isinstance(config, FunnelConfig) and any(
             (row.get("metric_0") or 0) < 0 for row in data.rows
@@ -341,6 +360,17 @@ class AnalyticsService:
             data.pivot = await pivot_result(dataset, config, data, request, self._queries)
             data.truncated = data.truncated or data.pivot.truncated
         return data
+
+    async def control_options(
+        self, dashboard_id: int, control_id: str, payload: PublicOptionsRequest
+    ) -> PublicOptionsResponse:
+        dashboard = await self.get_dashboard(dashboard_id)
+        controls = [QueryControl.model_validate(item) for item in dashboard.query_controls or []]
+        datasets = await self._repository.datasets()
+        validate_control_targets(controls, await self._repository.charts(dashboard_id), datasets)
+        return await query_control_options(
+            self._queries, controls, datasets, control_id, payload.search, payload.values
+        )
 
 
 def _chart_request(chart: ChartCreate, dataset: AnalyticsDataset) -> QueryRequest:

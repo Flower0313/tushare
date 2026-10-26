@@ -69,6 +69,7 @@ export function ChartWorkbenchPage() {
   const [leftOpen, setLeftOpen] = useState(true)
   const [rightOpen, setRightOpen] = useState(true)
   const [fieldSearch, setFieldSearch] = useState('')
+  const [settingsTab, setSettingsTab] = useState('data')
   const requestVersion = useRef(0)
   const dataset = datasets.find((item) => item.id === datasetId)
   const dimensionFields = dataset?.fields.filter((field) => field.visible && field.role === 'dimension') ?? []
@@ -76,6 +77,15 @@ export function ChartWorkbenchPage() {
   const dateFields = dataset?.fields.filter((field) => field.visible && ['date', 'datetime', 'text'].includes(field.data_type)) ?? []
   const matchesSearch = (field: Dataset['fields'][number]) => `${field.display_name} ${field.source_name}`.toLowerCase().includes(fieldSearch.trim().toLowerCase())
   const options = (items: typeof numberFields) => items.map((field) => ({ value: field.source_name, label: `${field.display_name} · ${field.source_name}` }))
+  const previewFilters = useMemo(() => filters.filter((item) => {
+    if (!dataset?.fields.some((field) => field.visible && field.source_name === item.field)) return false
+    if (item.operator === 'IS_NULL' || item.operator === 'NOT_NULL') return item.value === null
+    if (item.operator === 'BETWEEN') return Array.isArray(item.value) && item.value.length === 2 && item.value.every((value) => value !== null && value !== '')
+    if (item.operator === 'IN' || item.operator === 'NOT_IN') return Array.isArray(item.value) && item.value.length > 0 && item.value.every((value) => value !== null && value !== '')
+    if (Array.isArray(item.value)) return false
+    return item.value !== null && item.value !== ''
+  }), [filters, dataset])
+  const unfinishedFilters = filters.length - previewFilters.length
 
   useEffect(() => {
     void Promise.all([listDatasets(), listCharts(dashboardId)]).then(([items, charts]) => {
@@ -127,8 +137,8 @@ export function ChartWorkbenchPage() {
       : chartType === 'candlestick' ? [timeField, ohlc.open, ohlc.close, ohlc.low, ohlc.high, ohlc.volume].filter((item): item is string => !!item)
         : chartType === 'table' ? dataset?.fields.filter((field) => field.visible).map((field) => field.source_name) ?? []
           : chartType === 'pivot_table' ? [...rowDimensions, ...columnDimensions] : dimensions
-    return { mode: raw ? 'table' : 'aggregate', dimensions: names, metrics: raw ? [] : metrics, filters, sort_by: chartType === 'candlestick' ? timeField : sortBy, sort_desc: chartType === 'candlestick' ? false : sortDesc, limit: chartType === 'pie' ? 100 : topN, date_granularity: raw ? null : dateGranularity }
-  }, [chartType, xField, yField, categoryField, sizeField, timeField, ohlc, dataset, rowDimensions, columnDimensions, dimensions, metrics, filters, sortBy, sortDesc, topN, dateGranularity])
+    return { mode: raw ? 'table' : 'aggregate', dimensions: names, metrics: raw ? [] : metrics, filters: previewFilters, sort_by: chartType === 'candlestick' ? timeField : sortBy, sort_desc: chartType === 'candlestick' ? false : sortDesc, limit: chartType === 'pie' ? 100 : topN, date_granularity: raw ? null : dateGranularity }
+  }, [chartType, xField, yField, categoryField, sizeField, timeField, ohlc, dataset, rowDimensions, columnDimensions, dimensions, metrics, previewFilters, sortBy, sortDesc, topN, dateGranularity])
 
   const refresh = useCallback(async () => {
     if (!datasetId) { setError('请先选择数据集'); return }
@@ -144,7 +154,7 @@ export function ChartWorkbenchPage() {
       if (chartType === 'pivot_table' && (!rowDimensions.length || !columnDimensions.length)) {
         throw new Error('请配置交叉表的行维度和列维度后再预览')
       }
-      const data = chartType === 'pivot_table' ? await previewPivot(datasetId, config as Parameters<typeof previewPivot>[1]) : await previewDataset(datasetId, request)
+      const data = chartType === 'pivot_table' ? await previewPivot(datasetId, { ...config, filters: previewFilters } as Parameters<typeof previewPivot>[1]) : await previewDataset(datasetId, request)
       if (chartType === 'funnel' && data.rows.some((row) => Number(row.metric_0 ?? 0) < 0)) {
         throw new Error('漏斗图包含负数，请调整筛选或度量')
       }
@@ -152,7 +162,7 @@ export function ChartWorkbenchPage() {
     } catch (caught) {
       if (version === requestVersion.current) { setPreview(null); setError(caught instanceof Error ? caught.message : '查询预览失败') }
     } finally { if (version === requestVersion.current) setPreviewing(false) }
-  }, [datasetId, request, chartType, config, timeField, ohlc, xField, yField, rowDimensions, columnDimensions])
+  }, [datasetId, request, chartType, config, previewFilters, timeField, ohlc, xField, yField, rowDimensions, columnDimensions])
 
   useEffect(() => {
     if (!datasetId) return
@@ -162,6 +172,7 @@ export function ChartWorkbenchPage() {
 
   const save = useCallback(async () => {
     if (!title.trim() || !datasetId) { message.error('请填写标题并选择数据集'); return }
+    if (unfinishedFilters) { setSettingsTab('filters'); message.error('请填写或移除未完成的筛选条件'); return }
     if (error) { message.error('请先修正预览错误'); return }
     setSaving(true)
     try {
@@ -178,7 +189,7 @@ export function ChartWorkbenchPage() {
       setDirty(false); message.success('图表已保存'); navigate('/analytics')
     } catch (caught) { message.error(caught instanceof Error ? caught.message : '图表保存失败') }
     finally { setSaving(false) }
-  }, [title, datasetId, error, chartType, dimensions, metrics, filters, sortDesc, topN, position, gridSpan, heightPx, dateGranularity, config, chartId, dashboardId, navigate])
+  }, [title, datasetId, error, unfinishedFilters, chartType, dimensions, metrics, filters, sortDesc, topN, position, gridSpan, heightPx, dateGranularity, config, chartId, dashboardId, navigate])
 
   useEffect(() => {
     const handle = (event: KeyboardEvent) => { if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's') { event.preventDefault(); void save() } }
@@ -202,12 +213,13 @@ export function ChartWorkbenchPage() {
     <div className={`analytics-studio__layout ${leftOpen ? '' : 'source-collapsed'} ${rightOpen ? '' : 'properties-collapsed'}`}>
       <aside className="analytics-studio__source"><div className="analytics-studio__pane-head"><strong>数据字段</strong><Button size="small" type="text" onClick={() => setLeftOpen(false)}>收起</Button></div><Input.Search aria-label="搜索数据字段" placeholder="搜索字段" value={fieldSearch} onChange={(event) => setFieldSearch(event.target.value)} /><h4>维度</h4>{dimensionFields.filter(matchesSearch).map((field) => <div className="analytics-chart-studio__field" key={field.source_name}><span>{field.display_name}</span><code>{field.source_name}</code></div>)}<h4>度量</h4>{numberFields.filter(matchesSearch).map((field) => <div className="analytics-chart-studio__field" key={field.source_name}><span>{field.display_name}</span><code>{field.source_name}</code></div>)}</aside>
       <section className="analytics-studio__center"><div className="analytics-studio__section-head"><div><strong><BarChartOutlined /> 实时预览</strong><p>{dataset?.name ?? '未选择数据集'} · {types.find((item) => item.value === chartType)?.label}</p></div><Button size="small" onClick={() => setLeftOpen(!leftOpen)}>{leftOpen ? '隐藏字段' : '显示字段'}</Button></div>
+        {unfinishedFilters > 0 && <Alert type="warning" showIcon message={`有 ${unfinishedFilters} 条未完成或已失效的筛选条件，预览暂未应用。`} action={<Button size="small" onClick={() => { setRightOpen(true); setSettingsTab('filters') }}>查看筛选</Button>} />}
         <div className="analytics-chart-studio__canvas">{error ? <Alert type="error" showIcon message={error} /> : previewing && !preview ? <Spin /> : !preview || (!preview.rows.length && !preview.points.length) ? <Empty description="配置字段后将显示实时预览" /> : chartType === 'pivot_table' && preview.pivot ? <CrossTab pivot={preview.pivot} /> : chartType === 'table' || chartType === 'pivot_table' ? <Table size="small" dataSource={preview.rows} rowKey={(_, index) => String(index)} pagination={false} scroll={{ x: 'max-content', y: 380 }} columns={preview.columns.map((key) => ({ title: key, dataIndex: key, key }))} /> : <Suspense fallback={<Spin />}><EChartRenderer chart={mockChart} data={preview} className="analytics-chart-studio__echart" /></Suspense>}{preview?.truncated && <Alert type="warning" showIcon message="预览结果已截断，请缩小筛选范围" />}</div>
         <div className="analytics-chart-studio__query"><div className="analytics-studio__section-head"><strong>查询数据</strong><span>{preview?.rows.length ?? 0} 行</span></div>{preview ? <Table size="small" dataSource={preview.rows.slice(0, 20)} rowKey={(_, index) => String(index)} pagination={false} scroll={{ x: 'max-content', y: 210 }} columns={preview.columns.map((key) => ({ title: key, dataIndex: key, key }))} /> : <Empty description="尚无查询数据" />}</div>
       </section>
       {rightOpen && <StudioPanelResizer />}
       <aside className="analytics-studio__properties"><div className="analytics-studio__pane-head"><strong><SettingOutlined /> 图表设置</strong><Button size="small" type="text" onClick={() => setRightOpen(false)}>收起</Button></div><label>图表标题<Input value={title} maxLength={120} onChange={(event) => { setTitle(event.target.value); setDirty(true) }} /></label><label>数据集<Select showSearch optionFilterProp="label" value={datasetId} options={datasets.map((item) => ({ value: item.id, label: item.name }))} onChange={(value) => { setDatasetId(value); setDimensions([]); setMetrics([{ field: null, aggregation: 'COUNT' }]); setDirty(true) }} /></label><label>图表类型<Select aria-label="图表类型" showSearch optionFilterProp="label" value={chartType} options={types} onChange={changeType} /></label>
-        <Tabs size="small" items={[{ key: 'data', label: '数据', children: <div className="analytics-chart-studio__settings">
+        <Tabs size="small" activeKey={settingsTab} onChange={setSettingsTab} items={[{ key: 'data', label: '数据', children: <div className="analytics-chart-studio__settings">
           {!['scatter', 'candlestick', 'pivot_table', 'table'].includes(chartType) && <label>维度<Select mode={chartType === 'treemap' ? 'multiple' : undefined} value={chartType === 'treemap' ? dimensions : dimensions[0] ?? null} options={options(dimensionFields)} onChange={(value) => { setDimensions(Array.isArray(value) ? value : value ? [value] : []); setDirty(true) }} /></label>}
           {!['scatter', 'candlestick', 'table'].includes(chartType) && <><label>度量字段<Select mode={['line', 'bar', 'pivot_table'].includes(chartType) ? 'multiple' : undefined} value={['line', 'bar', 'pivot_table'].includes(chartType) ? metrics.map((item) => item.field).filter(Boolean) : metrics[0]?.field ?? null} options={options(numberFields)} onChange={(value) => { const names = Array.isArray(value) ? value : value ? [value] : []; setMetrics(names.length ? names.map((field) => ({ field, aggregation: numberFields.find((item) => item.source_name === field)?.default_aggregation ?? 'SUM' })) : [{ field: null, aggregation: 'COUNT' }]); setDirty(true) }} allowClear placeholder="留空则计数" /></label><label>聚合方式<Select value={metrics[0]?.aggregation ?? 'COUNT'} options={aggregations} onChange={(aggregation) => { setMetrics((items) => items.map((item) => ({ ...item, aggregation }))); setDirty(true) }} /></label></>}
           {chartType === 'scatter' && <><label>X 轴数值<Select value={xField} options={options(numberFields)} onChange={(value) => { setXField(value); setDirty(true) }} /></label><label>Y 轴数值<Select value={yField} options={options(numberFields)} onChange={(value) => { setYField(value); setDirty(true) }} /></label><label>类别（可选）<Select allowClear value={categoryField} options={options(dimensionFields)} onChange={(value) => { setCategoryField(value ?? null); setDirty(true) }} /></label><label>气泡大小（可选）<Select allowClear value={sizeField} options={options(numberFields)} onChange={(value) => { setSizeField(value ?? null); setDirty(true) }} /></label></>}

@@ -2,11 +2,13 @@ import { ConfigProvider, theme as antdTheme } from 'antd'
 import zhCN from 'antd/locale/zh_CN'
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { ThemeContext, THEME_STORAGE_KEY, type EffectiveTheme, type ThemeContextValue, type ThemeMode } from './themeContext'
+import { antdPalette } from './antdPalette'
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [mode, setModeState] = useState<ThemeMode>(() => readInitialMode())
   const [systemDark, setSystemDark] = useState(() => window.matchMedia('(prefers-color-scheme: dark)').matches)
   const effectiveTheme: EffectiveTheme = mode === 'system' ? systemDark ? 'dark' : 'light' : mode
+  const palette = antdPalette(effectiveTheme)
 
   useEffect(() => {
     const query = window.matchMedia('(prefers-color-scheme: dark)')
@@ -38,36 +40,47 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
         token: {
           borderRadius: 6,
           controlHeight: 38,
-          colorPrimary: 'var(--color-accent)',
-          colorLink: 'var(--color-accent)',
-          colorText: 'var(--color-ink)',
-          colorTextSecondary: 'var(--color-ink-muted)',
-          colorBorder: 'var(--color-rule)',
-          colorBorderSecondary: 'var(--color-rule)',
-          colorBgBase: 'var(--color-paper)',
-          colorBgLayout: 'var(--color-bg-primary)',
-          colorBgContainer: 'var(--color-surface-primary)',
-          colorBgElevated: 'var(--color-paper-raised)',
-          colorBgSpotlight: 'var(--color-graphite)',
-          colorFillAlter: 'var(--color-bg-secondary)',
+          colorPrimary: palette.accent,
+          colorPrimaryHover: palette.accentHover,
+          colorLink: palette.accent,
+          colorText: palette.ink,
+          colorTextSecondary: palette.secondary,
+          colorTextTertiary: palette.quiet,
+          colorBorder: palette.border,
+          colorBorderSecondary: palette.border,
+          colorBgBase: palette.paper,
+          colorBgLayout: palette.paper,
+          colorBgContainer: palette.raised,
+          colorBgElevated: palette.raised,
+          colorBgSpotlight: '#0f1310',
+          colorFillAlter: palette.subtle,
+          colorSuccess: palette.accent,
+          colorWarning: palette.warning,
+          colorError: palette.error,
+          colorInfo: palette.info,
+          controlItemBgActive: palette.active,
+          controlItemBgActiveHover: palette.active,
           fontFamily: 'var(--font-body)',
           fontFamilyCode: 'var(--font-mono)',
           boxShadow: 'var(--shadow-float)',
           boxShadowSecondary: 'var(--shadow-float)',
         },
         components: {
-          Button: { primaryShadow: 'none', defaultShadow: 'none', fontWeight: 600 },
+          Button: { primaryShadow: 'none', defaultShadow: 'none', fontWeight: 600, primaryColor: effectiveTheme === 'dark' ? palette.paper : '#ffffff' },
+          Tag: { defaultBg: palette.subtle, defaultColor: palette.secondary },
+          Dropdown: { colorPrimary: palette.accent, controlItemBgActive: palette.active },
+          Select: { optionSelectedBg: palette.active, optionSelectedColor: palette.ink },
           Menu: { itemHeight: 36, itemBorderRadius: 6, groupTitleFontSize: 12 },
           Table: {
-            headerBg: 'var(--color-bg-secondary)',
-            rowHoverBg: 'var(--color-bg-hover)',
-            rowSelectedBg: 'var(--color-accent-soft)',
-            rowSelectedHoverBg: 'var(--color-accent-soft)',
+            headerBg: palette.subtle,
+            rowHoverBg: palette.hover,
+            rowSelectedBg: palette.active,
+            rowSelectedHoverBg: palette.active,
           },
           Modal: { borderRadiusLG: 10 },
-          Drawer: { colorBgElevated: 'var(--color-paper-raised)' },
-          Tabs: { itemSelectedColor: 'var(--color-ink)', inkBarColor: 'var(--color-accent)' },
-          Tooltip: { colorBgSpotlight: 'var(--color-graphite)' },
+          Drawer: { colorBgElevated: palette.raised },
+          Tabs: { itemSelectedColor: palette.ink, inkBarColor: palette.accent },
+          Tooltip: { colorBgSpotlight: '#0f1310', colorTextLightSolid: '#f0f2f1' },
         },
       }}
     >{children}</ConfigProvider>

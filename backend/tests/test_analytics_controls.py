@@ -47,6 +47,28 @@ def test_locked_default_has_priority_over_viewer_value():
     assert values == {"market": "主板"}
 
 
+def test_required_control_on_another_chart_does_not_block_query():
+    relevant = control("code", default="000001.SH")
+    unrelated = control("other")
+    unrelated.required = True
+    unrelated.targets[0].chart_id = 9
+    values = resolve_controls([relevant, unrelated], {}, chart_id=1)
+    assert values == {"code": "000001.SH"}
+    filters, parameters, groups = chart_control_inputs([relevant, unrelated], values, 1)
+    assert [(item.field, item.value) for item in filters] == [("ts_code", "000001.SH")]
+    assert parameters == {} and groups == []
+
+
+def test_sql_parameter_control_maps_bound_value_only_to_target_chart():
+    item = control("code", locked=True, default="000001.SH")
+    item.targets[0].target_type = "DATASET_PARAMETER"
+    item.targets[0].target_name = "selected_code"
+    values = resolve_controls([item], {"code": "INJECTED"}, chart_id=1)
+    filters, parameters, groups = chart_control_inputs([item], values, 1)
+    assert filters == [] and groups == []
+    assert parameters == {"selected_code": "000001.SH"}
+
+
 def test_unconfigured_values_are_rejected():
     with pytest.raises(AnalyticsValidationError):
         resolve_controls([control("market")], {"other": "x"})
@@ -98,18 +120,38 @@ def test_null_filter_is_applied_without_a_viewer_value():
 def test_compound_control_maps_nested_values_to_a_group():
     item = control("criteria")
     group = {
-        "kind": "group", "combinator": "OR", "children": [
-            {"kind": "condition", "id": "code", "field": "ts_code",
-             "operator": "EQ", "data_type": "text"},
-            {"kind": "group", "combinator": "AND", "children": [
-                {"kind": "condition", "id": "other", "field": "ts_code",
-                 "operator": "NE", "data_type": "text"},
-            ]},
+        "kind": "group",
+        "combinator": "OR",
+        "children": [
+            {
+                "kind": "condition",
+                "id": "code",
+                "field": "ts_code",
+                "operator": "EQ",
+                "data_type": "text",
+            },
+            {
+                "kind": "group",
+                "combinator": "AND",
+                "children": [
+                    {
+                        "kind": "condition",
+                        "id": "other",
+                        "field": "ts_code",
+                        "operator": "NE",
+                        "data_type": "text",
+                    },
+                ],
+            },
         ],
     }
-    item = QueryControl.model_validate({
-        **item.model_dump(), "control_type": "compound", "compound_group": group,
-    })
+    item = QueryControl.model_validate(
+        {
+            **item.model_dump(),
+            "control_type": "compound",
+            "compound_group": group,
+        }
+    )
     item.targets[0].target_name = "__compound__"
     values = resolve_controls([item], {"criteria": {"code": "000001.SZ", "other": "x"}})
     filters, params, groups = chart_control_inputs([item], values, 1)
@@ -119,10 +161,21 @@ def test_compound_control_maps_nested_values_to_a_group():
     with pytest.raises(AnalyticsValidationError):
         resolve_controls([item], {"criteria": {"unknown": "x"}})
     chart = SimpleNamespace(id=1, dataset_id=2)
-    dataset = SimpleNamespace(id=2, fields=[{
-        "source_name": "ts_code", "display_name": "代码", "role": "dimension",
-        "data_type": "text", "default_aggregation": "COUNT", "visible": True,
-    }], parameters=[], source_type="TABLE")
+    dataset = SimpleNamespace(
+        id=2,
+        fields=[
+            {
+                "source_name": "ts_code",
+                "display_name": "代码",
+                "role": "dimension",
+                "data_type": "text",
+                "default_aggregation": "COUNT",
+                "visible": True,
+            }
+        ],
+        parameters=[],
+        source_type="TABLE",
+    )
     validate_control_targets([item], [chart], [dataset])
     item.compound_group.children[0].field = "missing"
     with pytest.raises(AnalyticsValidationError):

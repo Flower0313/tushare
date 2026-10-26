@@ -138,7 +138,9 @@ def _validate_control_operator(control: QueryControl) -> None:
             ):
                 raise AnalyticsValidationError("复合文本条件只能使用文本字段")
             if leaf.operator in {"GT", "GTE", "LT", "LTE"} and leaf.data_type not in {
-                "number", "date", "datetime"
+                "number",
+                "date",
+                "datetime",
             }:
                 raise AnalyticsValidationError("复合大小比较只能使用数值或日期字段")
         if control.default_value is not None:
@@ -158,7 +160,11 @@ def _validate_control_operator(control: QueryControl) -> None:
     if control.operator in {"IN", "NOT_IN"} and control.control_type != "multi_select":
         raise AnalyticsValidationError(f"控件 {control.name} 的列表比较需要多选控件")
     if control.operator == "BETWEEN" and control.control_type not in {
-        "number_range", "date_range", "month", "year", "relative_date"
+        "number_range",
+        "date_range",
+        "month",
+        "year",
+        "relative_date",
     }:
         raise AnalyticsValidationError(f"控件 {control.name} 的范围比较需要区间控件")
 
@@ -187,9 +193,7 @@ def _compound_leaves(group: CompoundGroup | None, depth: int = 1) -> list[Compou
     result = []
     for child in group.children:
         result.extend(
-            _compound_leaves(child, depth + 1)
-            if isinstance(child, CompoundGroup)
-            else [child]
+            _compound_leaves(child, depth + 1) if isinstance(child, CompoundGroup) else [child]
         )
     return result
 
@@ -355,30 +359,45 @@ def _check_compound_value(control: QueryControl, value: Any) -> Any:
     for leaf_id, raw in value.items():
         leaf = leaves[leaf_id]
         shape = (
-            "number_range" if leaf.operator == "BETWEEN" and leaf.data_type == "number"
-            else "date_range" if leaf.operator == "BETWEEN"
-            else "multi_select" if leaf.operator in {"IN", "NOT_IN"}
+            "number_range"
+            if leaf.operator == "BETWEEN" and leaf.data_type == "number"
+            else "date_range"
+            if leaf.operator == "BETWEEN"
+            else "multi_select"
+            if leaf.operator in {"IN", "NOT_IN"}
             else "text"
         )
-        child = control.model_copy(update={
-            "control_type": shape, "operator": leaf.operator,
-            "data_type": leaf.data_type, "manual_options": [],
-        })
+        child = control.model_copy(
+            update={
+                "control_type": shape,
+                "operator": leaf.operator,
+                "data_type": leaf.data_type,
+                "manual_options": [],
+            }
+        )
         checked[leaf_id] = _check_value(child, raw)
-    if control.required and not any(
-        item is not None or leaves[leaf_id].operator in {"IS_NULL", "NOT_NULL"}
-        for leaf_id, item in checked.items()
-    ) and not any(leaf.operator in {"IS_NULL", "NOT_NULL"} for leaf in leaves.values()):
+    if (
+        control.required
+        and not any(
+            item is not None or leaves[leaf_id].operator in {"IS_NULL", "NOT_NULL"}
+            for leaf_id, item in checked.items()
+        )
+        and not any(leaf.operator in {"IS_NULL", "NOT_NULL"} for leaf in leaves.values())
+    ):
         raise AnalyticsValidationError(f"必填查询控件 {control.name} 缺少条件值")
     return checked
 
 
-def resolve_controls(controls: list[QueryControl], values: dict[str, Any]) -> dict[str, Any]:
+def resolve_controls(
+    controls: list[QueryControl], values: dict[str, Any], chart_id: int | None = None
+) -> dict[str, Any]:
     by_name = {item.parameter_name: item for item in controls}
     if len(values) > 30 or set(values) - set(by_name):
         raise AnalyticsValidationError("包含未声明的查询参数")
     result = {}
     for control in controls:
+        if chart_id is not None and not any(t.chart_id == chart_id for t in control.targets):
+            continue
         proposed = (
             control.default_value
             if control.locked
@@ -395,6 +414,8 @@ def chart_control_inputs(
     parameters: dict[str, Any] = {}
     groups: list[FilterGroup] = []
     for control in controls:
+        if not any(target.chart_id == chart_id for target in control.targets):
+            continue
         value = values[control.parameter_name]
         if value is None and control.operator not in {"IS_NULL", "NOT_NULL"}:
             continue
@@ -416,9 +437,7 @@ def chart_control_inputs(
     return filters, parameters, groups
 
 
-def _active_compound_group(
-    group: CompoundGroup, values: dict[str, Any]
-) -> FilterGroup | None:
+def _active_compound_group(group: CompoundGroup, values: dict[str, Any]) -> FilterGroup | None:
     children: list[FilterCondition | FilterGroup] = []
     for child in group.children:
         if isinstance(child, CompoundGroup):

@@ -24,6 +24,7 @@ export type PublicDashboard = components['schemas']['PublicDashboard']
 export type PublicQueryControl = components['schemas']['PublicQueryControl']
 export type PublicQueryRequest = components['schemas']['PublicQueryRequest']
 export type SqlParameterDefinition = components['schemas']['SqlParameterDefinition']
+export type ChartQueryRequest = components['schemas']['ChartQueryRequest']
 
 export interface ChartData {
   columns: string[]
@@ -53,8 +54,9 @@ export const listCharts = (dashboardId: number) => getJson<Chart[]>(`/analytics/
 export const createChart = (dashboardId: number, body: ChartInput) => postJson<Chart, ChartInput>(`/analytics/dashboards/${dashboardId}/charts`, body)
 export const updateChart = (dashboardId: number, id: number, body: ChartInput) => putJson<Chart, ChartInput>(`/analytics/dashboards/${dashboardId}/charts/${id}`, body)
 export const deleteChart = (dashboardId: number, id: number) => deleteJson(`/analytics/dashboards/${dashboardId}/charts/${id}`)
-export const readChartData = (id: number) => getJson<ChartData>(`/analytics/charts/${id}/data`)
-export const queryChart = (id: number, globalFilters: FilterCondition[]) => postJson<ChartData, { global_filters: FilterCondition[] }>(`/analytics/charts/${id}/query`, { global_filters: globalFilters })
+export const readChartData = (id: number, signal?: AbortSignal) => getJson<ChartData>(`/analytics/charts/${id}/data`, signal)
+export const queryChart = (id: number, body: ChartQueryRequest, signal?: AbortSignal) => postJson<ChartData, ChartQueryRequest>(`/analytics/charts/${id}/query`, body, signal)
+export const draftControlOptions = (dashboardId: number, controlId: string, body: components['schemas']['PublicOptionsRequest'], signal?: AbortSignal) => postJson<components['schemas']['PublicOptionsResponse'], components['schemas']['PublicOptionsRequest']>(`/analytics/dashboards/${dashboardId}/controls/${encodeURIComponent(controlId)}/options`, body, signal)
 
 export const getPublication = (dashboardId: number) => getJson<Publication>(`/analytics/dashboards/${dashboardId}/publication`)
 export const publishDashboard = (dashboardId: number, settings: PublicationSettings) => postJson<Publication, PublicationSettings>(`/analytics/dashboards/${dashboardId}/publish`, settings)

@@ -44,7 +44,7 @@
 .analytics-studio__tree-node:hover, .analytics-studio__tree-field:hover, .analytics-studio__tree-node.is-active { background: var(--bg-secondary); color: var(--text-primary); }
 .analytics-studio__tree-node span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
 .analytics-studio__tree-node small { display: block; color: var(--text-muted); font-family: var(--font-mono); font-size: 10px; }
-.analytics-studio__tree-field small { color: var(--text-muted); font-family: var(--font-sans); }
+.analytics-studio__tree-field small { color: var(--text-muted); font-family: var(--font-body); }
 .analytics-studio__center { display: flex; flex-direction: column; min-width: 0; min-height: 0; padding: 20px 24px 0; overflow: hidden; }
 .analytics-studio__editor-area { flex: 1 1 48%; min-height: 200px; overflow: auto; border: 1px solid var(--studio-border); border-radius: 8px; background: var(--surface-primary); resize: vertical; }
 .analytics-studio__editor-area .cm-editor { min-height: 100%; font-size: 13px; }
@@ -98,8 +98,8 @@
   .analytics-studio__editor-area { min-height: 300px; }
   .analytics-studio__preview { min-height: 220px; }
 }
-.analytics-studio__sql-parameters{border-top:1px solid var(--color-border,#dde2dd);padding-top:16px;margin-top:16px}
-.analytics-studio__sql-parameters p{font-size:12px;color:var(--color-text-muted,#788078);line-height:1.5}
-.analytics-studio__parameter{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0;padding:12px;border:1px solid var(--color-border,#dde2dd);border-radius:8px}
+.analytics-studio__sql-parameters{border-top:1px solid var(--border-default,#dde2dd);padding-top:16px;margin-top:16px}
+.analytics-studio__sql-parameters p{font-size:12px;color:var(--text-muted,#788078);line-height:1.5}
+.analytics-studio__parameter{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0;padding:12px;border:1px solid var(--border-default,#dde2dd);border-radius:8px}
 .analytics-studio__parameter>label{display:flex;align-items:center;gap:8px;font-size:12px}
 .analytics-studio__parameter>.ant-select,.analytics-studio__parameter>.ant-input{min-width:0}

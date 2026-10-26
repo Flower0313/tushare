@@ -7,7 +7,7 @@ from sqlalchemy import Boolean, Column, Date, Float, Integer, MetaData, Table, T
 from sqlalchemy.dialects import postgresql
 
 from app.core.exceptions import AnalyticsValidationError
-from app.schemas.analytics import QueryRequest, SemanticField
+from app.schemas.analytics import QueryRequest, SemanticField, SqlParameterDefinition
 from app.services.analytics_definition import infer_field_type
 from app.services.analytics_query import QueryPlanner
 from app.services.analytics_sql_source import sql_subquery
@@ -211,3 +211,25 @@ def test_sql_dataset_uses_validated_derived_table_and_bound_filter_value() -> No
     assert "dataset_source" in str(compiled)
     assert "x' OR true --" not in str(compiled)
     assert "x' OR true --" in compiled.params.values()
+
+
+def test_sql_dataset_parameter_name_does_not_collide_with_outer_limit_bind() -> None:
+    dataset, _ = _source()
+    source = sql_subquery(
+        "SELECT ts_code, trade_date, close FROM tushare.daily WHERE ts_code = '${param_1}'",
+        [SemanticField.model_validate(item) for item in dataset.fields],
+        parameters=[SqlParameterDefinition.model_validate({
+            "name": "param_1", "label": "股票代码", "data_type": "text",
+            "shape": "scalar", "default_value": "000001.SZ",
+        })],
+        values={},
+    )
+    statement, _, _ = QueryPlanner().plan(
+        dataset,
+        source,
+        QueryRequest(mode="table", dimensions=["trade_date", "close"],
+                     sort_by="trade_date", sort_desc=False, limit=50),
+    )
+    compiled = statement.compile(dialect=postgresql.dialect())
+    assert "000001.SZ" in compiled.params.values()
+    assert 51 in compiled.params.values()

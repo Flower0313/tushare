@@ -10,16 +10,16 @@
 
 配置 `PUBLIC_APP_BASE_URL` 为可访问的前端根地址。公开地址是 `/public/d/{publicKey}`，高熵标识由安全随机数生成。公开 API 只返回图表公开标识、显示配置和控件，不返回 SQL 原文、数据库 schema 或管理端资源 ID。图表和下拉选项使用独立 POST，筛选值在请求体中。查看页绕开 AppShell 并设置 `noindex`。反向代理须将深层路由回退到前端 `index.html`。
 
-可选密码只保存 scrypt 哈希。启用前配置长随机 `PUBLIC_COOKIE_SECRET`；解锁后发放 12 小时 HttpOnly、Secure、SameSite=Strict Cookie。密码保护需要 HTTPS。公开读取按 IP 与公开标识限流，并限制并发、超时和查询行数。内置启动命令关闭原始 HTTP access log，避免公开标识和 URL 参数被直接写入日志；反向代理也应关闭或脱敏公开路径的访问日志。管理 API 沿用平台既有访问边界，公网部署前需补统一身份认证。
+纯链接访问时留空访问密码即可发布，无需 `PUBLIC_COOKIE_SECRET`。发布版本冻结看板、图表和数据集查询定义；每次打开页面或刷新图表时，仍对最新业务数据执行只读查询，不保存查询结果。本地生成的相对链接只在当前运行的前端地址可访问；对外访问需部署前端与 API，并配置 `PUBLIC_APP_BASE_URL`。可选密码只保存 scrypt 哈希。启用前配置长随机 `PUBLIC_COOKIE_SECRET`；解锁后发放 12 小时 HttpOnly、Secure、SameSite=Strict Cookie。密码保护需要 HTTPS。公开读取按 IP 与公开标识限流，并限制并发、超时和查询行数。内置启动命令关闭原始 HTTP access log，避免公开标识和 URL 参数被直接写入日志；反向代理也应关闭或脱敏公开路径的访问日志。管理 API 沿用平台既有访问边界，公网部署前需补统一身份认证。
 
 ## 查询值链路
 
-查询控件显式绑定图表输出字段或 SQL 数据集参数。`FIELD_FILTER` 在派生表外层构建参数化条件；`DATASET_PARAMETER` 绑定到保存 SQL 中声明的命名占位符。单值用 `:name`，列表用 PostgreSQL 数组绑定，区间用 `:name_start` 和 `:name_end`。占位符不能替换 SQL 标识符、关键字或操作符。SQL 保存时通过 PostgreSQL AST 只读校验，执行使用独立只读角色和只读事务。参数定义与 SQL 实际使用名称必须一致。
+查询控件显式绑定图表输出字段或 SQL 数据集参数。`FIELD_FILTER` 在派生表外层构建参数化条件；`DATASET_PARAMETER` 绑定到保存 SQL 中声明的命名占位符。单值可写 `:name`、`${name}`，也兼容完整的引号写法 `'${name}'`，例如 `WHERE ts_code = '${code}'`。列表用 PostgreSQL 数组绑定，例如 `ts_code = ANY(${codes})`；区间使用 `${period_start}` 与 `${period_end}`（冒号写法也保留）。引号写法会整体替换成绑定占位符，并非把值拼接进 SQL 字符串；不可写成 `'prefix${name}'`，包含匹配可写 `LIKE '%' || ${name} || '%'`。占位符不能替换 SQL 标识符、关键字或操作符。SQL 保存时通过 PostgreSQL AST 只读校验，执行使用独立只读角色和只读事务。参数定义与 SQL 实际使用名称必须一致。
 
 复合查询控件可配置最多四层、二十个条件的 AND/OR 树。每个叶节点选择发布数据集的可见字段、比较符和类型；同一条件组可显式绑定多张兼容图表。后端逐层验证字段和类型，统一查询规划器负责将树转换为参数化表达式。复合条件不支持 URL 注入，也不能绑定 SQL 数据集参数或作为级联父控件。
 
 URL 参数格式为 `p.{parameter_name}`；多选与区间使用重复键，如 `?p.ts_code=000001.SZ&p.ts_code=600000.SH`。仅声明 `allow_url` 的控件接收 URL 值。优先级为锁定默认值、URL 值、同版本浏览器记忆值、控件默认值。URL 筛选只用于查看体验，不构成行级权限；不要传递敏感信息。
 
-管理端可配置到期时间、访问密码及移除密码、自动刷新、主题与标题；可复制、打开、更新、取消发布和轮换链接。查询控件在独立工作台配置类型、选项来源、级联、目标图表及 URL 策略；手工下拉选项可拖动或用上下按钮排序。公开页保留旧图表直到新查询返回，各图表单独显示错误；选项加载失败只提示对应控件。
+管理端可配置到期时间、访问密码及移除密码、自动刷新、主题与标题；可复制、打开、更新、取消发布和轮换链接。查询控件在独立工作台配置类型、选项来源、级联、目标图表及 URL 策略；手工下拉选项可拖动或用上下按钮排序。保存控件后，草稿看板也能预览筛选效果；控件值仅传入显式绑定的图表，SQL 参数映射按类型和单值、列表、区间形状校验。外部查看页继续使用最后一次发布的快照，草稿更改需更新发布才会对外生效。公开页保留旧图表直到新查询返回，各图表单独显示错误；选项加载失败只提示对应控件。
 
 测试：设置 `RUN_DB_INTEGRATION=1` 后运行 `pytest backend/tests/test_analytics_publication_integration.py`；前端运行 `npm test` 与 `npx playwright test e2e/analytics-publication.spec.ts`。

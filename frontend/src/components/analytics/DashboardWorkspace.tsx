@@ -7,10 +7,13 @@ import {
   publishDashboard, republishDashboard, rotateDashboardLink, unpublishDashboard,
   updateDashboard,
   type Chart, type Dashboard, type DashboardInput, type Dataset, type FilterCondition, type GlobalFilterDefinition,
-  type Publication, type PublicationSettings,
+  type Publication, type PublicationSettings, type QueryControl,
 } from '../../api/analytics'
 import { ChartPanel } from './ChartPanel'
 import { DashboardFilterBar } from './DashboardFilterBar'
+import { DashboardQueryControls } from './DashboardQueryControls'
+import { defaultControlValues, missingControlValue } from './controlDefaults'
+import type { ViewerValues } from './publicFilters'
 
 interface Props {
   dashboards: Dashboard[]
@@ -32,9 +35,12 @@ export function DashboardWorkspace({ dashboards, datasets, onChanged }: Props) {
   const [saving, setSaving] = useState(false)
   const [globalDefinitions, setGlobalDefinitions] = useState<GlobalFilterDefinition[]>([])
   const [activeFilters, setActiveFilters] = useState<FilterCondition[]>([])
+  const [controlStates, setControlStates] = useState<Record<number, ViewerValues>>({})
   const [dashboardForm] = Form.useForm<DashboardInput>()
   const [publishForm] = Form.useForm<PublicationSettings & { expires_at_picker?: import('dayjs').Dayjs }>()
   const current = dashboards.find((item) => item.id === dashboardId)
+  const controls = (current?.query_controls ?? []) as QueryControl[]
+  const controlValues = current ? controlStates[current.id] ?? defaultControlValues(controls) : {}
   const filterFields = Array.from(new Map(datasets.flatMap((dataset) => dataset.fields.filter((field) => field.visible && ['text', 'number', 'date', 'datetime'].includes(field.data_type)).map((field) => [field.source_name, field] as const))).values())
 
   useEffect(() => {
@@ -165,7 +171,13 @@ export function DashboardWorkspace({ dashboards, datasets, onChanged }: Props) {
       <div className="analytics-board-canvas">
         {current && <div className="analytics-board-head"><div><h2>{current.name}</h2><p>{current.description || '当前看板的数据会随源表更新。'}</p><small>发布状态：{publication?.status === 'PUBLISHED' ? `已发布 · 第 ${publication.version} 版` : publication?.status === 'EXPIRED' ? '已过期' : publication?.status === 'REVOKED' ? '已取消' : '草稿'}</small></div><Space wrap><Button onClick={() => navigate(`/analytics/dashboards/${current.id}/controls`)}>查询控件</Button><Button onClick={() => showDashboardEditor(current)}>编辑看板</Button><Button danger type="text" onClick={removeDashboard}>删除</Button><Button type="primary" disabled={!datasets.length} onClick={() => showChartEditor()}>添加图表</Button>{publication?.status === 'PUBLISHED' ? <><Button onClick={publishAgain}>更新发布</Button><Button onClick={() => { publishForm.setFieldsValue({ ...publication.settings, expires_at_picker: publication.settings.expires_at ? dayjs(publication.settings.expires_at) : undefined, password: undefined, remove_password: false }); setPublishOpen(true) }}>发布设置</Button><Button onClick={() => void copyLink()}>复制链接</Button><Button onClick={() => window.open(new URL(publication.public_url ?? '', location.origin).toString(), '_blank', 'noopener')}>打开发布页</Button><Button onClick={rotate}>更换链接</Button><Button danger onClick={revoke}>取消发布</Button></> : <Button type="primary" onClick={() => { publishForm.setFieldsValue({ name: publication?.settings.name || current.name, allow_url_parameters: true, allow_viewer_edit_url: true, refresh_seconds: 0, theme: 'system', show_title: true, show_updated_at: true, remove_password: false }); setPublishOpen(true) }}>发布</Button>}</Space></div>}
         {!!current?.global_filters?.length && <DashboardFilterBar key={current.id} definitions={current.global_filters} datasets={datasets} value={activeFilters} onChange={setActiveFilters} />}
-        {error ? <Alert type="error" showIcon message="图表列表加载失败" action={<Button onClick={() => void reloadCharts()}>重试</Button>} /> : loading ? <Spin /> : charts.length ? <div className="analytics-chart-grid">{charts.map((chart) => <ChartPanel key={JSON.stringify(chart)} chart={chart} globalFilters={activeFilters} editable onEdit={() => showChartEditor(chart)} onDelete={() => removeChart(chart)} />)}</div> : <Empty description={datasets.length ? '这个看板还没有图表，点击“添加图表”开始。' : '先创建数据集，再为看板添加图表。'} />}
+        {current && controls.length > 0 && <DashboardQueryControls key={`${current.id}:${JSON.stringify(controls)}`} dashboardId={current.id} controls={controls} value={controlValues} onApply={(next) => setControlStates((states) => ({ ...states, [current.id]: next }))} />}
+        {error ? <Alert type="error" showIcon message="图表列表加载失败" action={<Button onClick={() => void reloadCharts()}>重试</Button>} /> : loading ? <Spin /> : charts.length ? <div className="analytics-chart-grid">{charts.map((chart) => {
+          const relevant = controls.filter((control) => control.targets?.some((target) => target.chart_id === chart.id))
+          const values = Object.fromEntries(relevant.map((control) => [control.parameter_name, controlValues[control.parameter_name] ?? null]))
+          const blocked = relevant.some((control) => missingControlValue(control, values[control.parameter_name]))
+          return <ChartPanel key={JSON.stringify(chart)} chart={chart} globalFilters={activeFilters} controlValues={values} blocked={blocked} editable onEdit={() => showChartEditor(chart)} onDelete={() => removeChart(chart)} />
+        })}</div> : <Empty description={datasets.length ? '这个看板还没有图表，点击“添加图表”开始。' : '先创建数据集，再为看板添加图表。'} />}
       </div>
     </div> : <Empty description="还没有看板。创建看板后即可添加图表。" />}
     <Drawer title={editingDashboard ? '编辑看板' : '新建看板'} width="min(480px, 100vw)" open={dashboardOpen} onClose={() => setDashboardOpen(false)} extra={<Button type="primary" loading={saving} onClick={() => void dashboardForm.submit()}>保存看板</Button>} destroyOnHidden>
@@ -181,7 +193,7 @@ export function DashboardWorkspace({ dashboards, datasets, onChanged }: Props) {
         <Form.Item name="expires_at_picker" label="截止时间（留空则长期有效）"><DatePicker showTime className="analytics-full-width" /></Form.Item>
         <Form.Item name="allow_url_parameters" label="允许 URL 参数" valuePropName="checked"><Switch /></Form.Item>
         <Form.Item name="allow_viewer_edit_url" label="允许查看者修改 URL 注入值" valuePropName="checked"><Switch /></Form.Item>
-        <Form.Item name="password" label="访问密码（可选，至少 8 位）"><Input.Password minLength={8} maxLength={128} autoComplete="new-password" /></Form.Item>
+        <Form.Item name="password" label="访问密码（可选，至少 8 位）" extra="只需通过链接访问请留空。密码保护需要服务端配置签名密钥和 HTTPS 公开地址。"><Input.Password minLength={8} maxLength={128} autoComplete="new-password" /></Form.Item>
         {publication?.password_required && <Form.Item name="remove_password" label="移除当前访问密码" valuePropName="checked"><Switch /></Form.Item>}
         <Form.Item name="refresh_seconds" label="自动刷新"><Select options={[{ value: 0, label: '关闭' }, { value: 60, label: '1 分钟' }, { value: 300, label: '5 分钟' }, { value: 900, label: '15 分钟' }]} /></Form.Item>
         <Form.Item name="theme" label="查看页主题"><Select options={[{ value: 'system', label: '跟随系统' }, { value: 'light', label: '浅色' }, { value: 'dark', label: '深色' }]} /></Form.Item>
