@@ -16,12 +16,14 @@ const SystemStatusPage = lazy(() => import('./pages/SystemStatusPage').then((mod
 const SettingsPage = lazy(() => import('./pages/SettingsPage').then((module) => ({ default: module.SettingsPage })))
 const PublicDashboardPage = lazy(() => import('./pages/PublicDashboardPage').then((module) => ({ default: module.PublicDashboardPage })))
 const QueryControlWorkbenchPage = lazy(() => import('./pages/QueryControlWorkbenchPage').then((module) => ({ default: module.QueryControlWorkbenchPage })))
+const DashboardStudioPage = lazy(() => import('./pages/DashboardStudioPage').then((module) => ({ default: module.DashboardStudioPage })))
 
 export default function App() {
   return <Suspense fallback={<div className="route-loading" role="status"><span />正在加载工作区…</div>}>
     <Routes>
       <Route path="/public/d/:publicKey" element={<PublicDashboardPage />} />
       <Route path="/analytics/dashboards/:dashboardId/controls" element={<QueryControlWorkbenchPage />} />
+      <Route path="/analytics/dashboards/:dashboardId/edit" element={<DashboardStudioPage />} />
       <Route path="/analytics/datasets/new" element={<DatasetWorkbenchPage />} />
       <Route path="/analytics/datasets/:datasetId/edit" element={<DatasetWorkbenchPage />} />
       <Route path="/analytics/dashboards/:dashboardId/charts/new" element={<ChartWorkbenchPage />} />

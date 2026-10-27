@@ -12672,10 +12672,8 @@
           },
           "grid_span": {
             "type": "integer",
-            "enum": [
-              1,
-              2
-            ],
+            "maximum": 12.0,
+            "minimum": 1.0,
             "title": "Grid Span",
             "default": 1
           },
@@ -13123,10 +13121,8 @@
           },
           "grid_span": {
             "type": "integer",
-            "enum": [
-              1,
-              2
-            ],
+            "maximum": 12.0,
+            "minimum": 1.0,
             "title": "Grid Span",
             "default": 1
           },
@@ -16443,10 +16439,8 @@
           },
           "grid_span": {
             "type": "integer",
-            "enum": [
-              1,
-              2
-            ],
+            "maximum": 12.0,
+            "minimum": 1.0,
             "title": "Grid Span",
             "default": 1
           },

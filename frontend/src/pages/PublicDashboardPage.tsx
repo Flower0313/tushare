@@ -9,6 +9,7 @@ import { ApiRequestError } from '../api/client'
 import { CrossTab } from '../components/analytics/CrossTab'
 import { QueryControlInput } from '../components/analytics/QueryControlInput'
 import { hasNullCondition } from '../components/analytics/controlDefaults'
+import { chartColumns } from '../components/analytics/chartLayout'
 import { parsePublicUrl, valuesToPublicUrl, type ViewerValues } from '../components/analytics/publicFilters'
 import './publicDashboard.css'
 
@@ -40,7 +41,7 @@ function PublicChartCard({ publicKey, chart, values, revision, blocked, requestI
     return () => controller.abort()
   }, [blocked, chart.public_id, publicKey, requestKey, revision])
 
-  return <section className={`public-chart public-chart--${chart.chart_type}${chart.grid_span === 2 ? ' public-chart--wide' : ''}`} style={{ height: chart.height_px ?? 320 }} aria-label={chart.title}>
+  return <section className={`public-chart public-chart--${chart.chart_type}`} style={{ height: chart.height_px ?? 320, gridColumn: `span ${chartColumns(chart.grid_span, chart.chart_type)}` }} aria-label={chart.title}>
     <header><h2>{chart.title}</h2>{loading && data && <span>正在更新…</span>}</header>
     <div className="public-chart__body">
       {blocked ? <Alert type="warning" showIcon message="请填写必填查询条件" /> : null}

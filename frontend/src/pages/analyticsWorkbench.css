@@ -75,6 +75,21 @@
 .analytics-chart-studio__settings { display: grid; gap: 14px; padding-bottom: 26px; }
 .analytics-chart-studio__settings label { display: grid; gap: 6px; color: var(--text-secondary); font-size: 12px; font-weight: 600; }
 .analytics-chart-studio__settings .ant-select { width: 100%; }
+.analytics-chart-studio--embedded { height: auto; min-height: 0; }
+.analytics-chart-studio--embedded .analytics-studio__bar { position: sticky; top: 0; z-index: 2; height: auto; min-height: 58px; padding: 9px 16px; flex-wrap: wrap; }
+.analytics-chart-studio--embedded .analytics-studio__identity { flex: 1; }
+.analytics-chart-studio--embedded .analytics-studio__actions { gap: 5px; }
+.analytics-chart-studio--embedded .analytics-studio__actions .ant-btn { padding-inline: 9px; }
+.analytics-chart-studio--embedded .analytics-studio__layout { display: block; overflow: visible; }
+.analytics-chart-studio--embedded .analytics-studio__source, .analytics-chart-studio--embedded .analytics-studio__resize-handle { display: none; }
+.analytics-chart-studio--embedded .analytics-studio__center { min-height: 0; padding: 14px 18px 0; overflow: visible; }
+.analytics-chart-studio--embedded .analytics-studio__section-head > .ant-btn { display: none; }
+.analytics-chart-studio--embedded .analytics-chart-studio__canvas { flex: none; height: 230px; min-height: 230px; }
+.analytics-chart-studio--embedded .analytics-chart-studio__echart { min-height: 220px; }
+.analytics-chart-studio--embedded .analytics-chart-studio__query { display: none; }
+.analytics-chart-studio--embedded .analytics-studio__properties { max-height: none; padding: 18px; overflow: visible; border: 0; }
+.analytics-chart-studio--embedded .analytics-studio__pane-head > .ant-btn, .analytics-chart-studio--embedded .analytics-studio__restore-right { display: none; }
+.analytics-chart-embedded-loading { display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 240px; color: var(--text-muted); }
 .analytics-chart-studio .analytics-studio__source h4 { margin: 18px 8px 6px; color: var(--text-muted); font-size: 11px; letter-spacing: .08em; }
 .analytics-pivot { width: 100%; min-width: 0; overflow: hidden; }
 .analytics-pivot__toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px; color: var(--text-muted); font-size: 12px; }

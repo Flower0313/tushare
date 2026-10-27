@@ -27,11 +27,20 @@ const aggregations: { value: Aggregation; label: string }[] = [
 ]
 type Metric = { field: string | null; aggregation: Aggregation }
 
-export function ChartWorkbenchPage() {
+interface ChartWorkbenchProps {
+  embedded?: boolean
+  dashboardIdOverride?: number
+  chartIdOverride?: number | null
+  onClose?: () => void
+  onSaved?: () => Promise<void> | void
+  onDirtyChange?: (dirty: boolean) => void
+}
+
+export function ChartWorkbenchPage({ embedded = false, dashboardIdOverride, chartIdOverride, onClose, onSaved, onDirtyChange }: ChartWorkbenchProps = {}) {
   const navigate = useNavigate()
   const { dashboardId: dashboardIdText, chartId: chartIdText } = useParams()
-  const dashboardId = Number(dashboardIdText)
-  const chartId = chartIdText ? Number(chartIdText) : null
+  const dashboardId = dashboardIdOverride ?? Number(dashboardIdText)
+  const chartId = chartIdOverride !== undefined ? chartIdOverride : chartIdText ? Number(chartIdText) : null
   const [datasets, setDatasets] = useState<Dataset[]>([])
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -46,7 +55,7 @@ export function ChartWorkbenchPage() {
   const [sortDesc, setSortDesc] = useState(true)
   const [topN, setTopN] = useState(50)
   const [position, setPosition] = useState(0)
-  const [gridSpan, setGridSpan] = useState<1 | 2>(1)
+  const [gridSpan, setGridSpan] = useState(1)
   const [heightPx, setHeightPx] = useState(320)
   const [dateGranularity, setDateGranularity] = useState<'day' | 'month' | 'year' | null>(null)
   const [smooth, setSmooth] = useState(false)
@@ -71,6 +80,8 @@ export function ChartWorkbenchPage() {
   const [fieldSearch, setFieldSearch] = useState('')
   const [settingsTab, setSettingsTab] = useState('data')
   const requestVersion = useRef(0)
+
+  useEffect(() => { onDirtyChange?.(dirty) }, [dirty, onDirtyChange])
   const dataset = datasets.find((item) => item.id === datasetId)
   const dimensionFields = dataset?.fields.filter((field) => field.visible && field.role === 'dimension') ?? []
   const numberFields = dataset?.fields.filter((field) => field.visible && field.data_type === 'number') ?? []
@@ -186,10 +197,12 @@ export function ChartWorkbenchPage() {
       }
       if (chartId) await updateChart(dashboardId, chartId, payload)
       else await createChart(dashboardId, payload)
-      setDirty(false); message.success('图表已保存'); navigate('/analytics')
+      setDirty(false); message.success('图表已保存')
+      if (embedded) await onSaved?.()
+      else navigate(`/analytics/dashboards/${dashboardId}/edit`)
     } catch (caught) { message.error(caught instanceof Error ? caught.message : '图表保存失败') }
     finally { setSaving(false) }
-  }, [title, datasetId, error, unfinishedFilters, chartType, dimensions, metrics, filters, sortDesc, topN, position, gridSpan, heightPx, dateGranularity, config, chartId, dashboardId, navigate])
+  }, [title, datasetId, error, unfinishedFilters, chartType, dimensions, metrics, filters, sortDesc, topN, position, gridSpan, heightPx, dateGranularity, config, chartId, dashboardId, navigate, embedded, onSaved])
 
   useEffect(() => {
     const handle = (event: KeyboardEvent) => { if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's') { event.preventDefault(); void save() } }
@@ -203,13 +216,16 @@ export function ChartWorkbenchPage() {
   }
 
   function leaveWorkbench() {
-    if (!dirty || window.confirm('修改尚未保存，确定离开吗？')) navigate('/analytics')
+    if (!dirty || window.confirm('修改尚未保存，确定离开吗？')) {
+      if (embedded) onClose?.()
+      else navigate(`/analytics/dashboards/${dashboardId}/edit`)
+    }
   }
 
-  if (loading) return <div className="route-loading"><Spin />正在打开图表工作台…</div>
+  if (loading) return <div className={embedded ? 'analytics-chart-embedded-loading' : 'route-loading'}><Spin />正在打开图表设置…</div>
   const mockChart = { id: chartId ?? 0, title, chart_type: chartType, metric: metrics[0]?.field ?? null, dimension: dimensions[0] ?? null, config } as Chart
-  return <main className="analytics-studio analytics-chart-studio" aria-label="图表设计工作台">
-    <header className="analytics-studio__bar"><Button icon={<ArrowLeftOutlined />} type="text" onClick={leaveWorkbench}>返回看板</Button><div className="analytics-studio__identity"><strong>{title || '新建图表'}</strong><span>{dirty ? '未保存' : '已保存'}</span></div><div className="analytics-studio__actions"><Button loading={previewing} onClick={() => void refresh()}>刷新预览</Button><Button onClick={leaveWorkbench}>取消</Button><Button type="primary" loading={saving} onClick={() => void save()}>保存图表</Button></div></header>
+  return <main className={`analytics-studio analytics-chart-studio${embedded ? ' analytics-chart-studio--embedded' : ''}`} aria-label={embedded ? '图表设置面板' : '图表设计工作台'}>
+    <header className="analytics-studio__bar">{!embedded && <Button icon={<ArrowLeftOutlined />} type="text" onClick={leaveWorkbench}>返回看板</Button>}<div className="analytics-studio__identity"><strong>{title || '新建图表'}</strong><span>{dirty ? '未保存' : '已保存'}</span></div><div className="analytics-studio__actions"><Button loading={previewing} onClick={() => void refresh()}>刷新预览</Button><Button onClick={leaveWorkbench}>取消</Button><Button type="primary" loading={saving} onClick={() => void save()}>保存图表</Button></div></header>
     <div className={`analytics-studio__layout ${leftOpen ? '' : 'source-collapsed'} ${rightOpen ? '' : 'properties-collapsed'}`}>
       <aside className="analytics-studio__source"><div className="analytics-studio__pane-head"><strong>数据字段</strong><Button size="small" type="text" onClick={() => setLeftOpen(false)}>收起</Button></div><Input.Search aria-label="搜索数据字段" placeholder="搜索字段" value={fieldSearch} onChange={(event) => setFieldSearch(event.target.value)} /><h4>维度</h4>{dimensionFields.filter(matchesSearch).map((field) => <div className="analytics-chart-studio__field" key={field.source_name}><span>{field.display_name}</span><code>{field.source_name}</code></div>)}<h4>度量</h4>{numberFields.filter(matchesSearch).map((field) => <div className="analytics-chart-studio__field" key={field.source_name}><span>{field.display_name}</span><code>{field.source_name}</code></div>)}</aside>
       <section className="analytics-studio__center"><div className="analytics-studio__section-head"><div><strong><BarChartOutlined /> 实时预览</strong><p>{dataset?.name ?? '未选择数据集'} · {types.find((item) => item.value === chartType)?.label}</p></div><Button size="small" onClick={() => setLeftOpen(!leftOpen)}>{leftOpen ? '隐藏字段' : '显示字段'}</Button></div>
@@ -217,7 +233,7 @@ export function ChartWorkbenchPage() {
         <div className="analytics-chart-studio__canvas">{error ? <Alert type="error" showIcon message={error} /> : previewing && !preview ? <Spin /> : !preview || (!preview.rows.length && !preview.points.length) ? <Empty description="配置字段后将显示实时预览" /> : chartType === 'pivot_table' && preview.pivot ? <CrossTab pivot={preview.pivot} /> : chartType === 'table' || chartType === 'pivot_table' ? <Table size="small" dataSource={preview.rows} rowKey={(_, index) => String(index)} pagination={false} scroll={{ x: 'max-content', y: 380 }} columns={preview.columns.map((key) => ({ title: key, dataIndex: key, key }))} /> : <Suspense fallback={<Spin />}><EChartRenderer chart={mockChart} data={preview} className="analytics-chart-studio__echart" /></Suspense>}{preview?.truncated && <Alert type="warning" showIcon message="预览结果已截断，请缩小筛选范围" />}</div>
         <div className="analytics-chart-studio__query"><div className="analytics-studio__section-head"><strong>查询数据</strong><span>{preview?.rows.length ?? 0} 行</span></div>{preview ? <Table size="small" dataSource={preview.rows.slice(0, 20)} rowKey={(_, index) => String(index)} pagination={false} scroll={{ x: 'max-content', y: 210 }} columns={preview.columns.map((key) => ({ title: key, dataIndex: key, key }))} /> : <Empty description="尚无查询数据" />}</div>
       </section>
-      {rightOpen && <StudioPanelResizer />}
+      {rightOpen && !embedded && <StudioPanelResizer />}
       <aside className="analytics-studio__properties"><div className="analytics-studio__pane-head"><strong><SettingOutlined /> 图表设置</strong><Button size="small" type="text" onClick={() => setRightOpen(false)}>收起</Button></div><label>图表标题<Input value={title} maxLength={120} onChange={(event) => { setTitle(event.target.value); setDirty(true) }} /></label><label>数据集<Select showSearch optionFilterProp="label" value={datasetId} options={datasets.map((item) => ({ value: item.id, label: item.name }))} onChange={(value) => { setDatasetId(value); setDimensions([]); setMetrics([{ field: null, aggregation: 'COUNT' }]); setDirty(true) }} /></label><label>图表类型<Select aria-label="图表类型" showSearch optionFilterProp="label" value={chartType} options={types} onChange={changeType} /></label>
         <Tabs size="small" activeKey={settingsTab} onChange={setSettingsTab} items={[{ key: 'data', label: '数据', children: <div className="analytics-chart-studio__settings">
           {!['scatter', 'candlestick', 'pivot_table', 'table'].includes(chartType) && <label>维度<Select mode={chartType === 'treemap' ? 'multiple' : undefined} value={chartType === 'treemap' ? dimensions : dimensions[0] ?? null} options={options(dimensionFields)} onChange={(value) => { setDimensions(Array.isArray(value) ? value : value ? [value] : []); setDirty(true) }} /></label>}
@@ -227,7 +243,7 @@ export function ChartWorkbenchPage() {
           {chartType === 'pivot_table' && <><label>行维度<Select mode="multiple" value={rowDimensions} options={options(dimensionFields)} onChange={(value) => { setRowDimensions(value); setDirty(true) }} /></label><label>列维度<Select mode="multiple" value={columnDimensions} options={options(dimensionFields.filter((item) => !rowDimensions.includes(item.source_name)))} onChange={(value) => { setColumnDimensions(value); setDirty(true) }} /></label></>}
           {chartType !== 'table' && <label>Top N / 数据点<InputNumber min={1} max={100} value={topN} onChange={(value) => { setTopN(value ?? 50); setDirty(true) }} /></label>}
           {['line', 'bar'].includes(chartType) && <label>日期粒度<Select allowClear value={dateGranularity} options={[{ value: 'day', label: '日' }, { value: 'month', label: '月' }, { value: 'year', label: '年' }]} onChange={(value) => { setDateGranularity(value ?? null); setDirty(true) }} /></label>}
-        </div> }, { key: 'filters', label: '筛选', children: <div className="analytics-chart-studio__settings"><strong><FilterOutlined /> 图表筛选条件</strong><FilterEditor fields={dataset?.fields ?? []} value={filters} onChange={(value) => { setFilters(value); setDirty(true) }} /><label>排序字段<Select allowClear value={sortBy} options={[...options(dimensionFields), { value: 'metric_0', label: '第一个度量' }]} onChange={(value) => { setSortBy(value ?? null); setDirty(true) }} /></label><label>排序方向<Select value={sortDesc} options={[{ value: true, label: '降序' }, { value: false, label: '升序' }]} onChange={(value) => { setSortDesc(value); setDirty(true) }} /></label></div> }, { key: 'style', label: '样式', children: <div className="analytics-chart-studio__settings">{chartType === 'line' && <label>平滑曲线<Select value={smooth} options={[{ value: false, label: '关闭' }, { value: true, label: '开启' }]} onChange={(value) => { setSmooth(value); setDirty(true) }} /></label>}{chartType === 'bar' && <><label>方向<Select value={horizontal} options={[{ value: false, label: '纵向' }, { value: true, label: '横向' }]} onChange={(value) => { setHorizontal(value); setDirty(true) }} /></label><label>堆叠<Select value={stacked} options={[{ value: false, label: '分组' }, { value: true, label: '堆叠' }]} onChange={(value) => { setStacked(value); setDirty(true) }} /></label></>}{chartType === 'pie' && <label>形状<Select value={donut} options={[{ value: false, label: '饼图' }, { value: true, label: '环形图' }]} onChange={(value) => { setDonut(value); setDirty(true) }} /></label>}<label>显示图例<Select value={showLegend} options={[{ value: true, label: '显示' }, { value: false, label: '隐藏' }]} onChange={(value) => { setShowLegend(value); setDirty(true) }} /></label><label>显示标签<Select value={showLabels} options={[{ value: true, label: '显示' }, { value: false, label: '隐藏' }]} onChange={(value) => { setShowLabels(value); setDirty(true) }} /></label><label>看板顺序<InputNumber min={0} max={99} value={position} onChange={(value) => { setPosition(value ?? 0); setDirty(true) }} /></label><label>看板宽度<Select value={gridSpan} options={[{ value: 1, label: '半行' }, { value: 2, label: '整行' }]} onChange={(value) => { setGridSpan(value); setDirty(true) }} /></label><label>看板高度（像素）<InputNumber min={190} max={800} step={10} value={heightPx} onChange={(value) => { setHeightPx(value ?? 320); setDirty(true) }} /></label></div> }, { key: 'interaction', label: '交互', children: <div className="analytics-chart-studio__settings"><Alert type="info" showIcon message="缩放、悬浮提示和图例交互由统一图表引擎提供。" /></div> }]} />
+        </div> }, { key: 'filters', label: '筛选', children: <div className="analytics-chart-studio__settings"><strong><FilterOutlined /> 图表筛选条件</strong><FilterEditor fields={dataset?.fields ?? []} value={filters} onChange={(value) => { setFilters(value); setDirty(true) }} /><label>排序字段<Select allowClear value={sortBy} options={[...options(dimensionFields), { value: 'metric_0', label: '第一个度量' }]} onChange={(value) => { setSortBy(value ?? null); setDirty(true) }} /></label><label>排序方向<Select value={sortDesc} options={[{ value: true, label: '降序' }, { value: false, label: '升序' }]} onChange={(value) => { setSortDesc(value); setDirty(true) }} /></label></div> }, { key: 'style', label: '样式', children: <div className="analytics-chart-studio__settings">{chartType === 'line' && <label>平滑曲线<Select value={smooth} options={[{ value: false, label: '关闭' }, { value: true, label: '开启' }]} onChange={(value) => { setSmooth(value); setDirty(true) }} /></label>}{chartType === 'bar' && <><label>方向<Select value={horizontal} options={[{ value: false, label: '纵向' }, { value: true, label: '横向' }]} onChange={(value) => { setHorizontal(value); setDirty(true) }} /></label><label>堆叠<Select value={stacked} options={[{ value: false, label: '分组' }, { value: true, label: '堆叠' }]} onChange={(value) => { setStacked(value); setDirty(true) }} /></label></>}{chartType === 'pie' && <label>形状<Select value={donut} options={[{ value: false, label: '饼图' }, { value: true, label: '环形图' }]} onChange={(value) => { setDonut(value); setDirty(true) }} /></label>}<label>显示图例<Select value={showLegend} options={[{ value: true, label: '显示' }, { value: false, label: '隐藏' }]} onChange={(value) => { setShowLegend(value); setDirty(true) }} /></label><label>显示标签<Select value={showLabels} options={[{ value: true, label: '显示' }, { value: false, label: '隐藏' }]} onChange={(value) => { setShowLabels(value); setDirty(true) }} /></label><label>看板顺序<InputNumber min={0} max={99} value={position} onChange={(value) => { setPosition(value ?? 0); setDirty(true) }} /></label><label>看板宽度<Select value={gridSpan} options={[{ value: 1, label: '半行（旧配置）' }, { value: 2, label: '整行（旧配置）' }, ...Array.from({ length: 10 }, (_, index) => ({ value: index + 3, label: `${index + 3} / 12 列` }))]} onChange={(value) => { setGridSpan(value); setDirty(true) }} /></label><label>看板高度（像素）<InputNumber min={190} max={800} step={10} value={heightPx} onChange={(value) => { setHeightPx(value ?? 320); setDirty(true) }} /></label></div> }, { key: 'interaction', label: '交互', children: <div className="analytics-chart-studio__settings"><Alert type="info" showIcon message="缩放、悬浮提示和图例交互由统一图表引擎提供。" /></div> }]} />
       </aside>
     </div>
     {!rightOpen && <Button className="analytics-studio__restore-right" onClick={() => setRightOpen(true)}>显示图表设置</Button>}

@@ -3,6 +3,7 @@ import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { queryChart, readChartData, type Chart, type ChartData, type FilterCondition } from '../../api/analytics'
 import type { ViewerValues } from './publicFilters'
 import { CrossTab } from './CrossTab'
+import { chartColumns } from './chartLayout'
 
 const EChartRenderer = lazy(() => import('./EChartRenderer').then((module) => ({ default: module.EChartRenderer })))
 
@@ -14,11 +15,13 @@ interface Props {
   editable?: boolean
   onEdit?: () => void
   onDelete?: () => void
+  fillHeight?: boolean
+  showEditAction?: boolean
 }
 
 const formatNumber = (value: number) => new Intl.NumberFormat('zh-CN', { maximumFractionDigits: 2 }).format(value)
 
-export function ChartPanel({ chart, globalFilters = [], controlValues = {}, blocked = false, editable, onEdit, onDelete }: Props) {
+export function ChartPanel({ chart, globalFilters = [], controlValues = {}, blocked = false, editable, onEdit, onDelete, fillHeight = false, showEditAction = true }: Props) {
   const [data, setData] = useState<ChartData | null>(null)
   const [error, setError] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -47,10 +50,10 @@ export function ChartPanel({ chart, globalFilters = [], controlValues = {}, bloc
 
   useEffect(() => { void reload(); return () => { activeRequest.current?.abort(); requestVersion.current += 1 } }, [reload])
 
-  return <section className={`analytics-chart analytics-chart--${chart.chart_type}${chart.grid_span === 2 ? ' analytics-chart--wide' : ''}`} style={{ height: chart.height_px ?? 320 }} aria-label={chart.title}>
+  return <section className={`analytics-chart analytics-chart--${chart.chart_type}`} style={{ height: fillHeight ? '100%' : chart.height_px ?? 320, gridColumn: fillHeight ? undefined : `span ${chartColumns(chart.grid_span, chart.chart_type)}` }} aria-label={chart.title}>
     <header className="analytics-chart__header">
       <div><h3>{chart.title}</h3><span>{chart.chart_type === 'table' ? '数据明细' : chart.metric ?? chart.chart_type}</span></div>
-      {editable && <div className="analytics-chart__actions"><Button size="small" type="text" onClick={onEdit}>编辑</Button><Button size="small" type="text" danger onClick={onDelete}>删除</Button></div>}
+      {editable && <div className="analytics-chart__actions">{showEditAction && <Button size="small" type="text" onClick={onEdit}>编辑</Button>}<Button size="small" type="text" danger onClick={onDelete}>删除</Button></div>}
     </header>
     <div className="analytics-chart__body">
       {!!chart.filters?.length && <div className="analytics-chart__filters">图表筛选：{chart.filters.map((item) => `${item.field} ${item.operator} ${Array.isArray(item.value) ? item.value.join('～') : item.value ?? ''}`).join('；')}</div>}

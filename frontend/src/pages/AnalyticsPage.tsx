@@ -6,6 +6,7 @@ import { DashboardWorkspace } from '../components/analytics/DashboardWorkspace'
 import { DatasetWorkspace } from '../components/analytics/DatasetWorkspace'
 import { PageHeader } from '../components/ui/PageHeader'
 import type { ApiMetadataSummary } from '../types/metadata'
+import './dashboardStudio.css'
 
 export function AnalyticsPage() {
   const [datasets, setDatasets] = useState<Dataset[]>([])

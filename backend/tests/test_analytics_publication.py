@@ -4,7 +4,7 @@ import pytest
 from pydantic import ValidationError
 
 from app.models.analytics import AnalyticsDashboardPublication
-from app.schemas.analytics import PublicationSettings, PublishedChart
+from app.schemas.analytics import ChartCreate, PublicationSettings, PublishedChart
 from app.services.analytics_publication import _hash_password, publication_status, verify_password
 
 
@@ -62,3 +62,16 @@ def test_old_published_chart_without_layout_uses_compatible_defaults():
     )
     assert chart.grid_span == 1
     assert chart.height_px == 320
+
+
+def test_chart_layout_accepts_twelve_column_sizing_and_rejects_out_of_range():
+    chart = ChartCreate(
+        dataset_id=1, title="可调整图表", chart_type="number", grid_span=9, height_px=570
+    )
+    assert chart.grid_span == 9
+    assert PublishedChart.model_validate({
+        "id": 1, "public_id": "chart", "dataset_id": 1,
+        "title": "可调整图表", "chart_type": "number", "grid_span": 9, "height_px": 570,
+    }).grid_span == 9
+    with pytest.raises(ValidationError):
+        ChartCreate(dataset_id=1, title="过宽", chart_type="number", grid_span=13)

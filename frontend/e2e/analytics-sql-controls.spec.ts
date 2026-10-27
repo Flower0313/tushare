@@ -43,7 +43,7 @@ test('draft dashboard sends only bound SQL control values to each chart', async 
     if (path === 'charts/9/query' || path === 'charts/10/query') requests.push({ id: Number(path.split('/')[1]), body: route.request().postDataJSON() })
     return route.fulfill({ json: { columns: ['metric_0'], rows: [{ metric_0: 1 }], points: [{ label: '总计', value: 1 }], truncated: false } })
   })
-  await page.goto('/analytics')
+  await page.goto('/analytics/dashboards/7/edit')
   await expect(page.getByRole('region', { name: '草稿查询控件' })).toBeVisible()
   await expect.poll(() => requests.find((item) => item.id === 9)?.body.control_values?.selected_code).toBe('000001.SH')
   await page.getByRole('textbox', { name: '指数代码' }).fill('000002.SH')

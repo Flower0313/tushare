@@ -1683,9 +1683,8 @@ export interface components {
             /**
              * Grid Span
              * @default 1
-             * @enum {integer}
              */
-            grid_span: 1 | 2;
+            grid_span: number;
             /**
              * Height Px
              * @default 320
@@ -1779,9 +1778,8 @@ export interface components {
             /**
              * Grid Span
              * @default 1
-             * @enum {integer}
              */
-            grid_span: 1 | 2;
+            grid_span: number;
             /**
              * Height Px
              * @default 320
@@ -3014,9 +3012,8 @@ export interface components {
             /**
              * Grid Span
              * @default 1
-             * @enum {integer}
              */
-            grid_span: 1 | 2;
+            grid_span: number;
             /**
              * Height Px
              * @default 320

@@ -32,7 +32,7 @@ test('published URL is independent and only refreshes targeted charts', async ({
   await expect(page.locator('aside').filter({ hasText: '任务中心' })).toHaveCount(0)
   await expect(page.getByText('创业板市场', { exact: true })).toBeVisible()
   await expect(page.locator('.public-chart')).toHaveCount(2)
-  await expect(page.locator('.public-chart').first()).toHaveClass(/public-chart--wide/)
+  await expect(page.locator('.public-chart').first()).toHaveCSS('grid-column', 'span 12')
   await expect(page.locator('.public-chart').first()).toHaveCSS('height', '240px')
   await expect.poll(() => requests.length).toBeGreaterThanOrEqual(2)
   expect(new Set(requestIds.slice(0, 2)).size).toBe(1)

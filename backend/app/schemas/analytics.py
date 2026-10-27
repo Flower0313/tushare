@@ -249,7 +249,7 @@ class ChartCreate(BaseModel):
     metric: str | None = None
     aggregation: Aggregation = "COUNT"
     position: int = Field(default=0, ge=0)
-    grid_span: Literal[1, 2] = 1
+    grid_span: int = Field(default=1, ge=1, le=12)
     height_px: int = Field(default=320, ge=190, le=800)
     filters: list[FilterCondition] = Field(default_factory=list, max_length=12)
     sort_by: Literal["dimension", "metric"] = "metric"
@@ -539,7 +539,7 @@ class PublishedChart(BaseModel):
     metric: str | None = None
     aggregation: Aggregation = "COUNT"
     position: int = 0
-    grid_span: Literal[1, 2] = 1
+    grid_span: int = Field(default=1, ge=1, le=12)
     height_px: int = Field(default=320, ge=190, le=800)
     filters: list[FilterCondition] = Field(default_factory=list)
     sort_by: Literal["dimension", "metric"] = "metric"
@@ -566,7 +566,7 @@ class PublicChart(BaseModel):
     title: str
     chart_type: ChartType
     position: int
-    grid_span: Literal[1, 2] = 1
+    grid_span: int = Field(default=1, ge=1, le=12)
     height_px: int = Field(default=320, ge=190, le=800)
     dimension: str | None = None
     metric: str | None = None

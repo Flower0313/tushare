@@ -98,7 +98,7 @@ async def test_published_version_is_immutable_and_links_can_be_revoked():
                     "chart_type": "number",
                     "aggregation": "COUNT",
                     "position": 3,
-                    "grid_span": 1,
+                    "grid_span": 9,
                     "height_px": 280,
                 },
             )
@@ -194,7 +194,7 @@ async def test_published_version_is_immutable_and_links_can_be_revoked():
                 republished_chart["position"],
                 republished_chart["grid_span"],
                 republished_chart["height_px"],
-            ) == (3, 1, 280)
+            ) == (3, 9, 280)
             assert (await client.get(f"/api/public/dashboards/{key}")).json()[
                 "description"
             ] == "未发布"
